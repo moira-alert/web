@@ -1,0 +1,15 @@
+<div class="moira-selector left">
+	<div style="height:100%; float:left">
+		<ng-transclude></ng-transclude>
+	</div>
+	<div style="height:100%; overflow:hidden; padding-bottom:2px">
+		<div style="float:right; height:100%; padding-top:2px; width: 25px; color:gray">
+			<i ng-if="!model.open" class="material-icons md-17 v-middle clickable" ng-click="model.open = true">keyboard_arrow_down</i>
+			<i ng-if="model.open" class="material-icons md-17 v-middle clickable" ng-click="model.open = false">clear</i>
+		</div>
+		<div style="height:100%; overflow:hidden;">
+			<input type="text" ng-model="model.value" placeholder="{{placeholder}}" style="border: none; box-shadow:none; height:100%; margin:0px;"
+			ng-blur="hide()" ng-focus="model.open = true" ng-click="model.open = true" ng-keydown="keyPress($event)" />
+		</div>
+	</div>
+</div>

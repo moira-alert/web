@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html ng-app='moira'>
+
+<head>
+	<title>Moira</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+	<script src="dist/app.js"></script>
+</head>
+
+<body>
+	<header>
+		<moira-menu></moira-menu>
+	</header>
+	<main>
+		<moira-api-status></moira-api-status>
+		<div ng-view></div>
+	</main>
+	<footer class="page-footer" style="margin-top: 0px; padding-top: 0px; background-color: #00bfa5">
+		<div class="footer-copyright">
+			<div class="container">
+				© 2015 Moira, SKB Kontur
+				<a class="grey-text text-lighten-4 right" href="https://www.gnu.org/licenses/gpl.html">GPLv3 License</a>
+			</div>
+		</div>
+	</footer>
+</body>
+</html>

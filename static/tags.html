@@ -1,0 +1,46 @@
+<div class="container">
+	<table class="highlight bordered">
+		<tbody>
+			<tr>
+				<th>Tag</th>
+				<th>Triggers</th>
+				<th>Subscriptions</th>
+				<th>Delete</th>
+			</tr>
+		</tbody>
+		<tr ng-repeat-start="tag in tags"></tr>
+		<tr ng-click="ctrl.show_tag(tag)" class="clickable">
+			<td ng-bind="tag.json.name"></td>
+			<td ng-bind="tag.json.triggers.length"></td>
+			<td ng-bind="tag.subscriptions.length"></td>
+			<td><i class="clickable material-icons" ng-click="ctrl.delete_tag(tag.json.name, $index)">delete</i></td>
+		</tr>
+		<tr ng-if="show_tag == tag && tag.subscriptions.length">
+			<td colspan="4">
+				<table>
+					<thead>
+						<tr>
+							<th>User</th>
+							<th>Enabled</th>
+							<th>Contacts</th>
+							<th>Id</th>
+						</tr>
+					</thead>
+					<tr ng-repeat="sub in tag.subscriptions">
+						<td ng-bind="sub.json.user"></td>
+						<td>
+							<input type="checkbox" id="chb_{{sub.json.id}}" ng-model="sub.json.enabled" class="filled-in" disabled="disabled"/>
+							<label for="chb_{{sub.json.id}}"></label>
+						</td>
+						<td>
+							<moira-contact ng-repeat="contact in sub.contacts" contact="contact">
+							</moira-contact>
+						</td>
+						<td><span ng-bind="sub.json.id"></span><i class="material-icons right clickable" ng-click="ctrl.delete_sub(tag, sub.json.id, $index)">delete</i></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr ng-repeat-end></tr>
+	</table>
+</div>

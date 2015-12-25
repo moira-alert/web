@@ -1,0 +1,120 @@
+<div class="content">
+	<div class="tag-filter">
+		<div class="container">
+			<moira-selector model="tags_filter" placeholder="Type or select tags to filter" items="tags">
+				<moira-tag ng-repeat="tag in tags_filter.selection" item="tag" remove="ctrl.remove_filter_tag(tag)"></moira-tag>
+			</moira-selector>
+			<div style="height:100%; padding-top:2px">
+				<span style="margin-left:10px; color:gray; font-size:smaller;">
+					<span ng-if="settings.sub_tags.length">Subscribed:</span>
+				</span>
+				<moira-tag item="tag" ng-repeat="tag in settings.sub_tags" ng-click="ctrl.tag_click(tag, $event)" class="clickable" disabled="{{tags_filter.selection.contains(tag)}}">
+				</moira-tag>
+			</div>
+		</div>
+	</div>
+	<div class="tag-filter-container">
+		<div class="container">
+			<moira-tags-filter-list ng-if="tags_filter.open" model="tags_filter" click="ctrl.tag_click(tag, $event)" position="relative">
+			</moira-tags-filter-list>
+		</div>
+	</div>
+	<div ng-class="{'blur':tags_filter.open}">
+		<div class="container">
+			<table class="highlight triggers-head bordered">
+				<thead>
+					<tr>
+						<th>Tags</th>
+						<th>Trigger</th>
+						<th colspan="5" style="min-width:350px; padding:0;">
+							<div class="left state-row">Status</div>
+							<div class="right">
+								<span class="switch">
+								<label style="display:inline-block; vertical-align:top;">
+									<input type="checkbox" ng-model="ok_filter" />
+									<span class="lever"></span>
+								</label>
+								<span style="color:black" class="nowrap">Show problem only</span>
+								</span>
+							</div>
+						</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr ng-repeat-start="trigger in triggers | filter:filter_trigger | orderBy : ['check.score', 'json.name'] : true"></tr>
+					<tr ng-class="{'bg-gray': show_trigger == trigger}" class="trigger-row">
+						<td style="width:18%">
+							<moira-tag ng-repeat="tag in trigger.tags" item="tag" ng-click="ctrl.tag_click(tag, $event)" class="clickable" disabled="{{tags_filter.selection.contains(tag)}}"
+							title="toggle maintenance alt+click">
+							</moira-tag>
+						</td>
+						<td>
+							<a href="" trigger-download="trigger" download="trigger-{{trigger.json.id}}.json" class="trigger-export right">
+								<span class="valign-wrapper">
+								<i class="material-icons left md-17">archive</i>
+							</span>
+							</a>
+							<div class="clickable" ng-click="ctrl.open_trigger(trigger, $event)">
+								<i ng-if="trigger.throttle_timestamp" class="material-icons right md-14 throttling-flag" title="Notification throttled till {{trigger.throttle_timestamp }}">flag</i>
+								<div ng-bind="trigger.json.name" class="trigger-name"></div>
+								<div ng-repeat="target in trigger.targets" class="trigger-target hide-on-small-only" ng-bind="target.value"></div>
+							</div>
+						</td>
+						<td ng-if="trigger.check.metric_states.length == 0" class="nowrap state-row">
+							<span class="state-count {{trigger.check.state.cls }}">{{ trigger.check.state.name }}</span>
+						</td>
+						<td ng-if="data.count" ng-repeat="data in trigger.check.metric_states" class="nowrap state-row">
+							<span class="state-count state-count-h clickable {{data.state.cls}}" ng-click="ctrl.toggle_trigger_metrics(data.state.name, trigger)">
+								<span>
+									{{data.count}}
+									<i ng-if="show_trigger != trigger || show_trigger_state != data.state.name" class="material-icons md-17 v-middle">keyboard_arrow_down</i>
+									<i ng-if="show_trigger == trigger && show_trigger_state == data.state.name" class="material-icons md-17 v-middle">keyboard_arrow_up</i>
+								</span>
+							</span>
+							<div ng-if="data.min_value.str != data.max_value.str" class="state-values">
+								{{data.min_value.str}} .. {{data.max_value.str}}
+							</div>
+							<div ng-if="data.min_value.str == data.max_value.str" class="state-values">
+								{{data.min_value.str}}
+							</div>
+							<div ng-if="!data.min_value.str" class="state-values">
+								&nbsp;
+							</div>
+						</td>
+						<td class="clickable" ng-click="ctrl.open_trigger(trigger, $event)" colspan="{{5 - trigger.check.metric_states.length}}">
+							<moira-timestamp timestamp="trigger.check.event_timestamp"></moira-timestamp>
+							<span class="click-ident right">
+								<i class="material-icons" style="color:#00bfa5">keyboard_arrow_right</i>
+							</span>
+						</td>
+					</tr>
+					<tr class="bg-gray trigger-metrics-head" ng-if="show_trigger == trigger">
+						<td></td>
+						<td>Metric</td>
+						<td style="text-align:center" ng-repeat="data in trigger.check.metric_states">
+							<span ng-style="{'visibility': data.state.name == show_trigger_state ? 'visible' : 'hidden'}">Value &darr;</span>
+						</td>
+						<td class="nowrap" colspan="{{5 - trigger.check.metric_states.length}}">Last event time</td>
+					</tr>
+					<tr class="bg-gray trigger-metrics-row" ng-if="show_trigger == trigger" ng-repeat="check in show_trigger_metrics | orderBy:['-value.num', 'metric']">
+						<td style="text-align:right">
+							<span class="remove-metric-hint nowrap clickable" ng-click="ctrl.remove_metric_check(trigger, check)">
+								<i class="material-icons small v-middle">clear</i>
+							</span>
+						</td>
+						<td ng-bind="check.metric"></td>
+						<td style="text-align:center" ng-repeat="data in trigger.check.metric_states">
+							<span ng-style="{'color':check.state.color, 'visibility': data.state.name == show_trigger_state ? 'visible' : 'hidden'}"
+							ng-bind="check.value.str"></span>
+						</td>
+						<td colspan="{{5 - trigger.check.metric_states.length}}">
+							<moira-timestamp timestamp="check.event_timestamp"></moira-timestamp>
+						</td>
+					</tr>
+					<tr ng-repeat-end></tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

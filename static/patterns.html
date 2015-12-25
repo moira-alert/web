@@ -1,0 +1,62 @@
+<div class="container">
+	<table class="highlight bordered">
+		<thead>
+			<tr>
+				<th>Pattern</th>
+				<th>Triggers</th>
+				<th>Metrics</th>
+			</tr>
+		</thead>
+		<tr ng-repeat-start="pattern in patterns"></tr>
+		<tr class="clickable" ng-click="ctrl.show(pattern)" ng-if="!pattern.deleted">
+			<td ng-bind="pattern.json.pattern"></td>
+			<td ng-bind="pattern.triggers.length"></td>
+			<td ng-bind="pattern.json.metrics.length"></td>
+		</tr>
+		<tr ng-if="show_pattern == pattern">
+			<td colspan="3">
+				<div class="btn btn-danger btn-sm" ng-click="ctrl.delete(pattern)">Delete</div>
+			</td>
+		</tr>
+		<tr ng-if="show_pattern == pattern">
+			<td colspan="3">
+				<table>
+					<thead>
+						<tr>
+							<th>Id</th>
+							<th>Name</th>
+							<th>Targets</th>
+							<th>Tags</th>
+						</tr>
+					</thead>
+					<tr ng-repeat="trigger in pattern.triggers">
+						<td><a href="#/trigger/{{trigger.json.id}}">{{trigger.json.id}}</a></td>
+						<td ng-bind="trigger.json.name"></td>
+						<td>
+							<div ng-repeat="target in trigger.targets"><span style="font-weight:bold">T{{$index + 1}}</span> {{target.value}}</div>
+						</td>
+						<td>
+							<moira-tag ng-repeat="tag in trigger.tags" item="tag"></moira-tag>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr ng-if="show_pattern == pattern">
+			<td colspan="3">
+				<table>
+					<thead>
+						<tr>
+							<th>Metrics</th>
+						</tr>
+					</thead>
+					<tr ng-repeat="metric in pattern.json.metrics">
+						<td ng-bind="metric"></td>
+					</tr>
+				</table>
+				
+			</td>
+		</tr>
+		<tr ng-repeat-end></tr>
+	</table>
+</div>

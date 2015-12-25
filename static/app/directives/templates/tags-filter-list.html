@@ -1,0 +1,21 @@
+<div class="tag-filter-options" ng-style="{'position':position}">
+	<div ng-repeat-start="tag in model.filtered" style="display:none"></div>
+	<div ng-if="$index % 5 == 0" class="tag-filter-options-container">
+		<div ng-repeat="tag in model.filtered.slice($index, $index + 5)">
+			<moira-tag item="tag" ng-mousedown="click({tag:tag, $event:$event})" class="clickable"></moira-tag>
+		</div>
+		<div>
+			<div ng-if="$last && model.items_hidden" style="color:blue; font-size:smaller;">{{model.items_hidden}} items hidden</div>
+			<span ng-if="$index + 5 > model.filtered.length && hasCreate && model.value.length" ng-mousedown="create()" class="tag-container clickable">
+				<span class="tag" style="background-color:#f5f5f5">+ Add new tag "{{model.value}}"</span>
+			</span>
+		</div>
+	</div>
+	<div style="display:none" ng-repeat-end></div>
+	<div ng-if="model.filtered.length == 0 && hasCreate && model.value.length" class="tag-filter-options-container">
+		<span ng-mousedown="create()" class="tag-container clickable">
+			<span class="tag" style="background-color:#f5f5f5">+ Add new tag "{{model.value}}"</span>
+		</span>
+	</div>	
+	<div style="display:inline-block; width:100%"></div>
+</div>

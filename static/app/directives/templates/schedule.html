@@ -1,0 +1,33 @@
+<div class="row">
+	<div class="col s1" ng-transclude>
+	</div>
+	<div class="col s11">
+		<div>
+			<span class="subscription-day">
+					<input type="checkbox" id="sub_sched_everyday" ng-model="sched.everyday" class="filled-in"/>
+					<label for="sub_sched_everyday">Everyday</label>
+				</span>
+			<span ng-repeat="day in sched.json.days" class="subscription-day">
+					<input type="checkbox" id="sub_sched_{{day.name}}" ng-model="day.enabled" class="filled-in" ng-change="sched.check_days()"/>
+					<label for="sub_sched_{{day.name}}" ng-bind="day.name"></label>
+				</span>
+		</div>
+		<div style="margin-top:5px">
+			<form name="sched_form">
+				<span class="subscription-day">
+					<input type="radio" name="sched_time" id="sub_sched_all_day" ng-model="sched.all_day" ng-value="true"/>
+					<label for="sub_sched_all_day">All day</label>
+				</span>
+				<span class="subscription-day">
+					<input type="radio" name="sched_time" id="sub_sched_specific" ng-model="sched.all_day" ng-value="false"/>
+					<label for="sub_sched_specific">At specific interval</label>
+				</span>
+				<span>
+					<input name="from" type="text" size="5" ng-class="{'moira-input-valid': sched_form['from'].$valid, 'moira-input-invalid': !sched_form['from'].$valid}" ng-model="sched.startTime" ng-pattern="time_re" style="width:40px" ng-disabled="sched.all_day"/>
+					:
+					<input name="to" type="text" size="5" ng-class="{'moira-input-valid': sched_form['to'].$valid, 'moira-input-invalid': !sched_form['to'].$valid}" ng-model="sched.endTime" ng-pattern="time_re" style="width:40px" ng-disabled="sched.all_day"/>
+				</span>
+			</form>
+		</div>
+	</div>
+</div>

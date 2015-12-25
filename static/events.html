@@ -1,0 +1,153 @@
+<div class="content">
+	<div class="row event-trigger">
+		<div class="row container">
+			<div class="col s12">
+				<div class="event-trigger-row" style="margin-left: -42px">
+					<div class="row" style="margin-top: 5px; margin-bottom: 10px !important;">
+						<div class="col" style="width: 40px;">
+							<span class="clickable" ng-click="ctrl.go('/triggers/')" style="position:relative; top: 5px">
+							<i class="material-icons">arrow_back</i>
+						</span>
+						</div>
+						<div class="col" ng-bind="trigger.json.name" style="font-size: x-large; font-weight: 300"></div>
+						<div class="col" style="padding-top: 8px;">
+							<a href="#/trigger/{{trigger.json.id}}" style="color: #00bfa5">
+								<span class="valign-wrapper">
+								<i class="material-icons left md-14">edit</i>
+								EDIT
+							</span>
+							</a>
+						</div>
+						<div class="col" style="padding-top: 8px;">
+							<a href="" style="color: #00bfa5" trigger-download="trigger" download="trigger-{{trigger.json.id}}.json">
+								<span class="valign-wrapper">
+								<i class="material-icons left md-14">archive</i>
+								EXPORT
+							</span>
+							</a>
+						</div>
+						<div class="col" style="padding-top: 8px;" ng-if="trigger.json.throttling">
+							<a href="" ng-click="ctrl.reset_throttling(trigger)" style="color: #00bfa5">
+								<span class="valign-wrapper">
+								<i class="material-icons left md-14" style="color:red">flag</i>
+								RESET THROTTLING
+								</span>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="event-trigger-row">
+					<div class="row">
+						<div class="col event-trigger-row-h">Target</div>
+						<div class="col" ng-bind="trigger.targets[0].value"></div>
+					</div>
+				</div>
+				<div class="event-trigger-row">
+					<div class="row">
+						<div class="col event-trigger-row-h">Value</div>
+						<div class="col">Warning: {{trigger.warn_value.str}}, Error: {{trigger.error_value.str}}, {{trigger.json.ttl_state}} after {{(trigger.json.ttl
+							+ ' sec') || 'never'}}</div>
+					</div>
+				</div>
+				<div class="event-trigger-row">
+					<div class="row">
+						<div class="col event-trigger-row-h">Schedule</div>
+						<div class="col" ng-bind="trigger.sched.description"></div>
+					</div>
+				</div>
+				<div class="event-trigger-row">
+					<div class="row">
+						<div class="col event-trigger-row-h">Tags</div>
+						<div class="col">
+							<moira-tag item="tag" ng-repeat="tag in trigger.tags" style="margin-right: 10px"></moira-tag>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row container">
+		<div class="col s12" style="border-bottom: 1px solid lightgray">
+			<div class="col s12 l6">
+				<ul class="tabs">
+					<li class="tab col s6"><a ng-class="{'active': tab == 0}" ng-click="ctrl.set_tab(0)" href="">CURRENT STATE</a></li>
+					<li class="tab col s6"><a ng-class="{'active': tab == 1}" ng-click="ctrl.set_tab(1)" href="">TOTAL STATE</a></li>
+				</ul>
+			</div>
+		</div>
+		<div ng-if="tab == 0" class="col s12 events-tab-content">
+			<div class="row metric-current-state-h">
+				<div class="col m2">State</div>
+				<div class="col m5 l6">Metric</div>
+				<div class="col m2 l2">Value</div>
+				<div class="col m3 l2">Event time</div>
+			</div>
+			<div ng-repeat-start="metric_state in check.metric_states"></div>
+			<div class="row metric-current-state-row" ng-repeat="metric_check in check.state_checks.dict[metric_state.state.name] | orderBy:'-event_timestamp.date'">
+				<div class="col m2">
+					<div class="chip {{metric_check.state.cls}}">
+						<span>{{metric_check.state.name}}</span>
+					</div>
+					&nbsp;
+				</div>
+				<div class="col m5 l6 break" ng-bind="metric_check.metric"></div>
+				<div class="col m2 l2" ng-bind="metric_check.value.str"></div>
+				<div class="col m3 l2">
+					<moira-timestamp ng-if="metric_check.event_timestamp" timestamp="metric_check.event_timestamp"></moira-timestamp>
+					<span ng-if="!metric_check.event_timestamp">No events</span>
+				</div>
+			</div>
+			<div ng-repeat-end></div>
+		</div>
+		<div ng-if="tab == 1" class="col s12 events-tab-content">
+			<div class="row metric-current-state-h">
+				<div class="col m6 l4">Metric</div>
+				<div class="col m6 l5">
+					<span class="state-count clickable state-ok-history">OK</span>
+					<span class="state-count clickable state-warn">WARNING</span>
+					<span class="state-count clickable state-error">ERROR</span>
+					<span class="state-count clickable state-nodata">NODATA</span>
+				</div>
+			</div>
+			<div class="row metric-current-state-row" ng-repeat="(metric, summary) in metrics_summary.dict">
+				<div class="col m6 l4 break" ng-bind="metric"></div>
+				<div class="col m6 l5">
+					<span ng-repeat="state_summary in summary.list | orderBy:'state.weight'" ng-class="{'event-state-summary-first':$first, 'event-state-summary-last':$last}"
+					class="event-state-summary" ng-style="{'background-color':state_summary.state.color, 'width':state_summary.width + '%'}"
+					title="{{'' + state_summary.percent + '%'}}">
+						<span class="event-state-summary-text" ng-bind="state_summary.text"></span>
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row container">
+		<div class="col s12">
+			<div class="row event-history-h">
+				<div class="col s12">EVENT HISTORY</div>
+			</div>
+			<div ng-repeat-start="(metric, history) in metrics_history.dict"></div>
+			<div class="row metric-current-state-row" ng-repeat="event in history">
+				<div class="col m5 l6 break">
+					<span ng-if="$first" ng-bind="metric"></span> &nbsp;
+				</div>
+				<div class="col m4 nowrap" style="color:{{event.old_state.color}}">
+					<span class="event-old-state">
+						<span class="event-state-circle {{event.old_state.cls}}"></span>
+					<span ng-if="!$last" ng-bind="history[$index + 1].value.str"></span>
+					<span ng-if="$last" ng-bind="event.old_state.name"></span>
+					</span>
+					<i style="width: 20%" class="material-icons small event-forward">forward</i>
+					<span class="event-current-state">
+						<span class="event-state-circle {{event.state.cls}}"></span>
+					<span style="color:{{event.state.color}}">{{event.value.str}}</span>
+					</span>
+				</div>
+				<div class="col m3 l2">
+					<moira-timestamp timestamp="event.timestamp"></moira-timestamp>
+				</div>
+			</div>
+			<div ng-repeat-end></div>
+		</div>
+	</div>
+</div>

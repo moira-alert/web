@@ -1,0 +1,6 @@
+<div class="chip contact" ng-class="{'clickable': hasClick && clickEnabled == 'true'}" ng-click="click()">
+	<span ng-if="contact.config.json.icon"><i class="material-icons left">{{contact.config.json.icon}}</i>&nbsp;</span>
+	<span ng-if="contact.config.json.img"><img ng-src="{{contact.config.img}}" class="contact-img"/></span>
+	<span>{{contact.json.value}}</span>
+	<i ng-if="hasDelete" class="material-icons" ng-click="delete({$event:$event})">close</i>
+</div>

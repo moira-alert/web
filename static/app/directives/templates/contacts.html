@@ -1,0 +1,22 @@
+<form ng-submit="add()" name="contact_form">
+	<div class="row">
+		<div class="col s7">
+			<div class="input-field">
+				<input name="input" type="text" ng-model="model" class="field" style="line-height: normal"
+				ng-pattern="config.pattern" id="{{config.json.type}}_input" ng-class="{'invalid': !contact_form['input'].$valid}"/>
+				<label for="{{config.json.type}}_input" class="active">
+					<span class="valign-wrapper">
+						<i ng-if="config.json.icon" class="material-icons left">{{config.json.icon}}</i>
+						<img ng-if="config.json.img" ng-src="{{config.img}}" class="contact-img"/>
+						{{config.json.title || config.json.type}}
+					</span>
+				</label>
+			</div>
+		</div>
+		<div class="col s5 contact-add">
+			<a class="btn" ng-if="model.length" ng-click="add()"><i class="material-icons left md-17">add</i>
+			<span class="hide-on-med-and-down">add</span>
+			</a>
+		</div>
+	</div>
+</form>
