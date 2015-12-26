@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/moira-alert/web.svg?branch=master)](https://travis-ci.org/moira-alert/web)
+[![Coverage Status](https://coveralls.io/repos/moira-alert/web/badge.svg?branch=master&service=github)](https://coveralls.io/github/moira-alert/web?branch=master)
+
 # web
 moira web application
 
