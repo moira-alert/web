@@ -49,10 +49,10 @@ module.exports = function (config) {
       "karma-jasmine",
       "karma-webpack",
       "karma-coverage",
+      "karma-coveralls",
       "karma-chrome-launcher",
       "karma-sourcemap-loader",
-      "karma-phantomjs-launcher",
-      "karma-teamcity-reporter"
+      "karma-phantomjs-launcher"
     ],
 
     webpack: webpackConfig,
@@ -65,12 +65,9 @@ module.exports = function (config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress', 'coverage', 'teamcity'],
+    reporters: ['coverage', 'coveralls'],
     coverageReporter: {
-      type: 'html',
-      subdir: function(browser) {
-        return browser.toLowerCase().split(/[ /-]/)[0];
-      },
+      type: 'lcov',
       dir: 'coverage/'
     },
 
@@ -95,9 +92,8 @@ module.exports = function (config) {
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     browsers: ['PhantomJS'],
 
-
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
-    singleRun: false
+    singleRun: true
   })
 }
