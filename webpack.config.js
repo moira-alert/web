@@ -23,7 +23,8 @@ module.exports = {
       { test: /\.less$/, loader: 'less-loader' },
       { test: /\.(woff|eot|ttf|woff2)$/, loader: "file-loader" },
       { test: /\.(png|gif|ico|svg)$/, loader: "url-loader" },
-      { test: /\.(html)$/, loader: "html-loader" }
+      { test: /\.(html)$/, loader: "html-loader" },
+      { test: /\.(json)$/, loader: "json-loader" }
     ],
   },
   resolve: {
@@ -34,6 +35,7 @@ module.exports = {
       'materialize.css': 'materialize-css/dist/css/materialize.css',
       'materialize.js': 'materialize-css/dist/js/materialize.js',
       'materialize-tabs.js': 'materialize-css/js/tabs.js',
+      'jQuery': 'jquery'
     }
   },
   resolveLoader: {
