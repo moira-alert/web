@@ -86,7 +86,7 @@ export class Api {
 		}).then((response: any) => {
 			return response.data;
 		}, (response) => {
-			this.status.response_error = response.statusText;
+			this.status.response_error = response.statusText || "no response";
 		});
 	}
 
