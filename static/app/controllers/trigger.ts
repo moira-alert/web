@@ -28,7 +28,10 @@ export class TriggerController extends GoTo {
 		$scope.float_re = /[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?/;
 		$scope.trigger_ttl_selection = false;
 		$scope.$watch('trigger.targets.length', (value) => {
-			$scope.advanced_mode = value > 1
+			$scope.advanced_mode = $scope.advanced_mode || value > 1
+		});
+		$scope.$watch('trigger.json.expression.length', (value) => {
+			$scope.advanced_mode = $scope.advanced_mode || value > 0
 		});
 		api.tag.list().then((tags) => {
 			$scope.tags = tags;
@@ -77,6 +80,8 @@ export class TriggerController extends GoTo {
 	check_values() {
 		this.$scope.warn_invalid_message = "";
 		this.$scope.error_invalid_message = "";
+		if (this.$scope.advanced_mode)
+			return;
 		if (!this.$scope.trigger_form['warn'].$valid)
 			this.$scope.warn_invalid_message = "Invalid float value";
 		if (!this.$scope.trigger_form['error'].$valid)
