@@ -5,7 +5,7 @@ Moira was originally developed and is supported by SKB Kontur (https://kontur.ru
 - Alexandr Akulov (akulov@skbkontur.ru)
 - Anton Dordzheev (chuck@skbkontur.ru)
 - Alexey Kirpichnikov (alexkir@skbkontur.ru)
-- Polina Kryukova (polly@skbkontur.ru)
+- Polina Kryukova (apollinaria.k@gmail.com)
 - Alexey Larkov (larkov@skbkontur.ru)
 
 # Contributors
