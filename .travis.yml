@@ -8,6 +8,7 @@ notifications:
     on_success: change
     on_failure: always
     on_start: never
+before_deploy: "npm run build"
 deploy:
   provider: releases
   api_key:
