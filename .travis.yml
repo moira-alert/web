@@ -16,5 +16,6 @@ deploy:
     - dist
     - index.html
     - favicon.ico
+  skip_cleanup: true
   on:
-    repo: moira-alert/web
+    tags: true
