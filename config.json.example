@@ -1,7 +1,7 @@
 {
 	"api_url": "/api",
 	"contacts": [
-		{"type": "email", "validation": "^.+@.+\\..+$", "icon": "email"},
+		{"type": "mail", "validation": "^.+@.+\\..+$", "icon": "email"},
 		{"type": "pushover", "validation": "", "img": "pushover.ico"},
 		{"type": "slack", "validation": "^[@#].+$", "img": "slack.ico"}
 	]
