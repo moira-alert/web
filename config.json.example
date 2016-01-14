@@ -1,5 +1,5 @@
 {
-	"api_url": "http://localhost:8080/api",
+	"api_url": "/api",
 	"contacts": [
 		{"type": "email", "validation": "^.+@.+\\..+$", "icon": "email"},
 		{"type": "pushover", "validation": "", "img": "pushover.ico"},
