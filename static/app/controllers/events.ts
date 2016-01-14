@@ -19,6 +19,16 @@ class StateSummary {
 	}
 }
 
+class MetricHistory {
+	metric: string;
+	history: ExtArray<Event>;
+
+	constructor(public _metric: string) {
+		this.metric = _metric;
+		this.history = new ExtArray<Event>();
+	}
+}
+
 class MetricSummary {
 	total: number = 0;
 	states = new Dictionary<StateSummary>();
@@ -61,7 +71,7 @@ class MetricSummary {
 }
 
 export interface IEventsScope extends ng.IScope {
-	metrics_history: Dictionary<ExtArray<Event>>
+	metrics_history: Array<MetricHistory>;
 	metrics_summary: Dictionary<MetricSummary>;
 	trigger: Trigger;
 	check: LastCheck;
@@ -100,21 +110,36 @@ export class EventsController extends GoTo {
 				$scope.check = new LastCheck(json);
 				return api.event.list(this.triggerId);
 			}).then((json) => {
-				$scope.metrics_history = new Dictionary<ExtArray<Event>>();
+				$scope.metrics_history = new Array<MetricHistory>();
+				var l_currentMetric = "";
+
 				json.list.sort((a, b) => { return a.timestamp - b.timestamp; });
 				angular.forEach(json.list, (json: IEventJson, index: number) => {
-					var event = new Event(json);
 					if (!json.metric) {
 						return;
 					}
+					var event = new Event(json);
 					$scope.metrics_summary.getOrCreate(json.metric, new MetricSummary()).add(event);
-					$scope.metrics_history.getOrCreate(event.metric, new ExtArray<Event>()).push(event);
+					var l_metricHistory;
+
+					if(l_currentMetric != json.metric)
+					{
+						l_metricHistory = new MetricHistory(json.metric);
+						$scope.metrics_history.push(l_metricHistory);
+						l_currentMetric = json.metric;
+					}
+					else
+					{
+						l_metricHistory = $scope.metrics_history[$scope.metrics_history.length-1]
+					};
+
+					l_metricHistory.history.push(event);
 				});
 				angular.forEach($scope.metrics_summary.dict, (summary, metric) => {
 					summary.commit(timeProvider.now());
 				});
-				angular.forEach($scope.metrics_history.dict, (history, metric) => {
-					history.sort((a, b) => { return b.timestamp.value - a.timestamp.value; });
+				angular.forEach($scope.metrics_history, metric => {
+					metric.history.sort((a, b) => { return b.timestamp.value - a.timestamp.value; });
 				});
 				(<ITabExtension>$('ul.tabs')).tabs();
 			});
