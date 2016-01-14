@@ -73,6 +73,7 @@ export class Api {
 	private _query(query, method, data?): ng.IPromise<any> {
 		this.status.response_result = null;
 		this.status.response_error = null;
+		var that = this;
 		return this.config().then((config) => {
 			return this.$http({
 				url: config.api_url + query,
@@ -86,7 +87,7 @@ export class Api {
 		}).then((response: any) => {
 			return response.data;
 		}, (response) => {
-			this.status.response_error = this.status.response_error || (response.statusText || "no response");
+			that.status.response_error = that.status.response_error || (response.statusText || "no response");
 		});
 	}
 
