@@ -133,7 +133,7 @@ export class UniqList<T extends IStringId> extends ExtArray<T>{
 	get(id:string){
 		return this.dict.get(id);
 	}
-	
+
 	contains(item:T):boolean{
 		return this.contains_id(GetStringId(item));
 	}
