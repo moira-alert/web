@@ -126,15 +126,15 @@
 			<div class="row event-history-h">
 				<div class="col s12">EVENT HISTORY</div>
 			</div>
-			<div ng-repeat-start="(metric, history) in metrics_history.dict"></div>
-			<div class="row metric-current-state-row" ng-repeat="event in history">
+			<div ng-repeat-start="metricEvents in metrics_history"></div>
+			<div class="row metric-current-state-row" ng-repeat="event in metricEvents.events">
 				<div class="col m5 l6 break">
-					<span ng-if="$first" ng-bind="metric"></span> &nbsp;
+					<span ng-if="$first" ng-bind="event.metric"></span> &nbsp;
 				</div>
 				<div class="col m4 nowrap" style="color:{{event.old_state.color}}">
 					<span class="event-old-state">
 						<span class="event-state-circle {{event.old_state.cls}}"></span>
-					<span ng-if="!$last" ng-bind="history[$index + 1].value.str"></span>
+					<span ng-if="!$last" ng-bind="metricEvents.events[$index + 1].value.str"></span>
 					<span ng-if="$last" ng-bind="event.old_state.name"></span>
 					</span>
 					<i style="width: 20%" class="material-icons small event-forward">forward</i>

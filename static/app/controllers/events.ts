@@ -1,7 +1,7 @@
 import {ExtArray} from '../models/core';
 import {Event, IEventJson} from '../models/event';
 import {State} from '../models/state';
-import {Dictionary, NumDictionary} from '../models/core';
+import {Dictionary, NumDictionary, UniqList, IStringId} from '../models/core';
 import {Api} from '../services/api';
 import {TimeProvider} from '../services/time';
 import {Trigger, LastCheck} from '../models/trigger';
@@ -16,6 +16,18 @@ class StateSummary {
 	text: string;
 	constructor(public state: State, public timestamp: number) {
 		this.sum = 0;
+	}
+}
+
+class MetricEvents implements IStringId {
+	events: ExtArray<Event>;
+	
+	constructor(public metric: string){
+		this.events = new ExtArray<Event>();
+	}
+	
+	id(): string {
+		return this.metric;
 	}
 }
 
@@ -61,7 +73,7 @@ class MetricSummary {
 }
 
 export interface IEventsScope extends ng.IScope {
-	metrics_history: Dictionary<ExtArray<Event>>
+	metrics_history: UniqList<MetricEvents>
 	metrics_summary: Dictionary<MetricSummary>;
 	trigger: Trigger;
 	check: LastCheck;
@@ -100,7 +112,7 @@ export class EventsController extends GoTo {
 				$scope.check = new LastCheck(json);
 				return api.event.list(this.triggerId);
 			}).then((json) => {
-				$scope.metrics_history = new Dictionary<ExtArray<Event>>();
+				$scope.metrics_history = new UniqList<MetricEvents>([]);
 				json.list.sort((a, b) => { return a.timestamp - b.timestamp; });
 				angular.forEach(json.list, (json: IEventJson, index: number) => {
 					var event = new Event(json);
@@ -108,13 +120,19 @@ export class EventsController extends GoTo {
 						return;
 					}
 					$scope.metrics_summary.getOrCreate(json.metric, new MetricSummary()).add(event);
-					$scope.metrics_history.getOrCreate(event.metric, new ExtArray<Event>()).push(event);
+					var metricEvents = $scope.metrics_history.get(event.metric);
+					if(!metricEvents){
+						metricEvents = new MetricEvents(event.metric);
+						$scope.metrics_history.push(metricEvents);
+					}
+					metricEvents.events.push(event);
 				});
 				angular.forEach($scope.metrics_summary.dict, (summary, metric) => {
 					summary.commit(timeProvider.now());
 				});
-				angular.forEach($scope.metrics_history.dict, (history, metric) => {
-					history.sort((a, b) => { return b.timestamp.value - a.timestamp.value; });
+				$scope.metrics_history.sort((a, b) => {return b.events.last().timestamp.value - b.events.last().timestamp.value;})
+				angular.forEach($scope.metrics_history, (metricEvents) => {
+					metricEvents.events.sort((a, b) => { return b.timestamp.value - a.timestamp.value; });
 				});
 				(<ITabExtension>$('ul.tabs')).tabs();
 			});
