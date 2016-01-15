@@ -10,6 +10,7 @@ main { flex: 1 0 auto; }
 .material-icons.left {margin-right: 7px;}
 .material-icons.maintenance {color: gray; vertical-align: middle;}
 .btn-flat {padding-left: 1.6rem !important;}
+.btn {padding-left: 1.6rem !important; padding-right: 1.6rem !important;}
 .btn-target {padding-left: 15px !important; padding-right: 15px !important; margin-left: 5px;}
 .btn-delete {background:#FF5722 !important;}
 .small {font-size: small !important;}
