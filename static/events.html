@@ -37,16 +37,20 @@
 					</div>
 				</div>
 				<div class="event-trigger-row">
-					<div class="row">
-						<div class="col event-trigger-row-h">Target</div>
-						<div class="col" ng-bind="trigger.targets[0].value"></div>
+					<div class="row" ng-repeat="target in trigger.targets">
+						<div class="col event-trigger-row-h">Target<span ng-if="trigger.targets.length > 1"> t{{$index + 1}}</span></div>
+						<div class="col" ng-bind="target.value"></div>
 					</div>
 				</div>
 				<div class="event-trigger-row">
-					<div class="row">
+					<div class="row" ng-if="!trigger.json.expression">
 						<div class="col event-trigger-row-h">Value</div>
 						<div class="col">Warning: {{trigger.warn_value.str}}, Error: {{trigger.error_value.str}}, {{trigger.json.ttl_state}} after {{(trigger.json.ttl
 							+ ' sec') || 'never'}}</div>
+					</div>
+					<div class="row" ng-if="trigger.json.expression">
+						<div class="col event-trigger-row-h">Expression</div>
+						<div class="col" ng-bind="trigger.json.expression"></div>
 					</div>
 				</div>
 				<div class="event-trigger-row">
