@@ -19,3 +19,5 @@ export function FileRead($parse: ng.IParseService): ng.IDirective{
         }
     }
 }
+
+FileRead.$inject = ['$parse'];

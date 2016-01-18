@@ -17,3 +17,5 @@ export function TriggerDownload($parse: ng.IParseService): ng.IDirective{
         }
     }
 }
+
+TriggerDownload.$inject = ['$parse'];

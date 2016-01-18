@@ -49,7 +49,8 @@ module.exports = {
       jQuery: "jquery",
       "window.jQuery": "jquery",
       "root.jQuery": "jquery"
-    })
+    }),
+    new webpack.optimize.UglifyJsPlugin()
   ],
   devServer: {
     proxy: {
