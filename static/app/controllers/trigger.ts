@@ -54,7 +54,7 @@ export class TriggerController extends GoTo {
 					timestamp: Math.floor(Date.now() / 1000),
 					tags: [],
 					patterns: [],
-					expression: "",
+					expression: params.expression || "",
 					warn_value: params.warn_value || "",
 					error_value: params.error_value || "",
 				}, new TagList([]));
