@@ -12,8 +12,8 @@
 			<div class="col s2">
 				<span class="trigger-row-head">Target</span>
 			</div>
-			<div class="input-field col s10">
-				<input id="trigger_target_{{$index}}" type="text" ng-model="target.value" ng-required="true" />
+			<div class="input-field col s8">
+				<input id="trigger_target_{{$index}}" type="text" ng-model="target.value" class="moira-input" ng-required="true" />
 				<label for="trigger_target_{{$index}}" ng-class="{'active':target.value.length}">T{{$index + 1}}</label>
 			</div>
 			<div class="col s2" style="padding-top: 2rem">
