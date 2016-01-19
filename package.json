@@ -4,7 +4,7 @@
   "scripts": {
     "test": "karma start --single-run",
     "start": "webpack-dev-server",
-    "build": "webpack"
+    "build": "webpack -p"
   },
   "devDependencies": {
     "istanbul-instrumenter-loader": "^0.1.3",
