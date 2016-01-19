@@ -3,6 +3,8 @@
 	"contacts": [
 		{"type": "mail", "validation": "^.+@.+\\..+$", "icon": "email"},
 		{"type": "pushover", "validation": "", "img": "pushover.ico"},
-		{"type": "slack", "validation": "^[@#].+$", "img": "slack.ico"}
+		{"type": "slack", "validation": "^[@#].+$", "img": "slack.ico"},
+		{"type": "twilio sms", "img": "twilio_sms.ico"},
+		{"type": "twilio voice", "img": "twilio_voice.ico"}
 	]
 }
