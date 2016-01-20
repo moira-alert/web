@@ -66,6 +66,11 @@ module.exports = {
             jQuery: "jquery",
             "window.jQuery": "jquery",
             "root.jQuery": "jquery"
+        }),
+        new webpack.optimize.CommonsChunkPlugin({
+            name: "common",
+            filename: "common.js",
+            minChunks: Infinity
         })
     ],
     devServer: {

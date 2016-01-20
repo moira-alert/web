@@ -10,12 +10,18 @@ webpackConfig.module['postLoaders'] = [{
   exclude: /tests/,
   loader: 'istanbul-instrumenter'
 }];
-webpackConfig.plugins.push(
+
+var filteredPlugins = webpackConfig.plugins.filter(function(plugin) {
+  return !(plugin instanceof webpack.optimize.CommonsChunkPlugin);
+});
+
+filteredPlugins.push(
   new webpack.SourceMapDevToolPlugin({
     test: /\.(js|css|ts)($|\?)/i
   })
 );
 
+webpackConfig.plugins = filteredPlugins;
 module.exports = function (config) {
   config.set({
 
@@ -48,8 +54,6 @@ module.exports = function (config) {
       "karma-webpack",
       "karma-jasmine",
       "karma-webpack",
-      "karma-coverage",
-      "karma-coveralls",
       "karma-chrome-launcher",
       "karma-sourcemap-loader",
       "karma-phantomjs-launcher"
@@ -65,11 +69,7 @@ module.exports = function (config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['coverage', 'coveralls', 'progress'],
-    coverageReporter: {
-      type: 'lcov',
-      dir: 'coverage/'
-    },
+    reporters: ['progress'],
 
     // web server port
     port: 9876,
@@ -94,6 +94,6 @@ module.exports = function (config) {
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
-    singleRun: true
+    singleRun: false
   })
 }

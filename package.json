@@ -2,7 +2,7 @@
   "name": "moira",
   "version": "1.0.0",
   "scripts": {
-    "test": "karma start --single-run",
+    "test": "karma start coveralls.js --single-run",
     "start": "webpack-dev-server",
     "build": "webpack -p"
   },
