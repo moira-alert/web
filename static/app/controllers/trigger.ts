@@ -106,7 +106,7 @@ export class TriggerController extends GoTo {
 	}
 
 	save() {
-		if (this.$scope.trigger_form.$valid) {
+		if (this.$scope.trigger_form.$valid && this.$scope.trigger.tags.length) {
 			return this.api.trigger.save(this.$scope.trigger).then(() => {
 				this.go("/");
 			});
