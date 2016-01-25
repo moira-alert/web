@@ -14,7 +14,7 @@ describe("directive: contacts", () => {
         root['model'] = "";
         root['add'] = () => {};
         root['config'] = new ContactConfig(config.contacts[0])
-        element = $compile('<moira-contacts model="model" type="{{type}}" config="config" add="add()"></moira-contacts>')(root);
+        element = $compile('<moira-new-contact model="model" type="{{type}}" config="config" add="add()"></moira-new-contact>')(root);
         root.$digest();
     }));
 

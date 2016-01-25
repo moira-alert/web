@@ -6,11 +6,11 @@ export interface IContacts extends ng.IScope{
 	config: ContactConfig;
 }
 
-export function Contacts():ng.IDirective{
+export function NewContact():ng.IDirective{
 	
 	return {
 		restrict: 'E',
-		template: require('./templates/contacts.html'),
+		template: require('./templates/new-contact.html'),
 		replace: true,
 		scope: {
 			model: "=model",

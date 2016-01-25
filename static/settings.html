@@ -1,7 +1,7 @@
 <div class="content settings">
 	<div ng-repeat="config in config.contacts" class="row">
 		<div class="col s6 m4">
-			<moira-contacts model="new_contacts[config.json.type]" config="config" add="ctrl.add_contact(config.json.type)"></moira-contacts>
+			<moira-new-contact model="new_contacts[config.json.type]" config="config" add="ctrl.add_contact(config.json.type)"></moira-new-contact>
 		</div>
 		<div class="col s6 m8">
 			<div class="contact-tags">

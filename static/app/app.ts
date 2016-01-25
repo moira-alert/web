@@ -11,7 +11,7 @@ import {SettingsController} from './controllers/settings';
 import {TagsController} from './controllers/tags';
 
 import {ApiStatus} from './directives/apistatus';
-import {Contacts} from './directives/contacts';
+import {NewContact} from './directives/newcontact';
 import {Contact} from './directives/contact';
 import {Menu} from './directives/menu';
 import {Selector} from './directives/selector';
@@ -35,7 +35,7 @@ var app = angular.module('moira', [require('angular-route'), require('angular-co
 app.service('time', TimeProvider);
 app.service('api', Api);
 app.directive('moiraApiStatus', ApiStatus);
-app.directive('moiraContacts', Contacts);
+app.directive('moiraNewContact', NewContact);
 app.directive('moiraContact', Contact);
 app.directive('moiraMenu', Menu);
 app.directive('moiraSelector', Selector);
