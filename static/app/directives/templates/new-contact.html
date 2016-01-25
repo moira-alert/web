@@ -2,6 +2,7 @@
 	<div class="row">
 		<div class="col s7">
 			<div class="input-field">
+				<i ng-if="config.json.help" class="material-icons tooltipped contact-tooltip" data-position="right" data-delay="50" data-tooltip="{{config.json.help}}">help</i>
 				<input name="input" type="text" ng-model="model" class="field" style="line-height: normal"
 				ng-pattern="config.pattern" id="{{config.json.type}}_input" ng-class="{'invalid': !contact_form['input'].$valid}"/>
 				<label for="{{config.json.type}}_input" class="active">
