@@ -139,18 +139,15 @@
 			<div class="col s2">
 				&nbsp;
 			</div>
-			<div class="col s3">
-				<a class="btn" ng-click="ctrl.save();"><i class="material-icons left">save</i>Save</a>
-			</div>
-			<div class="col s3">
-				<div class="file-field input-field" style="margin-top: 0px;">
+			<div class="col s10">
+				<a class="btn left" ng-click="ctrl.save();" style="margin-right: 20px"><i class="material-icons left">save</i>Save</a>
+				<div class="file-field input-field left" style="margin-top: 0px; margin-right: 20px">
 					<div class="btn" style="line-height: 36px; height: 36px">
 						<span><i class="material-icons left">input</i>Import</span>
 						<input id="import-file" type="file" file-read="ctrl.import(json)">
 					</div>
 				</div>
-			</div>
-			<div class="col s4">
+				<a class="btn" ng-href="{{duplicate_link}}">Copy</a>
 				<a class="btn right btn-delete" ng-click="ctrl.delete();"><i class="material-icons left">clear</i>Delete</a>
 			</div>
 		</div>

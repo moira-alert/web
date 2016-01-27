@@ -16,6 +16,7 @@ export interface ITriggerScope extends ng.IScope {
 	error_invalid_message: string;
 	trigger_ttl_selection: boolean;
 	advanced_mode: boolean;
+	duplicate_link: string;
 }
 
 export class TriggerController extends GoTo {
@@ -46,9 +47,9 @@ export class TriggerController extends GoTo {
 				});
 			} else {
 				var params = $location.search();
-				$scope.trigger = new Trigger(<ITriggerJson>{
+				var json = {
 					name: params.name,
-					targets: [params.target],
+					targets: [],
 					ttl: "600",
 					ttl_state: 'NODATA',
 					timestamp: Math.floor(Date.now() / 1000),
@@ -57,7 +58,14 @@ export class TriggerController extends GoTo {
 					expression: params.expression || "",
 					warn_value: params.warn_value || "",
 					error_value: params.error_value || "",
-				}, new TagList([]));
+				};
+				if(params.target !== undefined){
+					json.targets.push(params.target);
+				}
+				for(var i = 1; params["t" + i] !== undefined; i++){
+					json.targets.push(params["t" + i]);
+				}
+				$scope.trigger = new Trigger(<ITriggerJson>json, new TagList([]));
 			}
 		}).then(() => {
 			$scope.tags_filter = new TagFilter($scope.trigger.tags);
@@ -70,6 +78,7 @@ export class TriggerController extends GoTo {
 				$scope.watch_raising = $scope.trigger.warn_value.num <= $scope.trigger.error_value.num;
 				this.check_values();
 			});
+			$scope.duplicate_link = "#/trigger/?" + $.param($scope.trigger.link_params());
 		});
 	}
 

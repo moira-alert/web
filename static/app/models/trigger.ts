@@ -173,6 +173,21 @@ export class Trigger {
 			expression: this.json.expression
 		};
 	}
+	
+	link_params() {
+		var params = {
+			name: this.json.name,
+			warn_value: this.json.warn_value,
+			error_value: this.json.error_value,
+			ttl: this.json.ttl,
+			ttl_state: this.ttl_state.name,
+			expression: this.json.expression
+		};
+		angular.forEach((this.targets), (target, index) => {
+			params["t" + (index + 1)] = target.value;
+		});
+		return params;
+	}
 
 	add_target() {
 		if (this.targets[this.targets.length - 1].value)
