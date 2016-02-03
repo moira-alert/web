@@ -1,4 +1,5 @@
 import {IAltKeyEvent} from '../app/models/events';
+import {ITagData} from '../app/models/tag';
 import {Api} from '../app/services/api';
 import {TriggersController, ITriggersScope} from '../../app/controllers/triggers';
 import {settings} from '../jsons/settings';
@@ -126,8 +127,8 @@ describe("TriggersController", () => {
 	describe("alt click on tag", () => {
 		var event: IAltKeyEvent;
 		beforeEach(() => {
-			$httpBackend.whenPUT("/tag/DevOps/data", {maintenance: true}).respond({maintenance: true});
-			$httpBackend.whenPUT("/tag/DevOps/data", {maintenance: false}).respond({maintenance: false});
+			$httpBackend.whenPUT("/tag/DevOps/data", (data: string) => { return JSON.parse(data).maintenance > 0}).respond({maintenance: 1});
+			$httpBackend.whenPUT("/tag/DevOps/data", (data: string) => { return JSON.parse(data).maintenance == 0}).respond({maintenance: 0});
 			event = <IAltKeyEvent>$rootScope.$broadcast('mock');
 			event.altKey = true;
 			controller.tag_click(scope.tags[0], event);
@@ -135,7 +136,7 @@ describe("TriggersController", () => {
 			$httpBackend.flush();
 		});
 		it("maintenance enabled", () => {
-			expect(scope.tags[0].data.maintenance).toBeTruthy();
+			expect(scope.tags[0].data.maintenance).toBeGreaterThan(0);
 		});
 		describe("alt click on tag again", () => {
 			beforeEach(() => {
@@ -144,7 +145,7 @@ describe("TriggersController", () => {
 				$httpBackend.flush();
 			});
 			it("maintenance disabled", () => {
-				expect(scope.tags[0].data.maintenance).toBeFalsy();
+				expect(scope.tags[0].data.maintenance).toEqual(0);
 			});
 		});
 	});

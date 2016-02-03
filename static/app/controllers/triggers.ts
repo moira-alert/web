@@ -6,6 +6,7 @@ import {Settings} from '../models/settings';
 import {ITagsData, Tag, TagList, TagFilter, ITagData} from '../models/tag'; 
 import {Api} from '../services/api';
 import {GoTo} from './goto';
+import * as moment from "moment";
 
 export interface ITriggersScope extends ng.IScope{
 	tags_filter: TagFilter;
@@ -19,6 +20,8 @@ export interface ITriggersScope extends ng.IScope{
 	show_trigger_state:string;
 	show_trigger_metrics:Array<MetricCheck>;
 	show_trigger:Trigger;
+	show_maintenance_check: MetricCheck;
+	now: number;
 }
 
 export class TriggersController extends GoTo{
@@ -37,6 +40,7 @@ export class TriggersController extends GoTo{
 			return tag != "";});
 		$scope.tags_filter = new TagFilter(new TagList(saved_tags));
 		$scope.ok_filter = $cookies.get(TriggersController.TagsOkFilterCookie) == "true";
+		$scope.now = moment.utc().unix();
 	
 		$scope.metric_values = {};
 	
@@ -96,6 +100,25 @@ export class TriggersController extends GoTo{
 			this.$scope.show_trigger_metrics = trigger.check.state_checks.get(state);
 		}
 	};
+	
+	trigger_maintenance_menu(check: MetricCheck) {
+		if(check == this.$scope.show_maintenance_check){
+			this.$scope.show_maintenance_check = null;
+			return;
+		}
+		this.$scope.show_maintenance_check = check;	
+	}
+
+	set_metric_maintenance(triggerId: string, check: MetricCheck, time: number){
+		var data = {};
+		data[check.metric] = time;
+		if(time > 0){
+			data[check.metric] = moment.utc().add(time, "minutes");;
+		}
+		this.api.trigger.maintenance(triggerId, data).then(() => {
+			check.json.maintenance = data[check.metric];
+		});
+	}
 
 	load_tags() {
 		return this.api.tag.list().then((tags) => {
@@ -105,6 +128,7 @@ export class TriggersController extends GoTo{
 			});
 		});
 	};
+	
 
 	remove_filter_tag (tag:Tag) {
 		this.$scope.tags_filter.selection.remove(tag);
@@ -113,8 +137,11 @@ export class TriggersController extends GoTo{
 	tag_click(tag:Tag, $event:IAltKeyEvent) {
 		if($event.altKey){
 			var data:ITagData = {
-				maintenance: !(tag.data.maintenance || false)
+				maintenance: 0
 			};
+			if((tag.data.maintenance || 0) === 0){
+				data.maintenance = moment.utc().add(1, "days").unix();
+			}
 			this.api.tag.data(tag.value, data).then(() => {
 				tag.data = data;
 			}); 

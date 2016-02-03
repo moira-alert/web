@@ -1,6 +1,6 @@
 import {Api} from '../services/api';
 import {Timestamp} from '../models/timestamp';
-var moment = require('moment');
+import * as moment from 'moment';
 
 declare function require(string): any;
 
@@ -20,7 +20,7 @@ export function Timestamp(): ng.IDirective{
 		replace: true,
 		link: function(scope:ITimestampScope){
 			if(scope.timestamp)
-				scope.ago = moment(scope.timestamp.date).fromNow();
+				scope.ago = moment.utc(scope.timestamp.date).fromNow();
 		}
 	};
 }

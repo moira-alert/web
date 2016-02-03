@@ -99,6 +99,14 @@
 					</tr>
 					<tr class="bg-gray trigger-metrics-row" ng-if="show_trigger == trigger" ng-repeat="check in show_trigger_metrics | orderBy:['-value.num', 'metric']">
 						<td style="text-align:right">
+							<span class="nowrap clickable left" ng-click="ctrl.trigger_maintenance_menu(check)">
+								<i class="material-icons small maintenance">build</i> <span title="maintenance">MA</span>
+								<div class="maintenance-select" ng-if="show_maintenance_check == check">
+									<div class="maintenance-select-item" ng-click="ctrl.set_metric_maintenance(trigger.json.id, check, time)"
+										ng-repeat="(name, time) in {'done': 0, '15 min': 15, '1 hour': 60, '3 hours': 180, '6 hours': 360, '1 day': 1440}">{{name}}</div>
+								</div>
+								<span class="maintenance-enable" ng-if="check.json.maintenance > now">on</span>
+							</span>
 							<span class="remove-metric-hint nowrap clickable" ng-click="ctrl.remove_metric_check(trigger, check)">
 								<i class="material-icons small v-middle">clear</i>
 							</span>

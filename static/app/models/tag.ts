@@ -2,7 +2,7 @@ import {IStringId, Dictionary, UniqList} from './core';
 import {IFilter} from './filter';
 
 export interface ITagData{
-	maintenance:boolean;
+	maintenance:number;
 }
 
 export interface ITagsData{
