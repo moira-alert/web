@@ -10,5 +10,10 @@ module.exports = function (config) {
         type: 'lcov',
         dir: 'coverage/'
     };
+    config.webpack.module['postLoaders'] = [{
+        test: /\.ts$/,
+        exclude: /tests/,
+        loader: 'istanbul-instrumenter'
+    }];
 };
 

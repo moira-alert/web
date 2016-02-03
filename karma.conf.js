@@ -5,12 +5,6 @@ var webpack = require('webpack');
 var webpackConfig = require("./webpack.config.js");
 webpackConfig.devtool = 'inline-source-map';
 webpackConfig.entry = {};
-webpackConfig.module['postLoaders'] = [{
-  test: /\.ts$/,
-  exclude: /tests/,
-  loader: 'istanbul-instrumenter'
-}];
-
 var filteredPlugins = webpackConfig.plugins.filter(function(plugin) {
   return !(plugin instanceof webpack.optimize.CommonsChunkPlugin);
 });
