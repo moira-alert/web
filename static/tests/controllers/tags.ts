@@ -44,7 +44,7 @@ describe("TagsController", () => {
 					"list":[
 						{
 							"subscriptions":[],
-							"data":{"maintenance":false},
+							"data":{"maintenance":0},
 							"name":"dtrace",
 							"triggers":["e84ef103-85ea-41d6-9ec8-ac17c6d696ed"]
 						}

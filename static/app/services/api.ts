@@ -127,6 +127,9 @@ export class Api {
 		},
 		state: (trigger_id: string): ng.IPromise<ILastCheckJson> => {
 			return this._query("trigger/" + trigger_id + "/state", "GET");
+		},
+		maintenance: (trigger_id: string, data) => {
+			return this._query("trigger/" + trigger_id + "/maintenance", "PUT", data);
 		}
 	};
 

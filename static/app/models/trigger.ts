@@ -11,6 +11,7 @@ export interface IMetricCheckJson {
 	timestamp: number;
 	value?: number;
 	event_timestamp?: number;
+	maintenance: number;
 }
 
 export interface ILastCheckMetrics {
