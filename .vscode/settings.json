@@ -4,5 +4,11 @@
         "**/.git": true,
         "**/.DS_Store": true,
         "static/**/*.js": true
+    },
+    "search.exclude": {
+        "**/node_modules": true,
+        "**/bower_components": true,
+        "**/*.js": true,
+        "**/*.js.map": true
     }
 }
