@@ -8,7 +8,7 @@ describe("directive: api-status", () => {
     var $httpBackend;
 
     beforeEach(angular.mock.module('moira'));
-    beforeEach(angular.mock.inject(function(_$rootScope_, _$httpBackend_, _api_) {
+    beforeEach(angular.mock.inject(function(_$httpBackend_, _api_) {
         $httpBackend = _$httpBackend_;
         api = _api_;
         $httpBackend.whenGET("config.json").respond(() => {
@@ -30,8 +30,8 @@ describe("directive: api-status", () => {
     describe("http service returns error", () => {
         beforeEach(() => {
             api.user.get();
-            $httpBackend.flush();
             scope.$digest();
+            $httpBackend.flush();
         });
         it("api status has error", () => {
             expect(scope.api_status.response_error).toBe("Bad news");

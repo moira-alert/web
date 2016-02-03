@@ -1,4 +1,3 @@
-import {Api} from '../services/api';
 import {Timestamp} from '../models/timestamp';
 import * as moment from 'moment';
 

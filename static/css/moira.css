@@ -65,7 +65,7 @@ main { flex: 1 0 auto; }
 .moira-input-valid {border-bottom: 1px solid lightgray !important; box-shadow: none !important; padding: 1px 5px !important; height: 30px !important;}
 .moira-input-invalid {border-bottom: 1px solid #da0c09 !important; box-shadow: none !important; padding: 1px 5px !important; height: 30px !important; border-radius: 0px;}
 .maintenance-select {position: absolute; background-color: white; border: 1px solid lightgray;}
-.maintenance-select-item {border-bottom: 1px solid lightgray; padding: 2px 4px; text-align: left;}
+.maintenance-select-item {border-bottom: 1px solid lightgray; padding: 2px 4px; text-align: left; cursor: pointer;}
 .maintenance-enable {color: #da0c09; margin-left: 5px;}
 .maintenance-select-item:hover {background-color: #e0f2f1}
 .invalid-value-message {color: #da0c09}

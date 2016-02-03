@@ -109,17 +109,6 @@ export class TriggersController extends GoTo{
 		this.$scope.show_maintenance_check = check;	
 	}
 
-	set_metric_maintenance(triggerId: string, check: MetricCheck, time: number){
-		var data = {};
-		data[check.metric] = time;
-		if(time > 0){
-			data[check.metric] = moment.utc().add(time, "minutes").unix();
-		}
-		this.api.trigger.maintenance(triggerId, data).then(() => {
-			check.json.maintenance = data[check.metric];
-		});
-	}
-
 	load_tags() {
 		return this.api.tag.list().then((tags) => {
 			this.$scope.tags = tags;
@@ -128,7 +117,6 @@ export class TriggersController extends GoTo{
 			});
 		});
 	};
-	
 
 	remove_filter_tag (tag:Tag) {
 		this.$scope.tags_filter.selection.remove(tag);

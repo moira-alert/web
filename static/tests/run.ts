@@ -12,6 +12,7 @@ import './directives/apistatus';
 import './directives/contact';
 import './directives/contacts';
 import './directives/subeditor';
+import './directives/maintenance';
 import './models/value';
 import './models/core';
 import './models/schedule';

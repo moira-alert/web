@@ -149,19 +149,7 @@ describe("TriggersController", () => {
 			});
 		});
 	});
-	
-	describe("setup metric maintenance", () => {
-		var event: IAltKeyEvent;
-		beforeEach(() => {
-			$httpBackend.whenPUT("/trigger/"+ scope.triggers[0].json.id + "/maintenance").respond({});
-			controller.set_metric_maintenance(scope.triggers[0].json.id, scope.triggers[0].check.metrics_checks.get("DevOps.systemd.moira-notifier.running"), 15);
-			$httpBackend.flush();
-		});
-		it("maintenance enabled", () => {
-			expect(scope.triggers[0].check.metrics_checks.get("DevOps.systemd.moira-notifier.running").json.maintenance).toBeGreaterThan(0);
-		});
-	});	
-	
+		
 	describe("remove metric check", () => {
 		beforeEach(() => {
 			$httpBackend.whenDELETE("/trigger/c681cf70-9336-4be5-a175-fb9f6044e284/metrics?name=DevOps.systemd.moira-notifier.running").respond({});

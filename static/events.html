@@ -94,7 +94,11 @@
 					</div>
 					&nbsp;
 				</div>
-				<div class="col m5 l6 break" ng-bind="metric_check.metric"></div>
+				<div class="col m5 l6 break clickable" ng-click="ctrl.trigger_maintenance_menu(metric_check)">
+					<span ng-if="metric_check.json.maintenance > now" class="maintenance-enable">maintenance</span>
+					<moira-maintenance ng-if="show_maintenance_check == metric_check" check="metric_check" triggerid="{{trigger.json.id}}"></moira-maintenance>
+					<span ng-bind="metric_check.metric"></span>
+				</div>
 				<div class="col m2 l2" ng-bind="metric_check.value.str"></div>
 				<div class="col m3 l2">
 					<moira-timestamp ng-if="metric_check.event_timestamp" timestamp="metric_check.event_timestamp"></moira-timestamp>

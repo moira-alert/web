@@ -4,8 +4,9 @@ import {State} from '../models/state';
 import {Dictionary, NumDictionary, UniqList, IStringId} from '../models/core';
 import {Api} from '../services/api';
 import {TimeProvider} from '../services/time';
-import {Trigger, LastCheck} from '../models/trigger';
+import {Trigger, LastCheck, MetricCheck} from '../models/trigger';
 import {GoTo} from './goto';
+import * as moment from 'moment';
 
 enum Tab { Current = 0, Total = 1 };
 
@@ -21,11 +22,11 @@ class StateSummary {
 
 class MetricEvents implements IStringId {
 	events: ExtArray<Event>;
-	
-	constructor(public metric: string){
+
+	constructor(public metric: string) {
 		this.events = new ExtArray<Event>();
 	}
-	
+
 	id(): string {
 		return this.metric;
 	}
@@ -78,6 +79,8 @@ export interface IEventsScope extends ng.IScope {
 	trigger: Trigger;
 	check: LastCheck;
 	tab: Tab;
+	now: number;
+	show_maintenance_check: MetricCheck;
 }
 
 interface ITabExtension extends JQuery {
@@ -96,6 +99,7 @@ export class EventsController extends GoTo {
 		$location: ng.ILocationService,
 		private $route: ng.route.IRouteService) {
 		super($location);
+		$scope.now = moment.utc().unix();
 		$scope.metrics_summary = new Dictionary<MetricSummary>();
 		$scope.tab = parseInt($routeParams['tab'] || "0");
 		var lastRoute = $route.current;
@@ -121,7 +125,7 @@ export class EventsController extends GoTo {
 					}
 					$scope.metrics_summary.getOrCreate(json.metric, new MetricSummary()).add(event);
 					var metricEvents = $scope.metrics_history.get(event.metric);
-					if(!metricEvents){
+					if (!metricEvents) {
 						metricEvents = new MetricEvents(event.metric);
 						$scope.metrics_history.push(metricEvents);
 					}
@@ -133,13 +137,13 @@ export class EventsController extends GoTo {
 				angular.forEach($scope.metrics_history, (metricEvents) => {
 					metricEvents.events.sort((a, b) => { return b.timestamp.value - a.timestamp.value; });
 				});
-				$scope.metrics_history.sort((a, b) => {return b.events[0].timestamp.value - a.events[0].timestamp.value;});
+				$scope.metrics_history.sort((a, b) => { return b.events[0].timestamp.value - a.events[0].timestamp.value; });
 				(<ITabExtension>$('ul.tabs')).tabs();
 			});
 		});
 	}
 
-	reset_throttling(trigger: Trigger){
+	reset_throttling(trigger: Trigger) {
 		this.api.trigger.reset_throttling(trigger.json.id).then(() => {
 			trigger.json.throttling = 0;
 		});
@@ -149,5 +153,13 @@ export class EventsController extends GoTo {
 		this.$scope.tab = tab;
 		this.$location.path("/events/" + this.triggerId + "/" + tab);
 	}
-	
+
+	trigger_maintenance_menu(check: MetricCheck) {
+		if (check == this.$scope.show_maintenance_check) {
+			this.$scope.show_maintenance_check = null;
+			return;
+		}
+		this.$scope.show_maintenance_check = check;
+	}
+
 }
