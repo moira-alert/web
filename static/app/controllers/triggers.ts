@@ -61,8 +61,8 @@ export class TriggersController extends GoTo{
 		});
 		
 		$scope.filter_trigger = (trigger:Trigger) => {
-			return (!$scope.ok_filter || trigger.has_state_except("OK"))
-					&& trigger.tags.include($scope.tags_filter.selection);
+			return trigger.tags.include($scope.tags_filter.selection) && 
+					(!$scope.ok_filter || trigger.has_state_except("OK"));
 		}
 		
 		$scope.$watch('tags_filter.selection.length', (newValue:number, oldValue:number) => {
