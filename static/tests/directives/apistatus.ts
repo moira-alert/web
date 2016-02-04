@@ -4,19 +4,17 @@ import {Api} from '../../app/services/api';
 describe("directive: api-status", () => {
     var element: ng.IAugmentedJQuery;
     var scope:IApiStatusScope;
-    var api: Api;
     var $httpBackend;
 
     beforeEach(angular.mock.module('moira'));
-    beforeEach(angular.mock.inject(function(_$httpBackend_, _api_) {
+    beforeEach(angular.mock.inject(function(_$httpBackend_) {
         $httpBackend = _$httpBackend_;
-        api = _api_;
-        $httpBackend.whenGET("config.json").respond(() => {
+        $httpBackend.expectGET("config.json").respond(() => {
             return [500, "Bad news", {}];
         });
     }));
 
-    beforeEach(inject(function($rootScope: ng.IRootScopeService, $compile: ng.ICompileService) {
+    beforeEach(angular.mock.inject(function($rootScope: ng.IRootScopeService, $compile: ng.ICompileService) {
         scope = <IApiStatusScope>$rootScope.$new();
         element = $compile('<moira-api-status></moira-api-status>')(scope);
         scope.$digest();
@@ -29,8 +27,6 @@ describe("directive: api-status", () => {
 
     describe("http service returns error", () => {
         beforeEach(() => {
-            api.user.get();
-            scope.$digest();
             $httpBackend.flush();
         });
         it("api status has error", () => {

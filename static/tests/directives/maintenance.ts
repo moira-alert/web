@@ -1,6 +1,8 @@
 import {IMaintenanceScope} from '../../app/directives/maintenance';
 import {Api} from '../../app/services/api';
 import {MetricCheck, IMetricCheckJson} from '../../app/models/trigger';
+import {config} from '../jsons/config';
+import * as moment from 'moment';
 
 describe("directive: moira-maintenance", () => {
     var element: ng.IAugmentedJQuery;
@@ -10,12 +12,16 @@ describe("directive: moira-maintenance", () => {
 
     beforeEach(angular.mock.module('moira'));
 
-    beforeEach(inject(function($rootScope: ng.IRootScopeService, $compile: ng.ICompileService) {
-        scope = <IMaintenanceScope>$rootScope.$new();
-        scope.triggerid = "triggerid";
-        scope.check = new MetricCheck("metric", <IMetricCheckJson>{})
-        element = $compile('<moira-maintenance check="check" triggerid="triggerid"></moira-maintenance>')(scope);
-        scope.$digest();
+    beforeEach(inject(function($rootScope: ng.IRootScopeService, _$httpBackend_, $compile: ng.ICompileService) {
+        $httpBackend = _$httpBackend_;
+		$httpBackend.expectGET("config.json").respond(config);
+        
+        var rootScope = <any>$rootScope.$new();
+        rootScope.triggerid = "triggerid";
+        rootScope.check = new MetricCheck("metric", <IMetricCheckJson>{})
+        element = $compile('<moira-maintenance check="check" triggerid="triggerid"></moira-maintenance>')(rootScope);
+        rootScope.$digest();
+        scope = <IMaintenanceScope>element.isolateScope();
     }));
 
     afterEach(function() {
@@ -24,9 +30,14 @@ describe("directive: moira-maintenance", () => {
     });
 
     describe("maintenance compilation", () => {
+        var now = moment.utc().unix();
         beforeEach(() => {
-            (<IMaintenanceScope>element.isolateScope()).set_metric_maintenance(15);
-            scope.$digest();
+            $httpBackend.expectPUT("/trigger/triggerid/maintenance").respond({});
+            scope.set_metric_maintenance(15);
+            $httpBackend.flush();
+        });
+        it("check maintenance must set to non-zero", () => {
+            expect(scope.check.json.maintenance >= now + 15 * 60 && scope.check.json.maintenance < now + 16 * 60).toBeTruthy();
         });
     });
 
