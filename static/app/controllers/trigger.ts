@@ -65,6 +65,9 @@ export class TriggerController extends GoTo {
 				for(var i = 1; params["t" + i] !== undefined; i++){
 					json.targets.push(params["t" + i]);
 				}
+				if(json.targets.length == 0){
+					json.targets.push("");
+				}
 				$scope.trigger = new Trigger(<ITriggerJson>json, new TagList([]));
 			}
 		}).then(() => {
