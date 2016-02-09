@@ -85,26 +85,26 @@
 						<span class="invalid-value-message" ng-bind="error_invalid_message" ng-if="trigger_form['error'].$viewValue.length"></span>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col s2">&nbsp;</div>
-					<div class="col s4 m3">
-						<span class="state-count {{trigger.ttl_state.cls}} clickable nowrap" ng-click="ctrl.toggle_ttl_selection()">
-							<i ng-if="!trigger_ttl_selection" class="material-icons right">keyboard_arrow_down</i>
-							<i ng-if="trigger_ttl_selection" class="material-icons right">keyboard_arrow_up</i>
-							<span ng-bind="trigger.ttl_state.name"></span>
-						<div ng-if="trigger_ttl_selection">
-							<div ng-repeat="state in ['OK', 'WARN', 'ERROR', 'NODATA']" ng-if="state != trigger.ttl_state.name" class="state-selector"
-							ng-click="trigger.set_ttl_state(state)" ng-bind="state">
-							</div>
-						</div>
-						</span>
-					</div>
-					<div class="col s6">
-						<span>if not value by</span>
-						<input name="ttl" type="text" class="moira-input-valid" ng-model="trigger.json.ttl" style="width:50px" />
-						<span>seconds</span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col s2">&nbsp;</div>
+			<div class="col s4 m3">
+				<span class="state-count {{trigger.ttl_state.cls}} clickable nowrap" ng-click="ctrl.toggle_ttl_selection()">
+					<i ng-if="!trigger_ttl_selection" class="material-icons right">keyboard_arrow_down</i>
+					<i ng-if="trigger_ttl_selection" class="material-icons right">keyboard_arrow_up</i>
+					<span ng-bind="trigger.ttl_state.name"></span>
+				<div ng-if="trigger_ttl_selection">
+					<div ng-repeat="state in ['OK', 'WARN', 'ERROR', 'NODATA']" ng-if="state != trigger.ttl_state.name" class="state-selector"
+					ng-click="trigger.set_ttl_state(state)" ng-bind="state">
 					</div>
 				</div>
+				</span>
+			</div>
+			<div class="col s6">
+				<span>if not value by</span>
+				<input name="ttl" type="text" class="moira-input-valid" ng-model="trigger.json.ttl" style="width:50px" />
+				<span>seconds</span>
 			</div>
 		</div>
 		<div class="row">
