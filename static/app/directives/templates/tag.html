@@ -1,5 +1,5 @@
 <span class="tag" ng-style="{'background-color': disabled == 'true' ? 'lightgray' : item.color}">
-	<i ng-if="item.data.maintenance" class="material-icons md-14 maintenance">build</i>
+	<i ng-if="item.data.maintenance > now" class="material-icons md-14 maintenance">build</i>
 	<span class="tag-value" ng-bind="item.value"></span>
 	<span ng-if="hasRemove" class="clickable" ng-click="remove()" style="font-weight:bold">
 		<i class="material-icons tag-clear">clear</i>
