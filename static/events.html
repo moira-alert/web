@@ -45,8 +45,8 @@
 				<div class="event-trigger-row">
 					<div class="row" ng-if="!trigger.json.expression">
 						<div class="col event-trigger-row-h">Value</div>
-						<div class="col">Warning: {{trigger.warn_value.str}}, Error: {{trigger.error_value.str}}, {{trigger.json.ttl_state}} after {{(trigger.json.ttl
-							+ ' sec') || 'never'}}</div>
+						<div class="col">Warning: {{trigger.warn_value.str}}, Error: {{trigger.error_value.str}}, Set {{trigger.json.ttl_state}} if has no value for {{(trigger.json.ttl
+							+ ' seconds') || 'never'}}</div>
 					</div>
 					<div class="row" ng-if="trigger.json.expression">
 						<div class="col event-trigger-row-h">Expression</div>
