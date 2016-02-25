@@ -95,7 +95,7 @@
 					<i ng-if="trigger_ttl_selection" class="material-icons right">keyboard_arrow_up</i>
 					<span ng-bind="trigger.ttl_state.name"></span>
 				<div ng-if="trigger_ttl_selection">
-					<div ng-repeat="state in ['OK', 'WARN', 'ERROR', 'NODATA']" ng-if="state != trigger.ttl_state.name" class="state-selector"
+					<div ng-repeat="state in ['OK', 'WARN', 'ERROR', 'NODATA', 'DEL']" ng-if="state != trigger.ttl_state.name" class="state-selector"
 					ng-click="trigger.set_ttl_state(state)" ng-bind="state">
 					</div>
 				</div>
