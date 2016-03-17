@@ -1,4 +1,4 @@
-import {IConfigJson} from '../app/models/config';
+import {IConfigJson} from '../../app/models/config';
 
 export var config: IConfigJson =
 	{

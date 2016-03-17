@@ -1,5 +1,5 @@
-import {Api} from '../app/services/api';
-import {SettingsController, ISettingsScope} from '../app/controllers/settings';
+import {Api} from '../../app/services/api';
+import {SettingsController, ISettingsScope} from '../../app/controllers/settings';
 import {settings} from '../jsons/settings';
 import {config} from '../jsons/config';
 import {tags} from '../jsons/tags';

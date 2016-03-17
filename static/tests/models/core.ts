@@ -20,24 +20,24 @@ describe("NumDictionary", () => {
 		expect(dict.count).toBe(1);
 	});
 
-	if ('get', () => {
+	it ('get', () => {
 		expect(dict.get('a')).toBeUndefined();
 		expect(dict.get('a', 1)).toBe(1);
 		expect(dict.get('a')).toBeUndefined();
 	});
 
-	if ('getOrCreate', () => {
+	it ('getOrCreate', () => {
 		expect(dict.getOrCreate('a', 1)).toBe(1);
 		expect(dict.get('a', 1)).toBe(1);
 	});
 
-	if ('has', () => {
+	it ('has', () => {
 		expect(dict.has('a')).toBeFalsy;
 		dict.set('a', 1);
 		expect(dict.has('a')).toBeTruthy;
 	});
 
-	if ('increment', () => {
+	it ('increment', () => {
 		dict.set('a', 1);
 		dict.increment('a');
 		expect(dict.get('a')).toBe(2);
@@ -45,7 +45,7 @@ describe("NumDictionary", () => {
 		expect(dict.get('a')).toBe(5);
 	});
 
-	if ('keys', () => {
+	it ('keys', () => {
 		dict.set('a', 1);
 		dict.set('b', 2);
 		expect(dict.keys).toEqual(['a', 'b']);

@@ -1,4 +1,4 @@
-import 'babel-core/polyfill';
+import 'babel-polyfill';
 import 'angular';
 import 'angular-mocks';
 import '../app/app'

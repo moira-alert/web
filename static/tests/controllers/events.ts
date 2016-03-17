@@ -1,6 +1,6 @@
-import {Api} from '../app/services/api';
-import {TimeProvider} from '../app/services/time';
-import {EventsController, IEventsScope} from '../app/controllers/events';
+import {Api} from '../../app/services/api';
+import {TimeProvider} from '../../app/services/time';
+import {EventsController, IEventsScope} from '../../app/controllers/events';
 import {settings} from '../jsons/settings';
 import {triggers} from '../jsons/triggers';
 import {config} from '../jsons/config';

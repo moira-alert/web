@@ -1,6 +1,6 @@
-import {IAltKeyEvent} from '../app/models/events';
-import {ITagData} from '../app/models/tag';
-import {Api} from '../app/services/api';
+import {IAltKeyEvent} from '../../app/models/events';
+import {ITagData} from '../../app/models/tag';
+import {Api} from '../../app/services/api';
 import {TriggersController, ITriggersScope} from '../../app/controllers/triggers';
 import {settings} from '../jsons/settings';
 import {config} from '../jsons/config';

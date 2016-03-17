@@ -1,7 +1,7 @@
 {
 	"compilerOptions": {
 		"sourceMap": false,
-		"target": "ES6"
+		"target": "es5"
 	},
 	"exclude":[
 		"node_modules",

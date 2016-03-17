@@ -10,7 +10,6 @@ module.exports = {
             "angular",
             "angular-animate",
             "angular-route",
-            "angular-material",
             "angular-cookies",
             "angular-aria",
             "hammerjs",
@@ -30,7 +29,7 @@ module.exports = {
         loaders: [
             {
                 test: /\.ts$/,
-                loader: 'babel-loader!ts-loader',
+                loader: 'ts-loader',
                 exclude: /node_modules/
             },
             {
