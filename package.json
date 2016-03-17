@@ -21,6 +21,7 @@
     "karma-webpack": "^1.7.0",
     "phantomjs": "^1.9.18",
     "webpack-dev-server": "^1.10.1",
+    "html-webpack-plugin": "^2.10.0",
     "babel-polyfill": "^6.7.2"
   },
   "dependencies": {

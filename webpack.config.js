@@ -1,5 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     context: path.join(__dirname, 'static'),
@@ -22,8 +23,8 @@ module.exports = {
     },
     output: {
         path: path.join(__dirname, '/dist'),
-        publicPath: 'dist/',
-        filename: '[name].js',
+        publicPath: '',
+        filename: '[name]-[hash].js',
     },
     module: {
         loaders: [
@@ -68,8 +69,12 @@ module.exports = {
         }),
         new webpack.optimize.CommonsChunkPlugin({
             name: "common",
-            filename: "common.js",
+            filename: "common-[hash].js",
             minChunks: Infinity
+        }),
+        new HtmlWebpackPlugin({
+            template: 'index.html',
+            inject: 'head'
         })
     ],
     devServer: {
