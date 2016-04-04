@@ -80,7 +80,6 @@ export interface IEventsScope extends ng.IScope {
 	metrics_history: UniqList<MetricEvents>
 	metrics_summary: Dictionary<MetricSummary>;
 	trigger: Trigger;
-	check: LastCheck;
 	tab: Tab;
 	show_maintenance_check: MetricCheck;
 }
@@ -114,7 +113,8 @@ export class EventsController extends GoTo {
 				$scope.trigger = new Trigger(json, tags);
 				return api.trigger.state(this.triggerId);
 			}).then((json) => {
-				$scope.check = new LastCheck(json);
+				var check = new LastCheck(json);
+				$scope.trigger.check = check; 
 				return api.event.list(this.triggerId);
 			}).then((json) => {
 				$scope.metrics_history = new UniqList<MetricEvents>([]);

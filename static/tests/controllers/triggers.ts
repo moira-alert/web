@@ -149,15 +149,4 @@ describe("TriggersController", () => {
 			});
 		});
 	});
-		
-	describe("remove metric check", () => {
-		beforeEach(() => {
-			$httpBackend.whenDELETE("/trigger/c681cf70-9336-4be5-a175-fb9f6044e284/metrics?name=DevOps.systemd.moira-notifier.running").respond({});
-			controller.remove_metric_check(scope.triggers[0], scope.triggers[0].check.metrics_checks.get("DevOps.systemd.moira-notifier.running"));
-			$httpBackend.flush();
-		});
-		it("removed from check", () => {
-			expect(scope.triggers[0].check.metrics_checks.get("DevOps.systemd.moira-notifier.running")).toBeUndefined();
-		});
-	});
 })

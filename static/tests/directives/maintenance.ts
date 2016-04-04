@@ -14,7 +14,7 @@ describe("directive: moira-maintenance", () => {
 
     beforeEach(inject(function($rootScope: ng.IRootScopeService, _$httpBackend_, $compile: ng.ICompileService) {
         $httpBackend = _$httpBackend_;
-		$httpBackend.expectGET("config.json").respond(config);
+        $httpBackend.expectGET("config.json").respond(config);
         
         var rootScope = <any>$rootScope.$new();
         rootScope.triggerid = "triggerid";
@@ -33,7 +33,7 @@ describe("directive: moira-maintenance", () => {
         var now = moment.utc().unix();
         beforeEach(() => {
             $httpBackend.expectPUT("/trigger/triggerid/maintenance").respond({});
-            scope.set_metric_maintenance(15);
+            scope.set_metric_maintenance(15, scope.$emit('click'));
             $httpBackend.flush();
         });
         it("check maintenance must set to non-zero", () => {

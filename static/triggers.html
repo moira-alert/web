@@ -99,10 +99,8 @@
 					</tr>
 					<tr class="bg-gray trigger-metrics-row" ng-if="show_trigger == trigger" ng-repeat="check in show_trigger_metrics | orderBy:['-value.num', 'metric']">
 						<td style="text-align:right">
-    						<moira-maintenance check="check" triggerid="{{trigger.json.id}}" class="left"></moira-maintenance>
-							<span class="remove-metric-hint nowrap clickable" ng-click="ctrl.remove_metric_check(trigger, check)">
-								<i class="material-icons small v-middle">clear</i>
-							</span>
+							<moira-maintenance check="check" triggerid="{{trigger.json.id}}" class="left"></moira-maintenance>
+							<moira-remove-metric-check check="check" trigger="trigger"></moira-remove-metric-check>
 						</td>
 						<td ng-bind="check.metric"></td>
 						<td style="text-align:center" ng-repeat="data in trigger.check.metric_states">

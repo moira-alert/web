@@ -133,16 +133,7 @@ export class TriggersController extends GoTo{
 	filter_suggestion_tag(tag:Tag) {
 		return !this.$scope.tags_filter.selection.contains(tag) && this.$scope.tags.contains(tag);
 	};
-	
-	remove_metric_check(trigger:Trigger, check:MetricCheck){
-		this.api.trigger.remove_metric(trigger.json.id, check.metric).then(() => {
-			if(trigger.check.metrics_checks.remove(check.metric) !== undefined){
-				trigger.check.metric_states.get(check.state.name).count -= 1;
-				trigger.check.state_checks.get(check.state.name).remove(check);
-			}
-		});
-	};
-	
+		
 	export(trigger: Trigger, $event){
 		$event.currentTarget.href = trigger.get_json_content();
 	}

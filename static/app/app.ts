@@ -23,6 +23,7 @@ import {FileRead} from './directives/fileread';
 import {TriggerDownload} from './directives/triggerDownload';
 import {TagsFilterList} from './directives/tags_filter_list';
 import {Maintenance} from './directives/maintenance';
+import {RemoveMetricCheck} from './directives/removeMetricCheck';
 
 declare function require(string): any;
 
@@ -46,6 +47,7 @@ app.directive('moiraTag', Tag);
 app.directive('moiraTagsFilterList', TagsFilterList);
 app.directive('moiraTimestamp', Timestamp);
 app.directive('moiraMaintenance', Maintenance);
+app.directive('moiraRemoveMetricCheck', RemoveMetricCheck);
 app.directive('fileRead', FileRead);
 app.directive('triggerDownload', TriggerDownload);
 app.controller('TriggersController', TriggersController);
