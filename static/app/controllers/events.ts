@@ -39,9 +39,6 @@ class MetricSummary {
 	list: Array<StateSummary> = [];
 
 	add(event: Event) {
-		if(event.state.name === event.old_state.name){
-			return;
-		}
 		var json = event.json;
 		var old_state_summary = this.states.getOrCreate(json.old_state, new StateSummary(event.old_state, json.timestamp));
 		var state_summary = this.states.getOrCreate(json.state, new StateSummary(event.state, json.timestamp));
@@ -122,6 +119,9 @@ export class EventsController extends GoTo {
 				angular.forEach(json.list, (json: IEventJson, index: number) => {
 					var event = new Event(json);
 					if (!json.metric) {
+						return;
+					}
+					if(event.state.name === event.old_state.name){
 						return;
 					}
 					$scope.metrics_summary.getOrCreate(json.metric, new MetricSummary()).add(event);
