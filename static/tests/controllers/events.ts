@@ -76,11 +76,11 @@ describe("EventsController", () => {
 
 	describe("events list loaded", () => {
 		it("scope model initialized correctly", () => {
-			expect(scope.metrics_summary.count).toBe(2);
+			expect(scope.metrics_summary.count).toBe(1);
 			var states = scope.metrics_summary.get(scope.metrics_summary.keys[0]).states;
-			expect(states.keys).toEqual(['OK', 'WARN']);
-			expect(states.get('OK').percent).toBe(99.5);
-			expect(states.get('WARN').percent).toBe(0.4);
+			expect(states.keys).toEqual(['NODATA', 'OK', 'WARN']);
+			expect(states.get('OK').percent).toBe(50);
+			expect(states.get('WARN').percent).toBe(50);
 			expect(states.keys.map((k) => {return states.get(k).width;}).reduce((w1, w2) => {return w1 + w2}, 0)).toBe(90);
 		});
 		describe("reset trigger throttling", () => {

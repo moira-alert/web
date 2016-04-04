@@ -39,6 +39,9 @@ class MetricSummary {
 	list: Array<StateSummary> = [];
 
 	add(event: Event) {
+		if(event.state.name === event.old_state.name){
+			return;
+		}
 		var json = event.json;
 		var old_state_summary = this.states.getOrCreate(json.old_state, new StateSummary(event.old_state, json.timestamp));
 		var state_summary = this.states.getOrCreate(json.state, new StateSummary(event.state, json.timestamp));
