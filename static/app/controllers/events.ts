@@ -82,7 +82,6 @@ export interface IEventsScope extends ng.IScope {
 	trigger: Trigger;
 	check: LastCheck;
 	tab: Tab;
-	now: number;
 	show_maintenance_check: MetricCheck;
 }
 
@@ -102,7 +101,6 @@ export class EventsController extends GoTo {
 		$location: ng.ILocationService,
 		private $route: ng.route.IRouteService) {
 		super($location);
-		$scope.now = moment.utc().unix();
 		$scope.metrics_summary = new Dictionary<MetricSummary>();
 		$scope.tab = parseInt($routeParams['tab'] || "0");
 		var lastRoute = $route.current;
@@ -156,13 +154,4 @@ export class EventsController extends GoTo {
 		this.$scope.tab = tab;
 		this.$location.path("/events/" + this.triggerId + "/" + tab);
 	}
-
-	trigger_maintenance_menu(check: MetricCheck) {
-		if (check == this.$scope.show_maintenance_check) {
-			this.$scope.show_maintenance_check = null;
-			return;
-		}
-		this.$scope.show_maintenance_check = check;
-	}
-
 }

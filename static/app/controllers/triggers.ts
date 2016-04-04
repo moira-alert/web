@@ -21,7 +21,6 @@ export interface ITriggersScope extends ng.IScope{
 	show_trigger_metrics:Array<MetricCheck>;
 	show_trigger:Trigger;
 	show_maintenance_check: MetricCheck;
-	now: number;
 }
 
 export class TriggersController extends GoTo{
@@ -40,7 +39,6 @@ export class TriggersController extends GoTo{
 			return tag != "";});
 		$scope.tags_filter = new TagFilter(new TagList(saved_tags));
 		$scope.ok_filter = $cookies.get(TriggersController.TagsOkFilterCookie) == "true";
-		$scope.now = moment.utc().unix();
 	
 		$scope.metric_values = {};
 	
@@ -101,14 +99,6 @@ export class TriggersController extends GoTo{
 		}
 	};
 	
-	trigger_maintenance_menu(check: MetricCheck) {
-		if(check == this.$scope.show_maintenance_check){
-			this.$scope.show_maintenance_check = null;
-			return;
-		}
-		this.$scope.show_maintenance_check = check;	
-	}
-
 	load_tags() {
 		return this.api.tag.list().then((tags) => {
 			this.$scope.tags = tags;
