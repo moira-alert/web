@@ -8,6 +8,11 @@ import {ISettingsJson} from '../models/settings';
 import {ISubscriptionJson, Subscription} from '../models/subscription';
 import {Config, IConfigJson} from '../models/config';
 
+export interface INotificationsList{
+	total: number;
+	list: Array<string>;
+}
+
 export interface IContactsList {
 	list: Array<IContactJson>;
 }
@@ -166,6 +171,15 @@ export class Api {
 	settings = {
 		get: ():ng.IPromise<ISettingsJson> => {
 			return this._query("user/settings", "GET");
+		}
+	};
+
+	notification = {
+		list: ():ng.IPromise<INotificationsList> => {
+			return this._query("notification?start=0&end=-1", "GET");
+		},
+		remove: (json: string) => {
+			return this._query("notification?json=" + json, "DELETE");
 		}
 	};
 

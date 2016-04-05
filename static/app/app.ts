@@ -9,6 +9,7 @@ import {EventsController} from './controllers/events';
 import {PatternsController} from './controllers/patterns';
 import {SettingsController} from './controllers/settings';
 import {TagsController} from './controllers/tags';
+import {NotificationsController} from './controllers/notifications';
 
 import {ApiStatus} from './directives/apistatus';
 import {NewContact} from './directives/newcontact';
@@ -56,6 +57,7 @@ app.controller('EventsController', EventsController);
 app.controller('PatternsController', PatternsController);
 app.controller('SettingsController', SettingsController);
 app.controller('TagsController', TagsController);
+app.controller('NotificationsController', NotificationsController);
 
 app.config(['$routeProvider',
 	function ($routeProvider:ng.route.IRouteProvider) {
@@ -82,6 +84,10 @@ app.config(['$routeProvider',
 		}).when('/tags/', {
 			template: require('../tags.html'),
 			controller: 'TagsController',
+			controllerAs: 'ctrl'
+		}).when('/notifications/', {
+			template: require('../notifications.html'),
+			controller: 'NotificationsController',
 			controllerAs: 'ctrl'
 		}).otherwise({
 			redirectTo: '/triggers/'
