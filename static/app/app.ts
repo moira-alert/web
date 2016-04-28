@@ -25,6 +25,7 @@ import {TriggerDownload} from './directives/triggerDownload';
 import {TagsFilterList} from './directives/tags_filter_list';
 import {Maintenance} from './directives/maintenance';
 import {RemoveMetricCheck} from './directives/removeMetricCheck';
+import {DropDownList} from'./directives/dropdownlist';
 
 declare function require(string): any;
 
@@ -58,6 +59,7 @@ app.controller('PatternsController', PatternsController);
 app.controller('SettingsController', SettingsController);
 app.controller('TagsController', TagsController);
 app.controller('NotificationsController', NotificationsController);
+app.directive('moiraDropDownList', DropDownList);
 
 app.config(['$routeProvider',
 	function ($routeProvider:ng.route.IRouteProvider) {

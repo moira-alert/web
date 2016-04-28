@@ -38,6 +38,10 @@ export interface ITagStatsList {
 	list: Array<ITagStat>;
 }
 
+export interface ITargetsList {
+	list: Array<string>;
+}
+
 export interface ApiStatus {
 	response_result: any;
 	response_error: any;
@@ -167,6 +171,13 @@ export class Api {
 			return this._query("tag/" + tag + "/data", "PUT", data);
 		}
 	};
+
+	targets = {
+		list: (search:string): ng.IPromise<ITargetsList> => {
+			return this._query("targets?search=" + search, "GET");
+		}
+	};
+
 
 	settings = {
 		get: ():ng.IPromise<ISettingsJson> => {

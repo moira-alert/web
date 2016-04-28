@@ -17,6 +17,7 @@ export interface ITriggerScope extends ng.IScope {
 	trigger_ttl_selection: boolean;
 	advanced_mode: boolean;
 	duplicate_link: string;
+	itemsList: Array<string>;
 }
 
 export class TriggerController extends GoTo {
@@ -37,7 +38,25 @@ export class TriggerController extends GoTo {
 		api.tag.list().then((tags) => {
 			$scope.tags = tags;
 		});
-
+		$scope.targetChange = function() {
+			api.targets.list(this.target.value).then((value) => {
+				if (value !== undefined) {
+					$scope.itemsList = value.list;
+				} else {
+					$scope.itemsList = [];
+				}
+			});
+		}
+/*		$scope.$watch('trigger.targets', (value) => { 
+			api.targets.list("out").then((value) => {
+				if (value !== undefined) {
+					$scope.itemsList = value.list;
+				} else {
+					$scope.itemsList = []
+				}
+			}
+		)}, true);
+*/
 		$q.when().then(() => {
 			if ($routeParams['triggerId']) {
 				return api.tag.list().then((tags) => {
