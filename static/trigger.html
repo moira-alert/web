@@ -13,7 +13,7 @@
 				<span class="trigger-row-head">Target</span>
 			</div>
 			<div class="input-field col s8">
-				<input id="trigger_target_{{$index}}" type="text" ng-model="target.value" class="moira-input" ng-required="true" ng-change="targetChange()"/>
+				<input id="trigger_target_{{$index}}" type="text" ng-model="target.value" class="moira-input" ng-required="true" ng-change="targetChange($event)"/>
 				<label for="trigger_target_{{$index}}" ng-class="{'active':target.value.length}">T{{$index + 1}}</label>
 			</div>
 			<div class="col s2" style="padding-top: 2rem">
@@ -21,7 +21,7 @@
 				<a class="btn btn-target" ng-if="$last && target.value.length" ng-click="trigger.add_target()"><i class="material-icons">add</i></a>
 			</div>
 			<div class="col s10">
-				<moira-drop-down-list data-items-list="itemsList" data-placeholder="Item name" position="relative"></moira-drop-down-list>
+				<moira-drop-down-list data-indexs={{$index}} data-items-list="itemsList" data-placeholder="Item name" position="relative"></moira-drop-down-list>
 			</div>
 		</div>
 		<div class="row">
@@ -33,7 +33,7 @@
 			</div>
 			<div class="col s3 clickable" ng-click="ctrl.set_mode(true)">
 				<span class="trigger-mode" ng-class="{'active':advanced_mode}">ADVANCED MODE</span>
-			</div>
+			</div>                                      
 		</div>
 		<div ng-if="advanced_mode" class="row">
 			<div class="col s2">

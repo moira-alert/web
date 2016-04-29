@@ -1,4 +1,4 @@
-<div class="search-item-list"><ul class="list">
-	<li ng-repeat="item in itemsList | filter:filterFn(this.$parent.target.value) " ng-click="chooseItem( item )">{{ item }}
+<div class="search-item-list" ><ul class="list" >
+	<li ng-repeat="item in itemsList | filter:filterFn(this.$parent.target.value) " ng-click="chooseItem( item )" ng-show="messagesVisible">{{ item }}
     </li>
 </ul></div>
