@@ -178,7 +178,6 @@ export class Api {
 		}
 	};
 
-
 	settings = {
 		get: ():ng.IPromise<ISettingsJson> => {
 			return this._query("user/settings", "GET");
