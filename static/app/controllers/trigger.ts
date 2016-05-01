@@ -20,6 +20,7 @@ export interface ITriggerScope extends ng.IScope {
 	itemsList: Array<string>;
 	targetChange:() => void;
 	targetFocus:() => void;
+	onKeydown:($events: any) => void;
 }
 
 export class TriggerController extends GoTo {
@@ -43,7 +44,6 @@ export class TriggerController extends GoTo {
 		$scope.targetChange = function() {
 			api.targets.list(this.target.value).then((value) => {
 				if (value !== undefined) {
-//					$scope.itemsList = value.list;
 					this.itemsList = value.list;
 				} else {
 					this.itemsList = [];
@@ -52,6 +52,12 @@ export class TriggerController extends GoTo {
 		}
 		$scope.targetFocus = function() {
 			this['messagesVisible' + this.$index] = true;
+		}
+		$scope.onKeydown = function( $event ) {
+			if ($event.keyCode === 40 || $event.keyCode === 13) {
+				this.target.value = this.itemsList[0];
+				this['messagesVisible' + this.$index] = false;
+			}
 		}
 		$q.when().then(() => {
 			if ($routeParams['triggerId']) {
