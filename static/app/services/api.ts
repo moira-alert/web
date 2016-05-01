@@ -174,7 +174,7 @@ export class Api {
 
 	targets = {
 		list: (search:string): ng.IPromise<ITargetsList> => {
-			return this._query("targets?search=" + search, "GET");
+			return this._query("targets?name=" + search, "GET");
 		}
 	};
 

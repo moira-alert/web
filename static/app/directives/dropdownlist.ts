@@ -18,7 +18,6 @@ export function DropDownList($timeout): ng.IDirective {
 	template: require("./templates/drop_down_list.html"),
 	replace: false,
     link: function(scope:IDropDownListScope, el:JQuery, attr:ng.IAttributes){
-		scope.messagesVisible = true;
 		scope.filterFn = function(target) {
 			return function(item) { 
 			if (typeof(target) == 'undefined') { return false; }
@@ -29,10 +28,9 @@ export function DropDownList($timeout): ng.IDirective {
 			}
 			};
 		};
-
       	scope.chooseItem = function( item ) {
 			this.$parent.$parent.target.value = item;
-			scope.messagesVisible = false;
+			this.$parent.$parent['messagesVisible'+this.$parent.$parent.$index] = false;
 		}
     }
 	}

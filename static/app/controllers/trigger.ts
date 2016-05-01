@@ -19,7 +19,7 @@ export interface ITriggerScope extends ng.IScope {
 	duplicate_link: string;
 	itemsList: Array<string>;
 	targetChange:() => void;
-	messagesVisible: boolean;
+	targetFocus:() => void;
 }
 
 export class TriggerController extends GoTo {
@@ -41,14 +41,17 @@ export class TriggerController extends GoTo {
 			$scope.tags = tags;
 		});
 		$scope.targetChange = function() {
-			$scope.messagesVisible = true;
 			api.targets.list(this.target.value).then((value) => {
 				if (value !== undefined) {
-					$scope.itemsList = value.list;
+//					$scope.itemsList = value.list;
+					this.itemsList = value.list;
 				} else {
-					$scope.itemsList = [];
+					this.itemsList = [];
 				}
 			});
+		}
+		$scope.targetFocus = function() {
+			this['messagesVisible' + this.$index] = true;
 		}
 		$q.when().then(() => {
 			if ($routeParams['triggerId']) {
