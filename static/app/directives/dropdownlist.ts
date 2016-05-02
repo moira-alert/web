@@ -4,7 +4,7 @@ export interface IDropDownListScope extends ng.IScope{
 		target:string;
 		chooseItem:(item: any) => void;
 		filterFn:(target: string) => (item: any) => boolean;
-		itemsList: Array<string>;
+		targetsList: Array<string>;
 		messagesVisible: boolean;
 }
 
@@ -12,7 +12,7 @@ export function DropDownList($timeout): ng.IDirective {
 	return {
     restrict: 'E',
     scope: {
-      itemsList: '=',
+      targetsList: '=',
       placeholder: '@',
     },
 	template: require("./templates/drop_down_list.html"),
@@ -28,7 +28,7 @@ export function DropDownList($timeout): ng.IDirective {
 			}
 			};
 		};
-      	scope.chooseItem = function( item ) {
+		scope.chooseItem = function(item) {
 			this.$parent.$parent.target.value = item;
 			this.$parent.$parent['messagesVisible'+this.$parent.$parent.$index] = false;
 		}

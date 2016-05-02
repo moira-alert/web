@@ -4,10 +4,12 @@ import {settings} from '../jsons/settings';
 import {triggers} from '../jsons/triggers';
 import {config} from '../jsons/config';
 import {tags} from '../jsons/tags';
+import {targets} from '../jsons/targets';
 
 declare function require(string): any;
 
 const triggerId = "c681cf70-9336-4be5-a175-fb9f6044e284";
+const targetsSearch = "Moira";
 
 describe("TriggerController", () => {
 	var $httpBackend: ng.IHttpBackendService;
@@ -19,6 +21,7 @@ describe("TriggerController", () => {
 	var api: Api;
 	var scope: ITriggerScope;
 	var controller: TriggerController;
+	var element: ng.IAugmentedJQuery;
 
 	beforeEach(angular.mock.module('moira'));
 	beforeEach(() => {
@@ -43,8 +46,9 @@ describe("TriggerController", () => {
 		$httpBackend.whenGET("/user/settings").respond(settings);
 		$httpBackend.whenGET("/tag").respond(tags);
 		$httpBackend.whenGET("/trigger/" + triggerId).respond(triggers.list[0]);
+		$httpBackend.whenGET("/targets?name=" + targetsSearch).respond(targets);
 		scope = <ITriggerScope>$rootScope.$new();
-		var element = $compile(require('../../trigger.html'))(scope);
+		element = $compile(require('../../trigger.html'))(scope);
 		controller = $controller("TriggerController", {
 			$scope: scope,
 			$location: $location,
@@ -86,7 +90,7 @@ describe("TriggerController", () => {
 			expect(scope.tags_filter.value).toBe("");
 		});
 	});
-	
+
 	describe("invalid warn value", () => {
 		beforeEach(() => {
 			scope.trigger.json.warn_value = "a"; 
@@ -128,5 +132,36 @@ describe("TriggerController", () => {
 			expect(scope.watch_raising).toBeTruthy();
 		});
 	});
-	
+
+	describe("search item", () => {
+		beforeEach(() => {
+			controller.targetChange(targetsSearch);
+			$httpBackend.flush();
+		});
+		it("Array targetsList set corectly", () => {
+			expect(scope.targetsList).toEqual(['Moira.Alert']);
+		});
+	});
+
+	describe("trigger input focus", () => {
+		beforeEach(() => {
+			controller.targetFocus(0);
+			scope.$digest();
+		});
+		it("scope.trigger focus correctly", () => {
+			expect(scope['messagesVisible0']).toBeTruthy();
+		});
+	});
+
+    describe("keydown key pressed on input control", () => {
+        beforeEach(() => {
+			scope.targetsList = ["aaa", "aab", "bbb"];
+            element.find("trigger_target_0").triggerHandler(<JQueryEventObject>{ type: 'keydown', keyCode: 40 });
+            scope.$digest();
+        });
+        it("first item is selected", () => {
+			expect(scope['messagesVisible0']).toBeFalsy();
+        });
+    });
+
 });

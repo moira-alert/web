@@ -13,10 +13,10 @@
 				<span class="trigger-row-head">Target</span>
 			</div>
 			<div class="input-field col s8">
-				<input id="trigger_target_{{$index}}" type="text" ng-model="target.value" class="moira-input" ng-required="true" ng-change="targetChange($event)" ng-focus="targetFocus()" ng-keydown="onKeydown($event)"/>
+				<input id="trigger_target_{{$index}}" type="text" ng-model="target.value" class="moira-input" ng-required="true" ng-change="ctrl.targetChange(target.value)" ng-focus="ctrl.targetFocus($index)" ng-keydown="ctrl.onKeydown($event, $index)"/>
 				<label for="trigger_target_{{$index}}" ng-class="{'active':target.value.length}">T{{$index + 1}}</label>
 				<div class="col s10">
-					<moira-drop-down-list data-indexs={{$index}} data-items-list="itemsList" data-placeholder="Item name" position="relative" ng-show="messagesVisible{{$index}}"></moira-drop-down-list>
+					<moira-drop-down-list position="relative" ng-show="messagesVisible{{$index}}"></moira-drop-down-list>
 				</div>
 			</div>
 			<div class="col s2" style="padding-top: 2rem">
