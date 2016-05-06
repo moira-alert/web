@@ -46,7 +46,7 @@
 			<div class="col s2">
 				&nbsp;
 			</div>
-			<div class="col s8">
+			<div class="col s10">
 				<div class="row" style="padding-bottom:20px; margin-top: 15px">
 					<div class="col s2 trigger-form-head">
 						Watch for
@@ -89,22 +89,27 @@
 		</div>
 		<div class="row">
 			<div class="col s2">&nbsp;</div>
-			<div class="col s4 m3">
-				<span class="state-count {{trigger.ttl_state.cls}} clickable nowrap" ng-click="ctrl.toggle_ttl_selection()">
-					<i ng-if="!trigger_ttl_selection" class="material-icons right">keyboard_arrow_down</i>
-					<i ng-if="trigger_ttl_selection" class="material-icons right">keyboard_arrow_up</i>
-					<span ng-bind="trigger.ttl_state.name"></span>
-				<div ng-if="trigger_ttl_selection">
-					<div ng-repeat="state in ['OK', 'WARN', 'ERROR', 'NODATA', 'DEL']" ng-if="state != trigger.ttl_state.name" class="state-selector"
-					ng-click="trigger.set_ttl_state(state)" ng-bind="state">
+			<div class="col s10">
+				<div class="row">
+					<div class="col s2">&nbsp;</div>
+					<div class="col s4 m3">
+						<span class="state-count {{trigger.ttl_state.cls}} clickable nowrap" ng-click="ctrl.toggle_ttl_selection()">
+							<i ng-if="!trigger_ttl_selection" class="material-icons right">keyboard_arrow_down</i>
+							<i ng-if="trigger_ttl_selection" class="material-icons right">keyboard_arrow_up</i>
+							<span ng-bind="trigger.ttl_state.name"></span>
+						<div ng-if="trigger_ttl_selection">
+							<div ng-repeat="state in ['OK', 'WARN', 'ERROR', 'NODATA', 'DEL']" ng-if="state != trigger.ttl_state.name" class="state-selector"
+							ng-click="trigger.set_ttl_state(state)" ng-bind="state">
+							</div>
+						</div>
+						</span>
+					</div>
+					<div class="col s6">
+						<span>if has no value for</span>
+						<input name="ttl" type="text" class="moira-input-valid" ng-model="trigger.json.ttl" style="width:50px" />
+						<span>seconds</span>
 					</div>
 				</div>
-				</span>
-			</div>
-			<div class="col s6">
-				<span>if has no value for</span>
-				<input name="ttl" type="text" class="moira-input-valid" ng-model="trigger.json.ttl" style="width:50px" />
-				<span>seconds</span>
 			</div>
 		</div>
 		<div class="row">

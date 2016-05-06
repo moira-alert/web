@@ -50,11 +50,6 @@
 							</moira-tag>
 						</td>
 						<td>
-							<a href="" trigger-download="trigger" download="trigger-{{trigger.json.id}}.json" class="trigger-export right">
-								<span class="valign-wrapper">
-								<i class="material-icons left md-17">archive</i>
-							</span>
-							</a>
 							<div class="clickable" ng-click="ctrl.open_trigger(trigger, $event)">
 								<i ng-if="trigger.throttle_timestamp" class="material-icons right md-14 throttling-flag" title="Notification throttled till {{trigger.throttle_timestamp }}">flag</i>
 								<div ng-bind="trigger.json.name" class="trigger-name"></div>

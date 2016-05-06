@@ -1,7 +1,7 @@
 body {
-   display: flex;
-   min-height: 100vh;
-   flex-direction: column;
+	display: flex;
+	min-height: 100vh;
+	flex-direction: column;
 }
 main { flex: 1 0 auto; }
 .row {margin-bottom: 0px !important;}
@@ -55,13 +55,13 @@ main { flex: 1 0 auto; }
 	padding-top: 3px;
 }
 .blur {
-    -webkit-filter: blur(3px);
-    -moz-filter: blur(3px);
-    -ms-filter: blur(3px);
-    -o-filter: blur(3px);
-    filter: blur(3px);
+	-webkit-filter: blur(3px);
+	-moz-filter: blur(3px);
+	-ms-filter: blur(3px);
+	-o-filter: blur(3px);
+	filter: blur(3px);
 }
-.moira-input.ng-invalid-required {border-bottom: 1px solid #da0c09 !important; box-shadow: none !important; padding: 1px 5px !important; height: 30px !important; border-radius: 0px;} 
+.moira-input.ng-invalid-required {border-bottom: 1px solid #da0c09 !important; box-shadow: none !important; padding: 1px 5px !important; height: 30px !important; border-radius: 0px;}
 .moira-input-valid {border-bottom: 1px solid lightgray !important; box-shadow: none !important; padding: 1px 5px !important; height: 30px !important;}
 .moira-input-invalid {border-bottom: 1px solid #da0c09 !important; box-shadow: none !important; padding: 1px 5px !important; height: 30px !important; border-radius: 0px;}
 .maintenance-select {position: absolute; background-color: white; border: 1px solid lightgray;}

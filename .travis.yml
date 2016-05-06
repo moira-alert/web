@@ -13,7 +13,7 @@ before_install:
   - gem install fpm
 install:
   - make test
-script:  
+script:
   - make build
   - make packages
 before_deploy:

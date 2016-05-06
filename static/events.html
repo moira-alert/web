@@ -71,11 +71,12 @@
 		</div>
 	</div>
 	<div class="row container">
-		<div class="col s12" style="border-bottom: 1px solid lightgray">
-			<div class="col s12 l6">
+		<div class="col s12">
+			<div class="col s12 l8">
 				<ul class="tabs">
-					<li class="tab col s6"><a ng-class="{'active': tab == 0}" ng-click="ctrl.set_tab(0)" href="">CURRENT STATE</a></li>
-					<li class="tab col s6"><a ng-class="{'active': tab == 1}" ng-click="ctrl.set_tab(1)" href="">TOTAL STATE</a></li>
+					<li class="tab col s4"><a ng-class="{'active': tab == 0}" ng-click="ctrl.set_tab(0)" href="">CURRENT STATE</a></li>
+					<li class="tab col s4"><a ng-class="{'active': tab == 1}" ng-click="ctrl.set_tab(1)" href="">TOTAL STATE</a></li>
+					<li class="tab col s4"><a ng-class="{'active': tab == 2}" ng-click="ctrl.set_tab(2)" href="">EVENT HISTORY</a></li>
 				</ul>
 			</div>
 		</div>
@@ -128,11 +129,11 @@
 				</div>
 			</div>
 		</div>
-	</div>
-	<div class="row container">
-		<div class="col s12">
-			<div class="row event-history-h">
-				<div class="col s12">EVENT HISTORY</div>
+		<div ng-if="tab == 2" class="col s12 events-tab-content">
+			<div class="row metric-current-state-h">
+				<div class="col m5 l6">Metric</div>
+				<div class="col m4">State change</div>
+				<div class="col m3 l2">Event time</div>
 			</div>
 			<div ng-repeat-start="metricEvents in metrics_history"></div>
 			<div class="row metric-current-state-row" ng-repeat="event in metricEvents.events">
