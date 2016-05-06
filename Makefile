@@ -7,7 +7,7 @@ LICENSE := "GPLv3"
 default: test build tar
 
 build:
-	npm run build 
+	npm run build
 
 test: prepare
 	npm test
@@ -40,7 +40,7 @@ rpm:
 		-p build \
 		build/moira-web-$(VERSION)-$(RELEASE).tar.gz
 
-deb: 
+deb:
 	fpm -t deb \
 		-s "tar" \
 		--description "Moira Web" \
