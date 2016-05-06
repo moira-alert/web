@@ -30,7 +30,7 @@ declare function require(string): any;
 
 require('../css/moira.css');
 require('material-design-icons.css');
-require('materialize.css');
+require('materialize.scss');
 require('materialize.js');
 require('materialize-tabs.js');
 
