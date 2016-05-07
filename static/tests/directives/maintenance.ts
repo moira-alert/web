@@ -29,15 +29,27 @@ describe("directive: moira-maintenance", () => {
         $httpBackend.verifyNoOutstandingRequest();
     });
 
-    describe("maintenance compilation", () => {
+    describe("maintenance scope", () => {
         var now = moment.utc().unix();
-        beforeEach(() => {
-            $httpBackend.expectPUT("/trigger/triggerid/maintenance").respond({});
-            scope.set_metric_maintenance(15, scope.$emit('click'));
-            $httpBackend.flush();
+        describe("set maintenance to 15 min", () => {
+            beforeEach(() => {
+                $httpBackend.expectPUT("/trigger/triggerid/maintenance").respond({});
+                scope.set_metric_maintenance(15, scope.$emit('click'));
+                $httpBackend.flush();
+            });
+            it("check maintenance must set to non-zero", () => {
+                expect(scope.check.json.maintenance >= now + 15 * 60 && scope.check.json.maintenance < now + 16 * 60).toBeTruthy();
+                expect(scope.remaining).toEqual("15 minutes");
+            });
         });
-        it("check maintenance must set to non-zero", () => {
-            expect(scope.check.json.maintenance >= now + 15 * 60 && scope.check.json.maintenance < now + 16 * 60).toBeTruthy();
+        describe("undefined maintenance", () => {
+            beforeEach(() => {
+                $httpBackend.flush();
+            });
+            it("means no remaining time", () => {
+                expect(scope.check.json.maintenance).toBeUndefined();
+                expect(scope.remaining).toEqual("off");
+            });
         });
     });
 
