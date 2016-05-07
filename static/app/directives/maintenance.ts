@@ -10,7 +10,8 @@ export interface IMaintenanceScope extends ng.IScope {
 	set_metric_maintenance(time: number, $event: ng.IAngularEvent);
 	menu($event: ng.IAngularEvent);
 	show: boolean;
-	now: number;
+	remaining: string;
+	delta: number;
 }
 
 export function Maintenance($timeout: ng.ITimeoutService, $document: ng.IDocumentService, api: Api): ng.IDirective {
@@ -24,7 +25,6 @@ export function Maintenance($timeout: ng.ITimeoutService, $document: ng.IDocumen
 		template: require("./templates/maintenance.html"),
 		replace: true,
 		link: (scope: IMaintenanceScope) => {
-			scope.now = moment.utc().unix();
 			scope.show = false;
 			scope.set_metric_maintenance = (time: number, $event: ng.IAngularEvent) => {
 				var data = {};
@@ -46,6 +46,14 @@ export function Maintenance($timeout: ng.ITimeoutService, $document: ng.IDocumen
 				$timeout(() => {
 					scope.show = false;
 				});
+			});
+			scope.$watch('check.json.maintenance', () => {
+				var delta = scope.check.json.maintenance - moment.utc().unix();
+				if (delta <= 0) {
+					scope.remaining = "off";
+				}else{
+					scope.remaining = moment.duration(delta * 1000).humanize();
+				}
 			});
 		}
 	};
