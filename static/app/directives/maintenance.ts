@@ -48,7 +48,7 @@ export function Maintenance($timeout: ng.ITimeoutService, $document: ng.IDocumen
 				});
 			});
 			scope.$watch('check.json.maintenance', () => {
-				var delta = scope.check.json.maintenance - moment.utc().unix();
+				var delta = (scope.check.json.maintenance || 0) - moment.utc().unix();
 				if (delta <= 0) {
 					scope.remaining = "off";
 				}else{
