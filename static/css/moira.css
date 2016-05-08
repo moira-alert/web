@@ -112,7 +112,7 @@ main { flex: 1 0 auto; }
 .remove-metric-hint:hover:before {content:"delete check";}
 .api-status { padding-left: 20px; width: 100%; overflow: auto; margin-top: 10px; }
 .triggers-head th {font-weight: normal; color: gray;}
-.trigger-row {height: 90px}
+.trigger-row {height: 90px; border-bottom: 1px solid #d9d9d8; border-top: 1px solid #d9d9d8;}
 .trigger-target { color: #9e9e9e; word-break: break-all; }
 .trigger-name { word-break: break-all; }
 .trigger-form-head {color: #9e9e9e; }
