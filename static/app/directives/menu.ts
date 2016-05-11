@@ -18,7 +18,6 @@ export function Menu($location:ng.ILocationService, api:Api, $timeout): ng.IDire
 		replace: true,
 		link: function (scope:IMenuScope) {
 			scope.go = function(path){
-				(<any>$(".button-collapse")).sideNav("hide");
 				$location.path(path);
 			};
 			api.user.get().then((data) => {
@@ -29,7 +28,9 @@ export function Menu($location:ng.ILocationService, api:Api, $timeout): ng.IDire
 				scope.settings_active = $location.path() == '/settings/';
 			});
 			$timeout(() => {
-				(<any>$(".button-collapse")).sideNav();
+				(<any>$(".button-collapse")).sideNav({
+					closeOnClick: true
+				});
 			}, 0);
 		}
 	};
