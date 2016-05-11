@@ -1,4 +1,14 @@
 $roboto-font-path: "../../node_modules/materialize-css/fonts/roboto/";
 $primary-color: #00bfa5;
+$secondary-color: #4dd2c0;
 
 @import "~materialize-css/sass/materialize.scss";
+
+nav {
+	a.btn, a.btn-flat {
+		i.material-icons {
+			font-size: $button-font-size;
+			line-height: inherit;
+		}
+	}
+}
