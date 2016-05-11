@@ -15,7 +15,7 @@ module.exports = {
 			"angular-aria",
 			"hammerjs",
 			"moment",
-			"materialize.css",
+			"materialize.scss",
 			'materialize.js',
 			'material-design-icons.css',
 			'materialize-tabs.js'
@@ -41,7 +41,11 @@ module.exports = {
 			{ test: /\.(woff|eot|ttf|woff2)$/, loader: "file-loader" },
 			{ test: /\.(png|gif|ico|svg)$/, loader: "url-loader" },
 			{ test: /\.(html)$/, loader: "html-loader" },
-			{ test: /\.(json)$/, loader: "json-loader" }
+			{ test: /\.(json)$/, loader: "json-loader" },
+			{
+				test: /\.scss$/,
+				loaders: ["style", "css", "sass"]
+			}
 		],
 	},
 	resolve: {
@@ -49,7 +53,7 @@ module.exports = {
 		fallback: path.join(__dirname, 'node_modules'),
 		alias: {
 			'material-design-icons.css': 'material-design-icons-iconfont/dist/material-design-icons.css',
-			'materialize.css': 'materialize-css/dist/css/materialize.css',
+			'materialize.scss': path.join(__dirname, 'static/css/materialize-customized.scss'),
 			'materialize.js': 'materialize-css/dist/js/materialize.js',
 			'materialize-tabs.js': 'materialize-css/js/tabs.js',
 			'jQuery': 'jquery'

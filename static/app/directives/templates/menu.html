@@ -1,17 +1,25 @@
-<div class="moira-menu row">
-	<div class="container">
-		<div class="col s12">
-			<img class="left clickable" ng-click="go('/triggers/')" src="../../../css/img/moira.png">
-			</img>
-			<a class="btn-flat left" style="margin-left: 20px" ng-click="go('/trigger/')" ng-class="{'disabled': trigger_active, 'enabled': !trigger_active }">
-				<i class="material-icons left">add</i>ADD TRIGGER
-			</a>
-			<a class="btn-flat right" href="http://moira.readthedocs.org/" style="color: white">
-				<i class="material-icons">help</i>
-			</a>
-			<a class="btn-flat right" ng-click="go('/settings/')" ng-class="{'disabled': settings_active, 'enabled': !settings_active}">
-				<i class="material-icons left">settings</i>{{login}} SETTINGS
-			</a>
-		</div>
+<nav class="moira-nav">
+	<div class="nav-wrapper container">
+		<a class="brand-logo clickable" ng-click="go('/triggers/')">
+			<img class="v-middle" style="padding-left: 10px; margin-top: -3px" src="../../../css/img/moira.png">
+		</a>
+		<ul id="nav-mobile" class="right hide-on-med-and-down">
+			<li>
+				<a class="waves-effect waves-light btn" ng-click="go('/settings/')" ng-class="{'disabled': settings_active, 'enabled': !settings_active}">
+					<i class="material-icons left">settings</i>{{login}} settings
+				</a>
+			</li>
+			<li>
+				<a class="waves-effect waves-light btn" href="http://moira.readthedocs.org/">
+					<i class="material-icons left">help</i>help
+				</a>
+			</li>
+		</ul>
+		<a href="#" data-activates="mobile-menu" class="button-collapse"><i class="material-icons">menu</i></a>
+		<ul class="side-nav" id="mobile-menu">
+			<li><a ng-click="go('/triggers/')">Triggers</a></li>
+			<li><a ng-click="go('/settings/')">Settings ({{login}})</a></li>
+			<li><a href="http://moira.readthedocs.org/">Help</a></li>
+		</ul>
 	</div>
-</div>
+</nav>

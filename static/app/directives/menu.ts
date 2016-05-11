@@ -9,7 +9,7 @@ export interface IMenuScope extends ng.IScope{
 	settings_active: boolean;
 }
 
-export function Menu($location:ng.ILocationService, api:Api): ng.IDirective {
+export function Menu($location:ng.ILocationService, api:Api, $timeout): ng.IDirective {
 
 	return {
 		restrict: 'E',
@@ -27,8 +27,13 @@ export function Menu($location:ng.ILocationService, api:Api): ng.IDirective {
 				scope.trigger_active = $location.path() == '/trigger/';
 				scope.settings_active = $location.path() == '/settings/';
 			});
+			$timeout(() => {
+				(<any>$(".button-collapse")).sideNav({
+					closeOnClick: true
+				});
+			}, 0);
 		}
 	};
 }
 
-Menu.$inject = ['$location', 'api'];
+Menu.$inject = ['$location', 'api', '$timeout'];

@@ -9,8 +9,6 @@ main { flex: 1 0 auto; }
 .material-icons.md-14 {font-size: 14px}
 .material-icons.left {margin-right: 7px;}
 .material-icons.maintenance {color: gray; vertical-align: middle;}
-.btn-flat {padding-left: 1.6rem !important;}
-.btn {padding-left: 1.6rem !important; padding-right: 1.6rem !important;}
 .btn-target {padding-left: 15px !important; padding-right: 15px !important; margin-left: 5px;}
 .btn-delete {background:#FF5722 !important;}
 .small {font-size: small !important;}
@@ -73,10 +71,6 @@ main { flex: 1 0 auto; }
 .moira-selector li:hover { background-color: #e0f2f1; }
 .moira-selected-item { background-color: #e0f2f1;}
 .moira-selected-more { height: 15px; font-size: smaller; color: blue; }
-.moira-menu {padding-top: 10px; background-color: #00bfa5}
-.moira-menu a.enabled {background-color: #4dd2c0; color:white;}
-.moira-menu a.disabled {background-color: #dfdfdf;}
-.moira-menu div {margin-bottom: 10px}
 .state-name {border-radius: 2px; padding: 8px; color: white; }
 .state-ok {border: 1px solid #4dd2c0; background-color: white !important; color: #33cc99 !important;}
 .state-ok-history {background-color: #4dd2c0 !important; color: white !important;}

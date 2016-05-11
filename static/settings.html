@@ -42,7 +42,10 @@
 			<div class="col s3"><a class="btn" ng-class="{'disabled': !subscription.tags.length || !subscription.contacts.length}" ng-click="ctrl.test_subscription(subscription)">Save & test</a></div>
 		</div>
 	</div>
-	<div style="margin-top: 20px;">
-		<a class="btn" ng-click="ctrl.create_subscription()" ng-if="subscription == null && settings.all_contacts.count">+ NOTIFICATION</a>
-	</div>
+</div>
+
+<div class="fixed-action-btn">
+	<a class="btn-floating btn-large red" ng-click="ctrl.create_subscription()">
+		<i class="large material-icons">add</i>
+	</a>
 </div>
