@@ -17,6 +17,7 @@ export interface ITriggerScope extends ng.IScope {
 	trigger_ttl_selection: boolean;
 	advanced_mode: boolean;
 	duplicate_link: string;
+	targetsList: Array<string>;
 }
 
 export class TriggerController extends GoTo {
@@ -37,7 +38,6 @@ export class TriggerController extends GoTo {
 		api.tag.list().then((tags) => {
 			$scope.tags = tags;
 		});
-
 		$q.when().then(() => {
 			if ($routeParams['triggerId']) {
 				return api.tag.list().then((tags) => {
@@ -155,4 +155,31 @@ export class TriggerController extends GoTo {
 			this.go("/trigger/" + trigger.json.id);
 		});
 	}
+
+	targetChange(targetName: string) {
+		if (targetName == undefined) {
+			this.$scope.targetsList = [];
+		} else {
+			this.api.targets.list(targetName).then((value) => {
+				if (value != undefined) {
+					this.$scope.targetsList = value.list;
+				} else {
+					this.$scope.targetsList = [];
+				}
+			});
+		}
+	}
+
+	targetFocus(index: number) {
+		this.$scope['messagesVisible' + index] = true;
+	}
+
+	onKeydown(event: any, index: number) {
+		if ((event.keyCode == 40) || (event.keyCode == 13)) {
+			event.target.value = this.$scope.targetsList[0];
+			if (this.$scope.targetsList[0] == undefined) { event.target.value = ''; };
+			this.$scope['messagesVisible' + index] = false;
+		}
+	}
+
 }
