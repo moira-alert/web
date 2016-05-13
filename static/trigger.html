@@ -1,57 +1,57 @@
 <div class="container">
 	<form name="trigger_form">
 		<div class="row" style="margin-top: 15px">
-			<div class="col s2">
+			<div class="col s4">
 				<span class="trigger-row-head">Name</span>
 			</div>
-			<div class="input-field col s10">
+			<div class="input-field col s20">
 				<input id="trigger_name" type="text" class="validate" ng-model="trigger.json.name" />
 			</div>
 		</div>
 		<div class="row" ng-repeat="target in trigger.targets">
-			<div class="col s2">
+			<div class="col s4">
 				<span class="trigger-row-head">Target</span>
 			</div>
-			<div class="input-field col s8">
+			<div class="input-field col s16">
 				<input id="trigger_target_{{$index}}" type="text" ng-model="target.value" class="moira-input" ng-required="true" />
 				<label for="trigger_target_{{$index}}" ng-class="{'active':target.value.length}">T{{$index + 1}}</label>
 			</div>
-			<div class="col s2" style="padding-top: 2rem">
+			<div class="col s4" style="padding-top: 2rem">
 				<a class="btn btn-target" ng-if="trigger.targets.length > 1" ng-click="trigger.remove_target($index)"><i class="material-icons">remove</i></a>
 				<a class="btn btn-target" ng-if="$last && target.value.length" ng-click="trigger.add_target()"><i class="material-icons">add</i></a>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col s2">
+			<div class="col s4">
 				&nbsp;
 			</div>
-			<div class="col s3 clickable" ng-click="ctrl.set_mode(false)">
+			<div class="col s6 clickable" ng-click="ctrl.set_mode(false)">
 				<span class="trigger-mode" ng-class="{'active':!advanced_mode, 'disabled':trigger.targets.length > 1}">SIMPLE MODE</span>
 			</div>
-			<div class="col s3 clickable" ng-click="ctrl.set_mode(true)">
+			<div class="col s6 clickable" ng-click="ctrl.set_mode(true)">
 				<span class="trigger-mode" ng-class="{'active':advanced_mode}">ADVANCED MODE</span>
 			</div>
 		</div>
 		<div ng-if="advanced_mode" class="row">
-			<div class="col s2">
+			<div class="col s4">
 				&nbsp;
 			</div>
-			<div class="input-field col s10">
+			<div class="input-field col s20">
 				<input id="trigger_expr" type="text" class="validate" ng-model="trigger.json.expression" placeholder="ERROR if t1 > 10 else WARN if t1 > 1 else OK"
 				/>
 				<label for="trigger_expr" class="active">Python expression</label>
 			</div>
 		</div>
 		<div ng-if="!advanced_mode" class="row">
-			<div class="col s2">
+			<div class="col s4">
 				&nbsp;
 			</div>
-			<div class="col s10">
+			<div class="col s20">
 				<div class="row" style="padding-bottom:20px; margin-top: 15px">
-					<div class="col s2 trigger-form-head">
+					<div class="col s4 trigger-form-head">
 						Watch for
 					</div>
-					<div class="col s10">
+					<div class="col s20">
 						<input type="radio" name="watch" id="watch_raising" ng-model="watch_raising" ng-value="true" />
 						<label for="watch_raising">raising<i class="material-icons right">call_made</i></label>
 						<input type="radio" name="watch" id="watch_falling" ng-model="watch_raising" ng-value="false" />
@@ -59,11 +59,11 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col s2">&nbsp;</div>
-					<div class="col s4 m3">
+					<div class="col s4">&nbsp;</div>
+					<div class="col s8 m6">
 						<span class="state-count state-warn">WARNING</span>
 					</div>
-					<div class="col s6">
+					<div class="col s12">
 						<span ng-if="watch_raising">if T1 &ge;</span>
 						<span ng-if="!watch_raising">if T1 &le;</span>
 						<input name="warn" type="text" ng-class="{'moira-input-valid': warn_invalid_message.length == 0, 'moira-input-invalid': warn_invalid_message.length}"
@@ -73,11 +73,11 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col s2">&nbsp;</div>
-					<div class="col s4 m3">
+					<div class="col s4">&nbsp;</div>
+					<div class="col s8 m6">
 						<span class="state-count state-error">ERROR</span>
 					</div>
-					<div class="col s6">
+					<div class="col s12">
 						<span ng-if="watch_raising">if T1 &ge;</span>
 						<span ng-if="!watch_raising">if T1 &le;</span>
 						<input name="error" type="text" ng-class="{'moira-input-valid': error_invalid_message.length == 0, 'moira-input-invalid': error_invalid_message.length}"
@@ -88,11 +88,11 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col s2">&nbsp;</div>
-			<div class="col s10">
+			<div class="col s4">&nbsp;</div>
+			<div class="col s20">
 				<div class="row">
-					<div class="col s2">&nbsp;</div>
-					<div class="col s4 m3">
+					<div class="col s4">&nbsp;</div>
+					<div class="col s8 m6">
 						<span class="state-count {{trigger.ttl_state.cls}} clickable nowrap" ng-click="ctrl.toggle_ttl_selection()">
 							<i ng-if="!trigger_ttl_selection" class="material-icons right">keyboard_arrow_down</i>
 							<i ng-if="trigger_ttl_selection" class="material-icons right">keyboard_arrow_up</i>
@@ -104,7 +104,7 @@
 						</div>
 						</span>
 					</div>
-					<div class="col s6">
+					<div class="col s12">
 						<span>if has no value for</span>
 						<input name="ttl" type="text" class="moira-input-valid" ng-model="trigger.json.ttl" style="width:50px" />
 						<span>seconds</span>
@@ -113,18 +113,18 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col s2">
+			<div class="col s4">
 				<span class="trigger-row-head" style="margin-top: 1.1rem">Watch time</span>
 			</div>
-			<div class="col s8">
+			<div class="col s16">
 				<moira-schedule style="margin-top:20px;" model="trigger.sched"></moira-schedule>
 			</div>
 		</div>
 		<div style="margin-top:20px;" class="row">
-			<div class="col s2">
+			<div class="col s4">
 				<span class="trigger-row-head" style="margin-top: 0px">Tags</span>
 			</div>
-			<div class="col s10">
+			<div class="col s20">
 				<moira-selector ng-if="tags_filter" ng-class="{'moira-input-invalid': trigger.tags.length == 0}" model="tags_filter" enter="ctrl.create_tag()"
 				items="tags" style="width:100%">
 					<moira-tag ng-repeat="tag in trigger.tags" item="tag" remove="trigger.tags.remove(tag)"></moira-tag>
@@ -132,19 +132,19 @@
 			</div>
 		</div>
 		<div style="margin-top:10px;" class="row">
-			<div class="col s2">
+			<div class="col s4">
 				&nbsp;
 			</div>
-			<div class="col s10">
+			<div class="col s20">
 				<moira-tags-filter-list ng-if="tags_filter.open" model="tags_filter" click="ctrl.add_tag(tag)" position="relative" create="ctrl.create_tag()">
 				</moira-tags-filter-list>
 			</div>
 		</div>
 		<div style="margin-top:20px;padding-bottom:20px" class="row">
-			<div class="col s2">
+			<div class="col s4">
 				&nbsp;
 			</div>
-			<div class="col s10">
+			<div class="col s20">
 				<a class="btn left" ng-click="ctrl.save();" style="margin-right: 20px"><i class="material-icons left">save</i>Save</a>
 				<div class="file-field input-field left" style="margin-top: 0px; margin-right: 20px">
 					<div class="btn" style="line-height: 36px; height: 36px">

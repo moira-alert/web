@@ -1,9 +1,9 @@
 <div class="subscription bg-gray">
 	<div class="row">
-		<div class="col s1">
+		<div class="col s2">
 			Tags
 		</div>
-		<div class="col s11">
+		<div class="col s22">
 			<div style="height:50px;">
 				<moira-selector model="tags_filter" placeholder="Type or select tags to subscribe" items="tags" ng-class="{'moira-input-invalid': sub.tags.length == 0}">
 					<moira-tag ng-repeat="tag in tags_filter.selection" item="tag" remove="sub.tags.remove(tag)"></moira-tag>
@@ -13,10 +13,10 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="col s1">
+		<div class="col s2">
 			Contacts
 		</div>
-		<div class="col s11">
+		<div class="col s22">
 			<div>
 				<div ng-if="sub.contacts.length == 0" style="color: #da0c09">Click on contact to add</div>
 				<moira-contact ng-repeat="contact in sub.contacts" delete="sub.remove_contact(contact, $event);" contact="contact">
@@ -28,10 +28,10 @@
 		<moira-schedule model="sub.sched">Schedule</moira-schedule>
 	</div>
 	<div class="row">
-		<div class="col s1">
+		<div class="col s2">
 			Throttling
 		</div>
-		<div class="col s11">
+		<div class="col s22">
 			<span class="switch">
 			<label>
 				Off
@@ -43,7 +43,7 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="col s12">
+		<div class="col s24">
 			<p>
 				<input type="checkbox" id="sub_enabled" ng-model="sub.json.enabled" class="filled-in" />
 				<label for="sub_enabled">Enabled</label>

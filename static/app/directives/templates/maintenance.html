@@ -2,9 +2,8 @@
 	<i class="material-icons small maintenance">build</i>
 	<div class="maintenance-select" ng-if="show">
 		<div class="maintenance-select-header">maintenance</div>
-		<div class="maintenance-select-item" ng-click="set_metric_maintenance(time, $event)" 
+		<div class="maintenance-select-item" ng-click="set_metric_maintenance(time, $event)"
 			ng-repeat="(name, time) in {'done': 0, '15 min': 15, '1 hour': 60, '3 hours': 180, '6 hours': 360, '1 day': 1440, '1 week': 10080}">{{name}}
 		</div>
-	</div>
-	<span ng-class="{'maintenance-enable': remaining != 'off'}" ng-bind="remaining" title="maintenance remaining time"></span>
+	</div><span ng-class="{'deep-orange-text': remaining != 'off'}" ng-bind="remaining" title="maintenance remaining time"></span>
 </div>

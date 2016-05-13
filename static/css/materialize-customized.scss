@@ -1,6 +1,7 @@
 $roboto-font-path: "../../node_modules/materialize-css/fonts/roboto/";
 $primary-color: #00bfa5;
 $secondary-color: #4dd2c0;
+$num-cols: 24;
 
 @import "~materialize-css/sass/materialize.scss";
 
@@ -11,4 +12,40 @@ nav {
 			line-height: inherit;
 		}
 	}
+}
+
+.small, .small.material-icons {
+	font-size: small;
+}
+
+.breakall {
+	word-break: break-all;
+}
+
+.underlined {
+	border-bottom: 1px solid color("grey", "lighten-2");
+}
+
+.row {
+	margin-bottom: 0;
+}
+
+.fat-row {
+	padding: 15px 0;
+
+	@media #{$small-and-down} {
+		padding: 5px 0;
+	}
+}
+
+.state-values {
+	@extend .grey-text, .small;
+	font-weight: 300;
+	margin-top: 5px;
+}
+
+.timestamp {
+	@extend .grey-text, .text-darken-1;
+	content: attr(date);
+	width: calc(50% - 6px);
 }

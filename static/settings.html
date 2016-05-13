@@ -1,9 +1,9 @@
 <div class="content settings">
 	<div ng-repeat="config in config.contacts" class="row">
-		<div class="col s6 m4">
+		<div class="col s12 m8">
 			<moira-new-contact model="new_contacts[config.json.type]" config="config" add="ctrl.add_contact(config.json.type)"></moira-new-contact>
 		</div>
-		<div class="col s6 m8">
+		<div class="col s12 m16">
 			<div class="contact-tags">
 				<moira-contact ng-repeat="contact in existing_contacts[config.json.type]"
 					contact="contact" click="ctrl.add_sub_contact(contact)" click-enabled="{{subscription != null}}"
@@ -14,19 +14,19 @@
 	</div>
 	<div ng-if="settings.subscriptions.length">
 		<div class="row subscription-head">
-			<div class="col s2">Tags</div>
-			<div class="col s8 l4">Contacts</div>
-			<div class="col s2">Enabled</div>
+			<div class="col s4">Tags</div>
+			<div class="col s16 l8">Contacts</div>
+			<div class="col s4">Enabled</div>
 		</div>
 		<div ng-if="subscription != sub" ng-repeat="sub in settings.subscriptions" class="row clickable subscription-row" ng-click="ctrl.edit_subscription(sub)">
-			<div class="col s2">
+			<div class="col s4">
 				<moira-tag ng-repeat="tag in sub.tags" item="tag"></moira-tag>
 			</div>
-			<div class="col s8 l4">
+			<div class="col s16 l8">
 				<moira-contact ng-repeat="contact in sub.contacts" contact="contact">
 				</moira-contact>
 			</div>
-			<div class="col s2">
+			<div class="col s4">
 				<i class="material-icons" ng-if="sub.json.enabled" style="color: #00bfa5">check</i>
 				<i class="material-icons" ng-if="!sub.json.enabled" style="color: #ff5722">clear</i>
 			</div>
@@ -35,11 +35,11 @@
 	<div ng-if="subscription">
 		<moira-sub-editor tags="tags" sub="subscription" contacts="settings.all_contacts" style="margin-top: 20px;"></moira-sub-editor>
 		<div class="row" style="margin-top: 14px">
-			<div class="col s3"><a class="btn" ng-class="{'disabled': !subscription.tags.length || !subscription.contacts.length}" ng-click="ctrl.save_subscription()">
+			<div class="col s6"><a class="btn" ng-class="{'disabled': !subscription.tags.length || !subscription.contacts.length}" ng-click="ctrl.save_subscription()">
 				<i class="material-icons left">save</i>Save</a></div>
-			<div class="col s3"><a class="btn btn-cancel" ng-click="ctrl.cancel_subscription()"><i class="material-icons left">undo</i>Cancel</a></div>
-			<div class="col s3"><a class="btn" ng-click="ctrl.delete_subscription(subscription)"><i class="material-icons left">clear</i>Delete</a></div>
-			<div class="col s3"><a class="btn" ng-class="{'disabled': !subscription.tags.length || !subscription.contacts.length}" ng-click="ctrl.test_subscription(subscription)">Save & test</a></div>
+			<div class="col s6"><a class="btn btn-cancel" ng-click="ctrl.cancel_subscription()"><i class="material-icons left">undo</i>Cancel</a></div>
+			<div class="col s6"><a class="btn" ng-click="ctrl.delete_subscription(subscription)"><i class="material-icons left">clear</i>Delete</a></div>
+			<div class="col s6"><a class="btn" ng-class="{'disabled': !subscription.tags.length || !subscription.contacts.length}" ng-click="ctrl.test_subscription(subscription)">Save & test</a></div>
 		</div>
 	</div>
 </div>
