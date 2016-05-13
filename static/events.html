@@ -110,7 +110,7 @@
 		</div>
 		<div ng-if="tab == 1" class="col s24 events-tab-content">
 			<div class="row metric-current-state-h">
-				<div class="col m12 l8">Metric</div>
+				<div class="col m12 l14">Metric</div>
 				<div class="col m12 l10">
 					<span class="state-count state-ok-history">OK</span>
 					<span class="state-count state-warn">WARNING</span>
@@ -119,7 +119,7 @@
 				</div>
 			</div>
 			<div class="row metric-current-state-row" ng-repeat="(metric, summary) in metrics_summary.dict">
-				<div class="col m12 l8 break" ng-bind="metric"></div>
+				<div class="col m12 l14 break" ng-bind="metric"></div>
 				<div class="col m12 l10">
 					<span ng-repeat="state_summary in summary.list | orderBy:'state.weight'" ng-class="{'event-state-summary-first':$first, 'event-state-summary-last':$last}"
 					class="event-state-summary" ng-style="{'background-color':state_summary.state.color, 'width':state_summary.width + '%'}"
