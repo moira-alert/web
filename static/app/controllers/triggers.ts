@@ -1,104 +1,127 @@
 import {IAltKeyEvent} from '../models/events';
 import {UniqList} from '../models/core';
 import {Trigger, MetricCheck} from '../models/trigger';
-import {Config} from '../models/config'; 
-import {Settings} from '../models/settings'; 
-import {ITagsData, Tag, TagList, TagFilter, ITagData} from '../models/tag'; 
+import {Config} from '../models/config';
+import {Settings} from '../models/settings';
+import {ITagsData, Tag, TagList, TagFilter, ITagData} from '../models/tag';
 import {Api} from '../services/api';
 import {GoTo} from './goto';
 import * as moment from "moment";
 
-export interface ITriggersScope extends ng.IScope{
+export interface ITriggersScope extends ng.IScope {
 	tags_filter: TagFilter;
-	ok_filter:boolean;
+	ok_filter: boolean;
 	metric_values: any;
-	tags:TagList;
+	tags: TagList;
 	config: Config;
-	settings:Settings;
-	triggers:Array<Trigger>;
-	filter_trigger:(trigger:Trigger) => boolean;
-	show_trigger_state:string;
-	show_trigger_metrics:Array<MetricCheck>;
-	show_trigger:Trigger;
+	settings: Settings;
+	triggers: Array<Trigger>;
+	show_trigger_state: string;
+	show_trigger_metrics: Array<MetricCheck>;
+	show_trigger: Trigger;
 	show_maintenance_check: MetricCheck;
+	total: number;
+	page: number;
+	size: number;
+	start: number;
+	pages: Array<number>;
 }
 
-export class TriggersController extends GoTo{
-	
+export class TriggersController extends GoTo {
+
 	static $inject = ['$scope', '$cookies', '$location', 'api'];
-	
+
 	static CookieLiveSpan = 365 * 24 * 3600 * 1000;
 	static TagsFilterCookie = "moira_filter_tags";
 	static TagsOkFilterCookie = "moira_filter_ok";
-	
-	constructor(private $scope: ITriggersScope, private $cookies:ng.cookies.ICookiesService,
-		$location:ng.ILocationService, private api:Api){
+
+	constructor(private $scope: ITriggersScope, $cookies: ng.cookies.ICookiesService,
+		$location: ng.ILocationService, private api: Api) {
 		super($location);
 
-		var saved_tags = ($cookies.get(TriggersController.TagsFilterCookie) || "").split(',').filter(function(tag:string){
-			return tag != "";});
+		var saved_tags = ($cookies.get(TriggersController.TagsFilterCookie) || "").split(',').filter(function (tag: string) {
+			return tag != "";
+		});
 		$scope.tags_filter = new TagFilter(new TagList(saved_tags));
 		$scope.ok_filter = $cookies.get(TriggersController.TagsOkFilterCookie) == "true";
-	
+
 		$scope.metric_values = {};
-	
+
+		$scope.$watch('tags_filter.selection.length', (newValue: number, oldValue: number) => {
+			if (newValue != oldValue) {
+				$cookies.put(TriggersController.TagsFilterCookie, $scope.tags_filter.selection.to_string().join(),
+					{ expires: new Date((new Date()).getTime() + TriggersController.CookieLiveSpan) });
+				this.load_triggers();
+			}
+		});
+
+		$scope.$watch('ok_filter', (newValue: number, oldValue: number) => {
+			if (newValue != oldValue) {
+				$cookies.put(TriggersController.TagsOkFilterCookie, "" + $scope.ok_filter,
+					{ expires: new Date((new Date()).getTime() + TriggersController.CookieLiveSpan) });
+				this.load_triggers();
+			}
+		});
+		
+		$scope.$on('$routeUpdate', (scope, next: ng.route.ICurrentRoute) => {
+			this.$scope.page = parseInt(next.params['page']);
+			this.load_triggers();
+		});
+
 		this.load_tags().then(() => {
 			return api.config();
 		}).then((config) => {
 			$scope.config = config;
+			$scope.size = (config.paging || {size : 20}).size;
 			return api.settings.get();
-		})
-		.then((json) => {
+		}).then((json) => {
 			$scope.settings = new Settings(json, $scope.config);
-			return api.trigger.list();
-		}).then((data) => {
-			$scope.triggers = [];
-			angular.forEach(data.list, (json) => {
-				$scope.triggers.push(new Trigger(json, $scope.tags));
-			});
-		});
-		
-		$scope.filter_trigger = (trigger:Trigger) => {
-			return trigger.tags.include($scope.tags_filter.selection) && 
-					(!$scope.ok_filter || trigger.has_state_except("OK"));
-		}
-		
-		$scope.$watch('tags_filter.selection.length', (newValue:number, oldValue:number) => {
-			if(newValue != oldValue){
-				$cookies.put(TriggersController.TagsFilterCookie, $scope.tags_filter.selection.to_string().join(),
-					{ expires: new Date((new Date()).getTime() + TriggersController.CookieLiveSpan) });
-			}
-		});
-		
-		$scope.$watch('ok_filter', (newValue:number, oldValue:number) => {
-			if(newValue != oldValue){
-				$cookies.put(TriggersController.TagsOkFilterCookie, "" + $scope.ok_filter,
-					{ expires: new Date((new Date()).getTime() + TriggersController.CookieLiveSpan) });
-			}
-		});
-		
-	}
-	
-	open_trigger(trigger:Trigger, $event:IAltKeyEvent){
-		$event.stopPropagation();
-		$event.preventDefault();
-		if($event.altKey)
-			this.go('/trigger/'+trigger.json.id);
-		else
-			this.go('/events/'+trigger.json.id);
+			this.load_triggers();
+		})
 	}
 
-	toggle_trigger_metrics(state:string, trigger:Trigger) {
-		if (this.$scope.show_trigger == trigger && this.$scope.show_trigger_state == state){
+	load_triggers() {
+		var num = parseInt(this.$location.search()['page'] || 0);
+		this.$scope.page = num;
+		this.api.trigger.page(num, this.$scope.size).then((data) => {
+			this.$scope.triggers = [];
+			this.$scope.total = data.total;
+			this.$scope.pages = new Array();
+			for(var i = num - 5; i < num + 10; i++){
+				if(i < 0){
+					continue;
+				}
+				this.$scope.pages.push(i);
+				if(this.$scope.pages.length == 10 || (i + 1) * this.$scope.size >= data.total){
+					break;
+				}
+			}
+			angular.forEach(data.list, (json) => {
+				this.$scope.triggers.push(new Trigger(json, this.$scope.tags));
+			});
+		});
+	}
+
+	open_trigger(trigger: Trigger, $event: IAltKeyEvent) {
+		$event.stopPropagation();
+		$event.preventDefault();
+		if ($event.altKey)
+			this.go('/trigger/' + trigger.json.id);
+		else
+			this.go('/events/' + trigger.json.id);
+	}
+
+	toggle_trigger_metrics(state: string, trigger: Trigger) {
+		if (this.$scope.show_trigger == trigger && this.$scope.show_trigger_state == state) {
 			this.$scope.show_trigger = null;
 		}
-		else{
+		else {
 			this.$scope.show_trigger_state = state;
 			this.$scope.show_trigger = trigger;
 			this.$scope.show_trigger_metrics = trigger.check.state_checks.get(state);
 		}
 	};
-	
+
 	load_tags() {
 		return this.api.tag.list().then((tags) => {
 			this.$scope.tags = tags;
@@ -108,33 +131,33 @@ export class TriggersController extends GoTo{
 		});
 	};
 
-	remove_filter_tag (tag:Tag) {
+	remove_filter_tag(tag: Tag) {
 		this.$scope.tags_filter.selection.remove(tag);
 	};
 
-	tag_click(tag:Tag, $event:IAltKeyEvent) {
-		if($event.altKey){
-			var data:ITagData = {
+	tag_click(tag: Tag, $event: IAltKeyEvent) {
+		if ($event.altKey) {
+			var data: ITagData = {
 				maintenance: 0
 			};
-			if((tag.data.maintenance || 0) === 0){
+			if ((tag.data.maintenance || 0) === 0) {
 				data.maintenance = moment.utc().add(1, "days").unix();
 			}
 			this.api.tag.data(tag.value, data).then(() => {
 				tag.data = data;
-			}); 
-		}else{
+			});
+		} else {
 			if (!this.$scope.tags_filter.selection.contains(tag) && this.$scope.tags.contains(tag)) {
 				this.$scope.tags_filter.selection.push(tag);
 			}
 		}
 	};
 
-	filter_suggestion_tag(tag:Tag) {
+	filter_suggestion_tag(tag: Tag) {
 		return !this.$scope.tags_filter.selection.contains(tag) && this.$scope.tags.contains(tag);
 	};
-		
-	export(trigger: Trigger, $event){
+
+	export(trigger: Trigger, $event) {
 		$event.currentTarget.href = trigger.get_json_content();
 	}
 }

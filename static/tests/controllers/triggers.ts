@@ -36,7 +36,12 @@ describe("TriggersController", () => {
 		$cookies.remove(TriggersController.TagsOkFilterCookie);
 		$httpBackend.whenGET("config.json").respond(config);
 		$httpBackend.whenGET("/user/settings").respond(settings);
-		$httpBackend.whenGET("/trigger").respond(triggers);
+		$httpBackend.whenGET("/trigger/page?p=0&size=20").respond((method, url, data, headers, params) => {
+			if($cookies.get('moira_filter_ok') === 'true'){
+				return [200, {list: [triggers.list[1]]}];
+			}
+			return [200, triggers];
+		});
 		$httpBackend.whenGET("/tag").respond(tags);
 		scope = <ITriggersScope>$rootScope.$new();
 		controller = $controller("TriggersController", {
@@ -55,9 +60,8 @@ describe("TriggersController", () => {
 
 	it("scope.triggers list initialized correctly", () => {
 		expect(scope.triggers.length).toEqual(2);
-		scope.triggers.sort((a, b) => { return b.check.score - a.check.score; });
-		expect(scope.triggers[0].check.score).toBe(500);
-		expect(scope.triggers[1].check.score).toBeCloseTo(0.33, 0.01);
+		expect(scope.triggers[0].check.json.score).toBe(0);
+		expect(scope.triggers[1].check.json.score).toBe(1000);
 	});
 
 	describe("filter by not ok state", () => {
@@ -66,9 +70,10 @@ describe("TriggersController", () => {
 			scope.ok_filter = true;
 			element = $compile(require('../../triggers.html'))(scope);
 			scope.$digest();
+			$httpBackend.flush();
 		});
 		it("two trigger rows rendered", () => {
-			expect(element.find(".trigger-row").length).toBe(2);
+			expect(element.find(".trigger-row").length).toBe(1);
 		});
 		
 	});
@@ -118,6 +123,7 @@ describe("TriggersController", () => {
 			event.altKey = false;
 			controller.tag_click(scope.tags[0], event);
 			scope.$digest();
+			$httpBackend.flush();
 		});
 		it("added to cookies", () => {
 			expect($cookies.get('moira_filter_tags')).toBe("DevOps");

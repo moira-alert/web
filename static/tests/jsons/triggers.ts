@@ -45,7 +45,8 @@ export var triggers = {
           }
         },
         timestamp: 1441867117,
-        state: "OK"
+        state: "OK",
+        score: 0
       },
       expression: "",
       id: "c681cf70-9336-4be5-a175-fb9f6044e284"
@@ -76,7 +77,8 @@ export var triggers = {
           },
         },
         timestamp: 1441867092,
-        state: "OK"
+        state: "OK",
+        score: 1000
       },
       expression: "",
       id: "17b3e2d9-49cc-46e5-8eb0-42c16cec8dea"

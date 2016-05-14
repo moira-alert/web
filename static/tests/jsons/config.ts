@@ -8,5 +8,8 @@ export var config: IConfigJson =
 			{ type: "phone", validation: "^9\\d{9}$", icon: "phone", title: "phone +7", img: "" },
 			{ type: "pushover", validation: "", img: "pushover.ico", icon: "", title: "" },
 			{ type: "slack", validation: "^[@#].+$", img: "slack.ico", icon: "", title: "" }
-		]
+		],
+		paging: {
+			size: 20
+		}
 	}
