@@ -51,6 +51,8 @@ export class TriggersController extends GoTo {
 			if (newValue != oldValue) {
 				$cookies.put(TriggersController.TagsFilterCookie, $scope.tags_filter.selection.to_string().join(),
 					{ expires: new Date((new Date()).getTime() + TriggersController.CookieLiveSpan) });
+				this.$location.search({page: 0});
+				this.$scope.page = 0;
 				this.load_triggers();
 			}
 		});
@@ -59,11 +61,15 @@ export class TriggersController extends GoTo {
 			if (newValue != oldValue) {
 				$cookies.put(TriggersController.TagsOkFilterCookie, "" + $scope.ok_filter,
 					{ expires: new Date((new Date()).getTime() + TriggersController.CookieLiveSpan) });
+				this.$location.search({page: 0});
+				this.$scope.page = 0;
 				this.load_triggers();
 			}
 		});
 		
 		$scope.$on('$routeUpdate', (scope, next: ng.route.ICurrentRoute) => {
+			if(this.$scope.page === parseInt(next.params['page']))
+				return;
 			this.$scope.page = parseInt(next.params['page']);
 			this.load_triggers();
 		});
