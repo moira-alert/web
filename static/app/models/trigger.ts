@@ -23,6 +23,7 @@ export interface ILastCheckJson {
 	timestamp: number;
 	event_timestamp?: number;
 	metrics: ILastCheckMetrics;
+	score:number;
 }
 
 export interface ITriggerJson {
@@ -91,63 +92,30 @@ export class MetricState implements IStringId {
 
 export class LastCheck {
 	state: State;
-	private _metrics_checks = new Dictionary<MetricCheck>();
-	private _state_checks = new Dictionary<UniqList<MetricCheck>>();
-	private _metric_states = new UniqList<MetricState>([]);
+	metrics_checks = new Dictionary<MetricCheck>();
+	state_checks = new Dictionary<UniqList<MetricCheck>>();
+	metric_states = new UniqList<MetricState>([]);
 	timestamp: Timestamp;
 	event_timestamp: Timestamp;
-	private _score: number;
-	private _initialized: boolean;
 
 	constructor(public json: ILastCheckJson) {
 		this.state = new State(json.state || 'NODATA');
 		this.timestamp = new Timestamp(json.timestamp || (Date.now() / 1000));
 		if (json.event_timestamp)
 			this.event_timestamp = new Timestamp(json.event_timestamp);
-	}
-	
-	private init(){
 		var metric_states = new Dictionary<MetricState>();
 		angular.forEach(this.json.metrics, (json: IMetricCheckJson, metric: string) => {
-			var metric_check = this._metrics_checks.set(metric, new MetricCheck(metric, json));
+			var metric_check = this.metrics_checks.set(metric, new MetricCheck(metric, json));
 			var metric_state = metric_states.getOrCreate(json.state, new MetricState(new State(json.state)));
 			metric_states.set(json.state, metric_state);
 			metric_state.add_value(json.value);
-			this._state_checks.getOrCreate(json.state, new UniqList<MetricCheck>([])).push(metric_check);
+			this.state_checks.getOrCreate(json.state, new UniqList<MetricCheck>([])).push(metric_check);
 
 		});
 		angular.forEach(metric_states.dict, (state) => {
-			this._metric_states.push(state);
+			this.metric_states.push(state);
 		});
-		this._metric_states.sort((a, b) => { return b.state.weight - a.state.weight; });
-		this._score = (this._metric_states
-			.map((m_state) => { return m_state.state.weight })
-			.reduce((p, c) => { return p + c; }, 0) + this.state.weight) / (this._metric_states.length + 1);
-		this._initialized = true;
-	}
-	
-	get metric_states(): UniqList<MetricState>{
-		if(!this._initialized)
-			this.init();
-		return this._metric_states;
-	} 
-	
-	get metrics_checks(): Dictionary<MetricCheck> {
-		if(!this._initialized)
-			this.init();
-		return this._metrics_checks;
-	}
-
-	get state_checks(): Dictionary<UniqList<MetricCheck>> {
-		if(!this._initialized)
-			this.init();
-		return this._state_checks;
-	}
-	
-	get score(): number {
-		if(!this._initialized)
-			this.init();
-		return this._score;		
+		this.metric_states.sort((a, b) => { return b.state.weight - a.state.weight; });
 	}
 }
 

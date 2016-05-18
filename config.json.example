@@ -7,5 +7,8 @@
 		{"type": "telegram", "validation": "^@.+$", "img": "telegram.ico", "title": "@channel only", "help": "required to grant @KonturMoiraBot admin privileges"},
 		{"type": "twilio sms", "img": "twilio_sms.ico"},
 		{"type": "twilio voice", "img": "twilio_voice.ico"}
-	]
+	],
+	"paging": {
+		"size": 20
+	}
 }

@@ -23,6 +23,8 @@ export interface IEventsList {
 
 export interface ITriggersList {
 	list: Array<ITriggerJson>;
+	page: number;
+	total: number;
 }
 
 export interface IPatternsList {
@@ -121,8 +123,8 @@ export class Api {
 		delete: (trigger_id: string) => {
 			return this._query("trigger/" + trigger_id, "DELETE");
 		},
-		list: (): ng.IPromise<ITriggersList> => {
-			return this._query("trigger", "GET");
+		page: (num: number, size: number): ng.IPromise<ITriggersList> => {
+			return this._query(`trigger/page?p=${num}&size=${size}`, "GET");
 		},
 		get: (trigger_id: string): ng.IPromise<ITriggerJson> => {
 			return this._query("trigger/" + trigger_id, "GET")

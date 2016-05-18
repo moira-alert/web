@@ -64,7 +64,8 @@ app.config(['$routeProvider',
 		$routeProvider.when('/triggers/', {
 			template: require('../triggers.html'),
 			controller: 'TriggersController',
-			controllerAs: 'ctrl'
+			controllerAs: 'ctrl',
+			reloadOnSearch: false
 		}).when('/trigger/:triggerId?', {
 			template: require('../trigger.html'),
 			controller: 'TriggerController',

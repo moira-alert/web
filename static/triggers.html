@@ -34,8 +34,7 @@
 					</div>
 				</div>
 			</div>
-
-			<div ng-repeat-start="trigger in triggers | filter:filter_trigger | orderBy : ['check.score', 'json.name'] : true"></div>
+			<div ng-repeat-start="trigger in triggers"></div>
 			<div class="row fat-row underlined trigger-row" ng-class="{'grey lighten-3': show_trigger == trigger}">
 				<div class="col m5 hide-on-small-only">
 					<moira-tag ng-repeat="tag in trigger.tags" item="tag" ng-click="ctrl.tag_click(tag, $event)" class="clickable" disabled="{{tags_filter.selection.contains(tag)}}"
@@ -98,6 +97,21 @@
 				</div>
 			</div>
 			<div ng-repeat-end></div>
+			<div class="row">
+				<ul class="pagination">
+					<li ng-class="{'disabled': page <=0, 'waves-effect': page > 0 }">
+						<a ng-if="page > 0" ng-href="#/triggers/?page={{page-1}}"><i class="material-icons">chevron_left</i></a>
+						<a ng-if="page <= 0"><i class="material-icons">chevron_left</i></a>
+					</li>
+					<li ng-repeat="p in pages" ng-class="{'active': page === p, 'waves-effect': page !== p}">
+						<a ng-href="#/triggers/?page={{p}}" ng-bind="p"></a>
+					</li>
+					<li ng-class="{'disabled': (page + 1) * size >= total, 'waves-effect': (page + 1) * size < total }">
+						<a ng-if="(page + 1) * size < total" ng-href="#/triggers/?page={{page+1}}"><i class="material-icons">chevron_right</i></a>
+						<a ng-if="(page + 1) * size >= total" ><i class="material-icons">chevron_right</i></a>
+					</li>
+				</ul>
+			</div>
 		</div>
 	</div>
 </div>

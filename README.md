@@ -11,6 +11,9 @@ Documentation for the entire Moira project is available on [Read the Docs][readt
 
 If you have any questions, you can ask us on [Gitter][gitter].
 
+## Update notes
+Version 1.1 requires worker version 1.2
+
 ## Thanks
 
 ![SKB Kontur](https://kontur.ru/theme/ver-1652188951/common/images/logo_english.png)
