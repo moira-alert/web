@@ -42,7 +42,7 @@
 					</moira-tag>
 				</div>
 
-				<div class="clickable col s24 m{{19 - trigger.check.metric_states.length*3}}" ng-click="ctrl.open_trigger(trigger, $event)">
+				<div class="clickable col s24 m{{19 - (trigger.check.metric_states.length || 1)*3}}" ng-click="ctrl.open_trigger(trigger, $event)">
 					<i ng-if="trigger.throttle_timestamp" class="material-icons right md-14 throttling-flag" title="Notification throttled till {{trigger.throttle_timestamp }}">flag</i>
 					<div ng-bind="trigger.json.name" class="breakall"></div>
 					<div ng-repeat="target in trigger.targets" class="trigger-target hide-on-small-only" ng-bind="target.value"></div>
