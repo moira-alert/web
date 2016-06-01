@@ -48,7 +48,7 @@
 					<div ng-repeat="target in trigger.targets" class="trigger-target hide-on-small-only" ng-bind="target.value"></div>
 				</div>
 
-				<div class="col s{{24 - trigger.check.metric_states.length*8}} hide-on-med-and-up">&nbsp;</div>
+				<div ng-if="trigger.check.metric_states.length < 3" class="col s{{24 - trigger.check.metric_states.length*8}} hide-on-med-and-up">&nbsp;</div>
 
 				<div class="col s8 m3" ng-if="trigger.check.metric_states.length == 0" class="nowrap state-row">
 					<span class="state-count {{trigger.check.state.cls }}">{{ trigger.check.state.name }}</span>
@@ -91,7 +91,7 @@
 				<div class="col m4 hide-on-small-only">
 					<moira-timestamp timestamp="check.event_timestamp"></moira-timestamp>
 				</div>
-				<div class="col s8 m3 center" ng-repeat="data in trigger.check.metric_states | orderBy:'-'">
+				<div class="col s8 m3 center" ng-class="{'hide-on-small-only': data.state.name != show_trigger_state}" ng-repeat="data in trigger.check.metric_states | orderBy:'-'">
 					<span ng-style="{'color':check.state.color, 'visibility': data.state.name == show_trigger_state ? 'visible' : 'hidden'}"
 					ng-bind="check.value.str" class="nowrap"></span>
 				</div>
