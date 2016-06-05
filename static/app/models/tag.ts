@@ -27,11 +27,17 @@ export class Tag implements IStringId{
 		if(value == 'WARN')
 			return "#cccc32";
 		if(value == 'ERROR')
+			return "#e14f4f";
+		if(value == 'DEGRADATION')
+			return "#e14f4f";
+		if(value == 'HIGH DEGRADATION')
 			return "#cc0032";
 		if(value == 'OK')
 			return "#33cc99";
+		if(value == 'PROGRESS')
+			return "#33cc99";
 		if(value == 'EXCEPTION')
-			return "#e14f4f";
+			return "#cc0032";
 		if(value == 'NODATA')
 			return "lightgray";
 		var hash = 0, i, chr, len;

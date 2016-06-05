@@ -3,7 +3,8 @@ import {Schedule, IScheduleJson} from './schedule';
 import {IContactJson, Contact} from './contact';
 import {Tag, TagList} from './tag';
 
-export var pseudo_tags = new UniqList<string>(['WARN', 'ERROR', 'NODATA', 'EXCEPTION']);
+export var pseudo_tags = new UniqList<string>(['WARN', 'ERROR', 'NODATA', 'EXCEPTION',
+	'PROGRESS', 'DEGRADATION', 'HIGH DEGRADATION']);
 
 export interface ISubscriptionJson {
 	id: string;
