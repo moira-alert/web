@@ -11,5 +11,10 @@ export var config: IConfigJson =
 		],
 		paging: {
 			size: 20
+		},
+		event_history: {
+			paging: {
+				size: 100
+			}
 		}
 	}
