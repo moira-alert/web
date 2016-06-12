@@ -56,7 +56,7 @@ describe("EventsController", () => {
 		$httpBackend.whenGET("/trigger/" + triggerId).respond(triggers.list[0]);
 		$httpBackend.whenGET("/trigger/" + triggerId + "/state").respond(triggers.list[0].last_check);
 		$httpBackend.whenGET("/tag").respond(tags);
-		$httpBackend.whenGET("/event/" + triggerId).respond(events);
+		$httpBackend.whenGET(`/event/${triggerId}?p=0&size=20`).respond(events);
 		scope = <IEventsScope>$rootScope.$new();
 		controller = $controller("EventsController", {
 			$scope: scope,

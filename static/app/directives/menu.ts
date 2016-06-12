@@ -3,7 +3,6 @@ import {Api} from '../services/api';
 declare function require(string): any;
 
 export interface IMenuScope extends ng.IScope{
-	go(path:string);
 	login:string;
 	trigger_active: boolean;
 	settings_active: boolean;
@@ -17,9 +16,6 @@ export function Menu($location:ng.ILocationService, api:Api, $timeout): ng.IDire
 		template: require("./templates/menu.html"),
 		replace: true,
 		link: function (scope:IMenuScope) {
-			scope.go = function(path){
-				$location.path(path);
-			};
 			api.user.get().then((data) => {
 				scope.login = data.login || "anonymous";
 			});

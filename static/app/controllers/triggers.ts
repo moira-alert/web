@@ -5,10 +5,10 @@ import {Config} from '../models/config';
 import {Settings} from '../models/settings';
 import {ITagsData, Tag, TagList, TagFilter, ITagData} from '../models/tag';
 import {Api} from '../services/api';
-import {GoTo} from './goto';
+import {IPagingScope, InitPagesList} from '../models/paging';
 import * as moment from "moment";
 
-export interface ITriggersScope extends ng.IScope {
+export interface ITriggersScope extends ng.IScope, IPagingScope {
 	tags_filter: TagFilter;
 	ok_filter: boolean;
 	metric_values: any;
@@ -20,14 +20,9 @@ export interface ITriggersScope extends ng.IScope {
 	show_trigger_metrics: Array<MetricCheck>;
 	show_trigger: Trigger;
 	show_maintenance_check: MetricCheck;
-	total: number;
-	page: number;
-	size: number;
-	start: number;
-	pages: Array<number>;
 }
 
-export class TriggersController extends GoTo {
+export class TriggersController {
 
 	static $inject = ['$scope', '$cookies', '$location', 'api'];
 
@@ -36,9 +31,7 @@ export class TriggersController extends GoTo {
 	static TagsOkFilterCookie = "moira_filter_ok";
 
 	constructor(private $scope: ITriggersScope, $cookies: ng.cookies.ICookiesService,
-		$location: ng.ILocationService, private api: Api) {
-		super($location);
-
+		private $location: ng.ILocationService, private api: Api) {
 		var saved_tags = ($cookies.get(TriggersController.TagsFilterCookie) || "").split(',').filter(function (tag: string) {
 			return tag != "";
 		});
@@ -92,16 +85,7 @@ export class TriggersController extends GoTo {
 		this.api.trigger.page(num, this.$scope.size).then((data) => {
 			this.$scope.triggers = [];
 			this.$scope.total = data.total;
-			this.$scope.pages = new Array();
-			for(var i = num - 5; i < num + 10; i++){
-				if(i < 0){
-					continue;
-				}
-				this.$scope.pages.push(i);
-				if(this.$scope.pages.length == 10 || (i + 1) * this.$scope.size >= data.total){
-					break;
-				}
-			}
+			InitPagesList(this.$scope);
 			angular.forEach(data.list, (json) => {
 				this.$scope.triggers.push(new Trigger(json, this.$scope.tags));
 			});
@@ -112,9 +96,9 @@ export class TriggersController extends GoTo {
 		$event.stopPropagation();
 		$event.preventDefault();
 		if ($event.altKey)
-			this.go('/trigger/' + trigger.json.id);
+			this.$location.path('/trigger/' + trigger.json.id);
 		else
-			this.go('/events/' + trigger.json.id);
+			this.$location.path('/events/' + trigger.json.id);
 	}
 
 	toggle_trigger_metrics(state: string, trigger: Trigger) {

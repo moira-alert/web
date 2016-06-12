@@ -77,7 +77,8 @@ app.config(['$routeProvider',
 		}).when('/events/:triggerId?/:tab?', {
 			template: require('../events.html'),
 			controller: 'EventsController',
-			controllerAs: 'ctrl'
+			controllerAs: 'ctrl',
+			reloadOnSearch: false
 		}).when('/patterns/', {
 			template: require('../patterns.html'),
 			controller: 'PatternsController',

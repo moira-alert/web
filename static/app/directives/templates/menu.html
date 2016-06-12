@@ -1,11 +1,11 @@
 <nav class="moira-nav">
 	<div class="nav-wrapper container">
-		<a class="brand-logo clickable" ng-click="go('/triggers/')">
+		<a class="brand-logo clickable" ng-href="#/triggers/">
 			<img class="v-middle" style="margin-top: -3px; width: 105px; height: 32px" src="../../../css/img/moira.png">
 		</a>
 		<ul id="nav-mobile" class="right hide-on-med-and-down">
 			<li>
-				<a class="waves-effect waves-light btn" ng-click="go('/settings/')" ng-class="{'disabled': settings_active, 'enabled': !settings_active}">
+				<a class="waves-effect waves-light btn" ng-href="#/settings/" ng-class="{'disabled': settings_active, 'enabled': !settings_active}">
 					<i class="material-icons left">settings</i>{{login}} settings
 				</a>
 			</li>
@@ -17,8 +17,8 @@
 		</ul>
 		<a href="#" data-activates="mobile-menu" class="button-collapse"><i class="material-icons">menu</i></a>
 		<ul class="side-nav" id="mobile-menu">
-			<li><a ng-click="go('/triggers/')">Triggers</a></li>
-			<li><a ng-click="go('/settings/')">Settings ({{login}})</a></li>
+			<li><a ng-href="#/triggers/">Triggers</a></li>
+			<li><a ng-href="#/settings/">Settings ({{login}})</a></li>
 			<li><a href="http://moira.readthedocs.io/">Help</a></li>
 		</ul>
 	</div>

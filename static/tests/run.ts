@@ -19,3 +19,4 @@ import './models/core';
 import './models/schedule';
 import './models/tags';
 import './models/trigger';
+import './models/paging';

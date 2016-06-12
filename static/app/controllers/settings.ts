@@ -5,7 +5,6 @@ import {Config} from '../models/config';
 import {Tag, TagList} from '../models/tag';
 import {Contact} from '../models/contact';
 import {Subscription, ISubscriptionJson, pseudo_tags} from '../models/subscription';
-import {GoTo} from './goto';
 
 class NewContacts {
 	[type: string]: string;
@@ -24,12 +23,11 @@ export interface ISettingsScope extends ng.IScope {
 	subscription: Subscription;
 }
 
-export class SettingsController extends GoTo {
+export class SettingsController{
 
 	static $inject = ['$scope', 'api', '$location', '$q'];
 
 	constructor(private $scope: ISettingsScope, private api: Api, $location: ng.ILocationService, private $q: ng.IQService) {
-		super($location);
 
 		$scope.new_contacts = {};
 		$scope.existing_contacts = {};
