@@ -95,6 +95,7 @@ export class TriggersController {
 	open_trigger(trigger: Trigger, $event: IAltKeyEvent) {
 		$event.stopPropagation();
 		$event.preventDefault();
+		this.$location.search({});
 		if ($event.altKey)
 			this.$location.path('/trigger/' + trigger.json.id);
 		else
