@@ -96,20 +96,17 @@ export class EventsController {
 		private $routeParams: ng.route.IRouteParamsService,
 		private $location: ng.ILocationService,
 		private $route: ng.route.IRouteService) {
-		$scope.tab = parseInt($routeParams['tab'] || "0");
+		$scope.tab = parseInt($routeParams['tab'] || 0);
+		$scope.page = parseInt($location.search()['page'] || 0);
 		var lastRoute = $route.current;
-		$scope.$on('$locationChangeSuccess', (event) => {
-			if (lastRoute && $route.current && $route.current['controller'] == lastRoute['controller']) {
-				var newPage = parseInt($route.current.params['page'] || 0);
-				if (newPage !== $scope.page) {
-					$scope.page = newPage;
-					this.load_events();
-				}
-				$route.current = lastRoute;
-			}
+		$scope.$on('$routeUpdate', (scope, next: ng.route.ICurrentRoute) => {
+			$scope.tab = parseInt(next.params['tab'] || 0);
+			if($scope.page === parseInt(next.params['page'] || 0))
+				return;
+			$scope.page = parseInt(next.params['page'] || 0);
+			this.load_events();
 		});
 		this.triggerId = $routeParams['triggerId'] || '';
-		this.$scope.page = parseInt(this.$location.search()['page'] || 0);
 		api.config().then((config) => {
 			$scope.size = (config.event_history || { paging: { size: 100 } }).paging.size;
 			return api.tag.list();
@@ -168,6 +165,9 @@ export class EventsController {
 
 	set_tab(tab: number) {
 		this.$scope.tab = tab;
-		this.$location.path("/events/" + this.triggerId + "/" + tab);
+		this.$location.search({
+			page: this.$scope.page,
+			tab: this.$scope.tab 
+		});
 	}
 }

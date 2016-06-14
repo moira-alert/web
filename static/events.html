@@ -160,14 +160,14 @@
 			<div class="row">
 				<ul class="pagination">
 					<li ng-class="{'disabled': page <=0, 'waves-effect': page > 0 }">
-						<a ng-if="page > 0" ng-href="#/events/{{trigger.json.id}}/2?page={{page-1}}"><i class="material-icons">chevron_left</i></a>
+						<a ng-if="page > 0" ng-href="#/events/{{trigger.json.id}}?tab=2&page={{page-1}}"><i class="material-icons">chevron_left</i></a>
 						<a ng-if="page <= 0"><i class="material-icons">chevron_left</i></a>
 					</li>
 					<li ng-repeat="p in pages" ng-class="{'active': page === p, 'waves-effect': page !== p}">
-						<a ng-href="#/events/{{trigger.json.id}}/2?page={{p}}" ng-bind="p + 1"></a>
+						<a ng-href="#/events/{{trigger.json.id}}?tab=2&page={{p}}" ng-bind="p + 1"></a>
 					</li>
 					<li ng-class="{'disabled': (page + 1) * size >= total, 'waves-effect': (page + 1) * size < total }">
-						<a ng-if="(page + 1) * size < total" ng-href="#/events/{{trigger.json.id}}/2?page={{page+1}}"><i class="material-icons">chevron_right</i></a>
+						<a ng-if="(page + 1) * size < total" ng-href="#/events/{{trigger.json.id}}?tab=2&page={{page+1}}"><i class="material-icons">chevron_right</i></a>
 						<a ng-if="(page + 1) * size >= total" ><i class="material-icons">chevron_right</i></a>
 					</li>
 				</ul>
