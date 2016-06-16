@@ -18,7 +18,7 @@
 			<div class="col s16 l8">Contacts</div>
 			<div class="col s4">Enabled</div>
 		</div>
-		<div ng-if="subscription != sub" ng-repeat="sub in settings.subscriptions" class="row clickable subscription-row" ng-click="ctrl.edit_subscription(sub)">
+		<div ng-class="{'blur': subscription == sub}" ng-repeat="sub in settings.subscriptions" class="row clickable subscription-row" ng-click="ctrl.edit_subscription(sub)">
 			<div class="col s4">
 				<moira-tag ng-repeat="tag in sub.tags" item="tag"></moira-tag>
 			</div>
