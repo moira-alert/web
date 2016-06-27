@@ -74,10 +74,11 @@ app.config(['$routeProvider',
 			template: require('../settings.html'),
 			controller: 'SettingsController',
 			controllerAs: 'ctrl'
-		}).when('/events/:triggerId?/:tab?', {
+		}).when('/events/:triggerId?', {
 			template: require('../events.html'),
 			controller: 'EventsController',
-			controllerAs: 'ctrl'
+			controllerAs: 'ctrl',
+			reloadOnSearch: false
 		}).when('/patterns/', {
 			template: require('../patterns.html'),
 			controller: 'PatternsController',

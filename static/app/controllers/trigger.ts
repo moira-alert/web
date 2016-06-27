@@ -3,7 +3,6 @@ import {Trigger, ITriggerJson} from '../models/trigger';
 import {State} from '../models/state';
 import {TagList, Tag, TagFilter} from '../models/tag';
 import {Api} from '../services/api';
-import {GoTo} from './goto';
 
 export interface ITriggerScope extends ng.IScope {
 	tags: TagList;
@@ -19,13 +18,12 @@ export interface ITriggerScope extends ng.IScope {
 	duplicate_link: string;
 }
 
-export class TriggerController extends GoTo {
+export class TriggerController {
 
 	static $inject = ['$scope', 'api', '$routeParams', '$location', '$q'];
 
 	constructor(private $scope: ITriggerScope, private api: Api, private $routeParams: ng.route.IRouteParamsService,
-		$location: ng.ILocationService, private $q: ng.IQService) {
-		super($location);
+		private $location: ng.ILocationService, private $q: ng.IQService) {
 		$scope.float_re = /[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?/;
 		$scope.trigger_ttl_selection = false;
 		$scope.$watch('trigger.targets.length', (value) => {
@@ -120,7 +118,7 @@ export class TriggerController extends GoTo {
 	save() {
 		if (this.$scope.trigger_form.$valid && this.$scope.trigger.tags.length) {
 			return this.api.trigger.save(this.$scope.trigger).then(() => {
-				this.go("/");
+				this.$location.path("/");
 			});
 		}
 	}
@@ -139,7 +137,7 @@ export class TriggerController extends GoTo {
 			}
 			return this.api.trigger.delete(trigger.json.id);
 		}).then(() => {
-			this.go('/');
+			this.$location.path('/');
 		});
 	};
 
@@ -152,7 +150,7 @@ export class TriggerController extends GoTo {
 	import(json: string) {
 		var trigger = new Trigger(JSON.parse(json), this.$scope.tags);
 		this.api.trigger.save(trigger).then(() => {
-			this.go("/trigger/" + trigger.json.id);
+			this.$location.path("/trigger/" + trigger.json.id);
 		});
 	}
 }

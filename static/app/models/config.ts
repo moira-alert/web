@@ -12,11 +12,17 @@ export class Config {
 	paging: {
 		size: number
 	};
+	event_history: {
+		paging: {
+			size: number;
+		}
+	}
 	api_url: string;
 	contacts: UniqList<ContactConfig>;
 	
 	constructor(json: IConfigJson){
 		this.paging = json.paging;
+		this.event_history = json.event_history;
 		this.api_url = json.api_url;
 		this.contacts = new UniqList(json.contacts.map((contact) => {return new ContactConfig(contact);}));
 	}
@@ -50,5 +56,10 @@ export interface IConfigJson {
 	contacts: Array<IContactConfigJson>;
 	paging: {
 		size: number
+	},
+	event_history:{
+		paging: {
+			size: number
+		}
 	}
 }

@@ -104,7 +104,7 @@
 						<a ng-if="page <= 0"><i class="material-icons">chevron_left</i></a>
 					</li>
 					<li ng-repeat="p in pages" ng-class="{'active': page === p, 'waves-effect': page !== p}">
-						<a ng-href="#/triggers/?page={{p}}" ng-bind="p + 1"></a>
+						<a ng-href="#/triggers/?page={{p}}" ng-bind="p"></a>
 					</li>
 					<li ng-class="{'disabled': (page + 1) * size >= total, 'waves-effect': (page + 1) * size < total }">
 						<a ng-if="(page + 1) * size < total" ng-href="#/triggers/?page={{page+1}}"><i class="material-icons">chevron_right</i></a>
@@ -117,7 +117,7 @@
 </div>
 
 <div class="fixed-action-btn hide-on-small-only">
-	<a class="btn-floating btn-large red" ng-click="go('/trigger/')">
+	<a class="btn-floating btn-large red" ng-href="#/trigger/">
 		<i class="large material-icons">add</i>
 	</a>
 </div>

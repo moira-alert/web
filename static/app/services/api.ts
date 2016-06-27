@@ -19,6 +19,8 @@ export interface IContactsList {
 
 export interface IEventsList {
 	list: Array<IEventJson>;
+	page: number;
+	total: number;
 }
 
 export interface ITriggersList {
@@ -103,8 +105,8 @@ export class Api {
 	}
 
 	event = {
-		list: (triggerId): ng.IPromise<IEventsList> => {
-			return this._query("event/" + (triggerId || ''), "GET");
+		page: (triggerId: string, num: number, size: number): ng.IPromise<IEventsList> => {
+			return this._query(`event/${triggerId}?p=${num}&size=${size}`, "GET");
 		}
 	};
 
