@@ -18,9 +18,9 @@ export function Selector(): ng.IDirective {
 
 	return {
 		restrict: 'E',
-		transclude: true,
 		template: require('./templates/selector.html'),
 		replace: true,
+		transclude: true,
 		scope: {
 			items:"=items",
 			model:"=model",

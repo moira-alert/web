@@ -76,8 +76,8 @@ describe("EventsController", () => {
 
 	describe("events list loaded", () => {
 		it("scope model initialized correctly", () => {
-			expect(scope.metrics_summary.count).toBe(1);
-			var states = scope.metrics_summary.get(scope.metrics_summary.keys[0]).states;
+			expect(scope.metrics_summary.length).toBe(1);
+			var states = scope.metrics_summary[0].states;
 			expect(states.keys).toEqual(['NODATA', 'OK', 'WARN']);
 			expect(states.get('OK').percent).toBe(50);
 			expect(states.get('WARN').percent).toBe(50);
