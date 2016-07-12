@@ -86,6 +86,7 @@ export interface IEventsScope extends ng.IScope, IPagingScope {
 	tab: Tab;
 	show_maintenance_check: MetricCheck;
 	current_state_sort: string;
+	total_state_sort: string;
 }
 
 interface ITabExtension extends JQuery {
@@ -106,6 +107,7 @@ export class EventsController {
 		$scope.tab = parseInt($routeParams['tab'] || 0);
 		$scope.page = parseInt($location.search()['page'] || 0);
 		$scope.current_state_sort = '-event_timestamp.date';
+		$scope.total_state_sort = 'metric';
 		var lastRoute = $route.current;
 		$scope.$on('$routeUpdate', (scope, next: ng.route.ICurrentRoute) => {
 			$scope.tab = parseInt(next.params['tab'] || 0);

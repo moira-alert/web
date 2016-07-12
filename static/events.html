@@ -95,8 +95,7 @@
 					<span>Event time</span>
 				</sort-column>
 			</div>
-			<div ng-repeat-start="metric_state in trigger.check.metric_states"></div>
-			<div class="row metric-current-state-row" ng-repeat="metric_check in trigger.check.state_checks.dict[metric_state.state.name] | orderBy:current_state_sort">
+			<div class="row metric-current-state-row" ng-repeat="metric_check in trigger.check.metrics_checks | orderBy:current_state_sort">
 				<div class="col m4">
 					<div class="chip {{metric_check.state.cls}}">
 						<span>{{metric_check.state.name}}</span>
@@ -114,11 +113,10 @@
 					<span ng-if="!metric_check.event_timestamp">No events</span>
 				</div>
 			</div>
-			<div ng-repeat-end></div>
 		</div>
 		<div ng-if="tab == 1" class="col s24 events-tab-content">
 			<div class="row metric-current-state-h">
-				<div class="col m12 l14">Metric</div>
+				<sort-column class="col m12 l14 clickable" value="total_state_sort" column="metric">Metric</sort-column>
 				<div class="col m12 l10">
 					<span class="state-count state-ok-history">OK</span>
 					<span class="state-count state-warn">WARNING</span>
@@ -126,7 +124,7 @@
 					<span class="state-count state-nodata">NODATA</span>
 				</div>
 			</div>
-			<div class="row metric-current-state-row" ng-repeat="summary in metrics_summary">
+			<div class="row metric-current-state-row" ng-repeat="summary in metrics_summary | orderBy:total_state_sort">
 				<div class="col m12 l14 break" ng-bind="summary.metric"></div>
 				<div class="col m12 l10">
 					<span ng-repeat="state_summary in summary.list | orderBy:'state.weight'" ng-class="{'event-state-summary-first':$first, 'event-state-summary-last':$last}"

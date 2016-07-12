@@ -92,7 +92,7 @@ export class MetricState implements IStringId {
 
 export class LastCheck {
 	state: State;
-	metrics_checks = new Dictionary<MetricCheck>();
+	metrics_checks = new UniqList<MetricCheck>([]);
 	state_checks = new Dictionary<UniqList<MetricCheck>>();
 	metric_states = new UniqList<MetricState>([]);
 	timestamp: Timestamp;
@@ -105,7 +105,8 @@ export class LastCheck {
 			this.event_timestamp = new Timestamp(json.event_timestamp);
 		var metric_states = new Dictionary<MetricState>();
 		angular.forEach(this.json.metrics, (json: IMetricCheckJson, metric: string) => {
-			var metric_check = this.metrics_checks.set(metric, new MetricCheck(metric, json));
+			var metric_check = new MetricCheck(metric, json);
+			this.metrics_checks.push(metric_check);
 			var metric_state = metric_states.getOrCreate(json.state, new MetricState(new State(json.state)));
 			metric_states.set(json.state, metric_state);
 			metric_state.add_value(json.value);
