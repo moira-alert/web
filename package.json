@@ -1,6 +1,6 @@
 {
   "name": "moira",
-  "version": "1.0.0",
+  "version": "1.1.1",
   "scripts": {
     "test": "karma start coveralls.js --single-run",
     "start": "webpack-dev-server",
