@@ -23,7 +23,7 @@ export function RemoveMetricCheck(api: Api): ng.IDirective {
 		link: (scope: IRemoveMetricCheckScope) => {
 			scope.remove = () => {
 				api.trigger.remove_metric(scope.trigger.json.id, scope.check.metric).then(() => {
-					if(scope.trigger.check.metrics_checks.remove(scope.check.metric) !== undefined){
+					if(scope.trigger.check.metrics_checks.remove(scope.check) !== undefined){
 						scope.trigger.check.metric_states.get(scope.check.state.name).count -= 1;
 						scope.trigger.check.state_checks.get(scope.check.state.name).remove(scope.check);
 					}

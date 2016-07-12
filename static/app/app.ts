@@ -21,10 +21,13 @@ import {SubEditor} from './directives/subeditor';
 import {Tag} from './directives/tag';
 import {Timestamp} from './directives/timestamp';
 import {FileRead} from './directives/fileread';
+import {SortColumn} from './directives/sortcolumn';
 import {TriggerDownload} from './directives/triggerDownload';
 import {TagsFilterList} from './directives/tags_filter_list';
 import {Maintenance} from './directives/maintenance';
 import {RemoveMetricCheck} from './directives/removeMetricCheck';
+
+import {IndentFilter} from './filters/indent';
 
 declare function require(string): any;
 
@@ -34,7 +37,7 @@ require('materialize.scss');
 require('materialize.js');
 require('materialize-tabs.js');
 
-var app = angular.module('moira', [require('angular-route'), require('angular-cookies')]);
+var app = angular.module('moira', [require('angular-route'), require('angular-cookies'), require('angular-sanitize')]);
 app.service('time', TimeProvider);
 app.service('api', Api);
 app.directive('moiraApiStatus', ApiStatus);
@@ -50,6 +53,7 @@ app.directive('moiraTimestamp', Timestamp);
 app.directive('moiraMaintenance', Maintenance);
 app.directive('moiraRemoveMetricCheck', RemoveMetricCheck);
 app.directive('fileRead', FileRead);
+app.directive('sortColumn', SortColumn);
 app.directive('triggerDownload', TriggerDownload);
 app.controller('TriggersController', TriggersController);
 app.controller('TriggerController', TriggerController);
@@ -58,6 +62,9 @@ app.controller('PatternsController', PatternsController);
 app.controller('SettingsController', SettingsController);
 app.controller('TagsController', TagsController);
 app.controller('NotificationsController', NotificationsController);
+
+app.filter('indent', IndentFilter);
+
 
 app.config(['$routeProvider',
 	function ($routeProvider:ng.route.IRouteProvider) {

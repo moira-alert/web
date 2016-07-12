@@ -32,11 +32,17 @@ class MetricEvents implements IStringId {
 	}
 }
 
-class MetricSummary {
+class MetricSummary implements IStringId {
 	total: number = 0;
 	states = new Dictionary<StateSummary>();
 	last: StateSummary;
 	list: Array<StateSummary> = [];
+
+	constructor(public metric: string) { }
+
+	id(): string {
+		return this.metric;
+	}
 
 	add(event: Event) {
 		var json = event.json;
@@ -75,10 +81,12 @@ class MetricSummary {
 
 export interface IEventsScope extends ng.IScope, IPagingScope {
 	metrics_history: UniqList<MetricEvents>
-	metrics_summary: Dictionary<MetricSummary>;
+	metrics_summary: UniqList<MetricSummary>;
 	trigger: Trigger;
 	tab: Tab;
 	show_maintenance_check: MetricCheck;
+	current_state_sort: string;
+	total_state_sort: string;
 }
 
 interface ITabExtension extends JQuery {
@@ -98,10 +106,12 @@ export class EventsController {
 		private $route: ng.route.IRouteService) {
 		$scope.tab = parseInt($routeParams['tab'] || 0);
 		$scope.page = parseInt($location.search()['page'] || 0);
+		$scope.current_state_sort = '-event_timestamp.date';
+		$scope.total_state_sort = 'metric';
 		var lastRoute = $route.current;
 		$scope.$on('$routeUpdate', (scope, next: ng.route.ICurrentRoute) => {
 			$scope.tab = parseInt(next.params['tab'] || 0);
-			if($scope.page === parseInt(next.params['page'] || 0))
+			if ($scope.page === parseInt(next.params['page'] || 0))
 				return;
 			$scope.page = parseInt(next.params['page'] || 0);
 			this.load_events();
@@ -128,7 +138,7 @@ export class EventsController {
 			scope.total = json.total;
 			InitPagesList(scope);
 			scope.metrics_history = new UniqList<MetricEvents>([]);
-			scope.metrics_summary = new Dictionary<MetricSummary>();
+			scope.metrics_summary = new UniqList<MetricSummary>([]);
 			json.list.sort((a, b) => { return a.timestamp - b.timestamp; });
 			angular.forEach(json.list, (json: IEventJson, index: number) => {
 				var event = new Event(json);
@@ -138,7 +148,12 @@ export class EventsController {
 				if (event.state.name === event.old_state.name) {
 					return;
 				}
-				scope.metrics_summary.getOrCreate(json.metric, new MetricSummary()).add(event);
+				var metricSummary = scope.metrics_summary.get(json.metric);
+				if(!metricSummary){
+					metricSummary = new MetricSummary(json.metric);
+					scope.metrics_summary.push(metricSummary);
+				}
+				metricSummary.add(event);
 				var metricEvents = scope.metrics_history.get(event.metric);
 				if (!metricEvents) {
 					metricEvents = new MetricEvents(event.metric);
@@ -146,7 +161,7 @@ export class EventsController {
 				}
 				metricEvents.events.push(event);
 			});
-			angular.forEach(scope.metrics_summary.dict, (summary, metric) => {
+			angular.forEach(scope.metrics_summary, (summary) => {
 				summary.commit(this.timeProvider.now());
 			});
 			angular.forEach(scope.metrics_history, (metricEvents) => {
@@ -167,7 +182,7 @@ export class EventsController {
 		this.$scope.tab = tab;
 		this.$location.search({
 			page: this.$scope.page,
-			tab: this.$scope.tab 
+			tab: this.$scope.tab
 		});
 	}
 }
