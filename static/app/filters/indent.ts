@@ -7,6 +7,11 @@ export function IndentFilter() {
 		var spacer = "&nbsp;&nbsp;&nbsp;&nbsp;";
 		var state = "name";
 		var level = 0;
+
+		var repeat = function(num) {
+				return new Array(isNaN(num)? 1 : ++num).join(spacer);
+		};
+
 		var fsm = {
 			name: {
 				letter: {
@@ -18,7 +23,7 @@ export function IndentFilter() {
 				comma: {
 					next: 'args',
 					action: function(current) {
-						return current + nl + spacer.repeat(level);
+						return current + nl + repeat(level);
 					}
 
 				},
@@ -26,7 +31,7 @@ export function IndentFilter() {
 					next: 'args',
 					action: function(current) {
 						level ++;
-						return current + nl + spacer.repeat(level);
+						return current + nl + repeat(level);
 					}
 				},
 				close: {
@@ -54,7 +59,7 @@ export function IndentFilter() {
 				comma: {
 					next: 'args',
 					action: function(current) {
-						return current + nl + spacer.repeat(level);
+						return current + nl + repeat(level);
 					}
 				},
 			},
