@@ -39,7 +39,7 @@
 				<div class="event-trigger-row">
 					<div class="row" ng-repeat="target in trigger.targets">
 						<div class="col event-trigger-row-h">Target<span ng-if="trigger.targets.length > 1"> t{{$index + 1}}</span></div>
-						<div class="col" ng-bind="target.value"></div>
+						<div class="col" ng-bind-html="target.value | indent"></div>
 					</div>
 				</div>
 				<div class="event-trigger-row">
