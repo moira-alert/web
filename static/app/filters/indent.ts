@@ -46,6 +46,9 @@ export function IndentFilter() {
 				}
 			},
 			args: {
+				quote: {
+					next: 'quoted',
+				},
 				space: {
 					action: function(current) {
 						return '';
@@ -64,6 +67,18 @@ export function IndentFilter() {
 					action: function(current) {
 						return current + nl + repeat(level);
 					}
+				},
+				close: {
+					next: 'eof',
+					action: function(current) {
+						level --;
+						return current;
+					}
+				}
+			},
+			quoted: {
+				quote: {
+					next: 'name'
 				},
 			},
 			noterm: {
@@ -108,6 +123,7 @@ export function IndentFilter() {
 				return 'digit';
 			}
 			switch (char) {
+				case '\'': return 'quote';
 				case ' ': return 'space';
 				case '{': return 'brace_open';
 				case '}': return 'brace_close'
