@@ -27,6 +27,9 @@ export function IndentFilter() {
 					}
 
 				},
+				brace_open: {
+					next: 'noterm',
+				},
 				open: {
 					next: 'args',
 					action: function(current) {
@@ -63,6 +66,11 @@ export function IndentFilter() {
 					}
 				},
 			},
+			noterm: {
+				brace_close: {
+					next: 'name',
+				},
+			},
 			inline: {
 				close: {
 					next: 'eof',
@@ -71,7 +79,7 @@ export function IndentFilter() {
 						return current;
 					}
 				}
-			},
+			}
 
 		};
 
@@ -101,6 +109,8 @@ export function IndentFilter() {
 			}
 			switch (char) {
 				case ' ': return 'space';
+				case '{': return 'brace_open';
+				case '}': return 'brace_close'
 				case '(': return 'open';
 				case ')': return 'close';
 				case ',': return 'comma';
