@@ -20,10 +20,10 @@ export interface ITriggerScope extends ng.IScope {
 
 export class TriggerController {
 
-	static $inject = ['$scope', 'api', '$routeParams', '$location', '$q'];
+	static $inject = ['$scope', 'api', '$routeParams', '$location', '$q', '$window'];
 
 	constructor(private $scope: ITriggerScope, private api: Api, private $routeParams: ng.route.IRouteParamsService,
-		private $location: ng.ILocationService, private $q: ng.IQService) {
+		private $location: ng.ILocationService, private $q: ng.IQService, private $window: ng.IWindowService) {
 		$scope.float_re = /[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?/;
 		$scope.trigger_ttl_selection = false;
 		$scope.$watch('trigger.targets.length', (value) => {
@@ -117,8 +117,11 @@ export class TriggerController {
 
 	save() {
 		if (this.$scope.trigger_form.$valid && this.$scope.trigger.tags.length) {
+			if (!this.$scope.advanced_mode){
+				this.$scope.trigger.json.expression = "";
+			}
 			return this.api.trigger.save(this.$scope.trigger).then(() => {
-				this.$location.path("/");
+				this.$window.history.back();
 			});
 		}
 	}
@@ -137,7 +140,7 @@ export class TriggerController {
 			}
 			return this.api.trigger.delete(trigger.json.id);
 		}).then(() => {
-			this.$location.path('/');
+			this.$window.history.back();
 		});
 	};
 
