@@ -20,6 +20,7 @@ export interface ITriggersScope extends ng.IScope, IPagingScope {
 	show_trigger_metrics: Array<MetricCheck>;
 	show_trigger: Trigger;
 	show_maintenance_check: MetricCheck;
+	search_string: string;
 }
 
 export class TriggersController {
@@ -35,15 +36,15 @@ export class TriggersController {
 		var saved_tags = ($cookies.get(TriggersController.TagsFilterCookie) || "").split(',').filter(function (tag: string) {
 			return tag != "";
 		});
+
+		$scope.search_string = "";
 		$scope.tags_filter = new TagFilter(new TagList(saved_tags));
 		$scope.ok_filter = $cookies.get(TriggersController.TagsOkFilterCookie) == "true";
 
 		$scope.metric_values = {};
 
-		$scope.$watch('tags_filter.selection.length', (newValue: number, oldValue: number) => {
+		$scope.$watch('search_string.length', (newValue: number, oldValue: number) => {
 			if (newValue != oldValue) {
-				$cookies.put(TriggersController.TagsFilterCookie, $scope.tags_filter.selection.to_string().join(),
-					{ expires: new Date((new Date()).getTime() + TriggersController.CookieLiveSpan) });
 				this.$location.search({page: 0});
 				this.$scope.page = 0;
 				this.load_triggers();
@@ -59,7 +60,7 @@ export class TriggersController {
 				this.load_triggers();
 			}
 		});
-		
+
 		$scope.$on('$routeUpdate', (scope, next: ng.route.ICurrentRoute) => {
 			if(this.$scope.page === parseInt(next.params['page']))
 				return;
@@ -82,7 +83,7 @@ export class TriggersController {
 	load_triggers() {
 		var num = parseInt(this.$location.search()['page'] || 0);
 		this.$scope.page = num;
-		this.api.trigger.page(num, this.$scope.size).then((data) => {
+		this.api.trigger.page(num, this.$scope.size, this.$scope.search_string).then((data) => {
 			this.$scope.triggers = [];
 			this.$scope.total = data.total;
 			InitPagesList(this.$scope);
@@ -138,8 +139,11 @@ export class TriggersController {
 				tag.data = data;
 			});
 		} else {
-			if (!this.$scope.tags_filter.selection.contains(tag) && this.$scope.tags.contains(tag)) {
-				this.$scope.tags_filter.selection.push(tag);
+			if (this.$scope.search_string === undefined) {
+				this.$scope.search_string = "";
+			}
+			if (this.$scope.search_string.indexOf('#' + tag.value) == -1) {
+				this.$scope.search_string += ' #' + tag.value;
 			}
 		}
 	};

@@ -125,8 +125,8 @@ export class Api {
 		delete: (trigger_id: string) => {
 			return this._query("trigger/" + trigger_id, "DELETE");
 		},
-		page: (num: number, size: number): ng.IPromise<ITriggersList> => {
-			return this._query(`trigger/page?p=${num}&size=${size}`, "GET");
+		page: (num: number, size: number, q: string): ng.IPromise<ITriggersList> => {
+			return this._query(`trigger/page?p=${num}&size=${size}&q=${encodeURIComponent(q || '')}`, "GET");
 		},
 		get: (trigger_id: string): ng.IPromise<ITriggerJson> => {
 			return this._query("trigger/" + trigger_id, "GET")

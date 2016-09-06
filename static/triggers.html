@@ -2,9 +2,8 @@
 	<div class="grey lighten-4">
 		<div class="container">
 			<div class="row fat-row">
-				<moira-selector model="tags_filter" placeholder="Type or select tags to filter" items="tags">
-					<moira-tag ng-repeat="tag in tags_filter.selection" item="tag" remove="ctrl.remove_filter_tag(tag)"></moira-tag>
-				</moira-selector>
+				<moira-search model="search_string" placeholder="Type #tag and/or trigger name/metric">
+				</moira-search>
 				<div class="hide-on-small-only col m14" style="height:100%; padding-top:2px">
 					<span class="small grey-text text-darken-1" ng-if="settings.sub_tags.length">Subscribed:</span>
 					<moira-tag item="tag" ng-repeat="tag in settings.sub_tags" ng-click="ctrl.tag_click(tag, $event)" class="clickable" disabled="{{tags_filter.selection.contains(tag)}}">

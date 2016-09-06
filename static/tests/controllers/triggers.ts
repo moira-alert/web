@@ -75,7 +75,7 @@ describe("TriggersController", () => {
 		it("two trigger rows rendered", () => {
 			expect(element.find(".trigger-row").length).toBe(1);
 		});
-		
+
 	});
 
 	describe("open trigger", () => {
@@ -103,7 +103,7 @@ describe("TriggersController", () => {
 			});
 		});
 	});
-	
+
 	describe("show trigger metrics", () => {
 		beforeEach(() => {
 			controller.toggle_trigger_metrics('WARN', scope.triggers[0]);
@@ -115,7 +115,7 @@ describe("TriggersController", () => {
 			expect(scope.show_trigger_metrics[0].value.num).toBe(1);
 		});
 	});
-	
+
 	describe("add filter tag", () => {
 		var event: IAltKeyEvent;
 		beforeEach(() => {
