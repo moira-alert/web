@@ -28,6 +28,7 @@ export interface ILastCheckJson {
 export interface ITriggerJson {
 	id: string;
 	name: string;
+	desc: string;
 	expression: string;
 	warn_value: string;
 	error_value: string;
@@ -192,6 +193,7 @@ export class Trigger {
 		return {
 			id: this.json.id,
 			name: this.json.name,
+			desc: this.json.desc,
 			targets: this.targets.map((t) => { return t.value; }),
 			warn_value: parseFloat(this.json.warn_value),
 			error_value: parseFloat(this.json.error_value),
