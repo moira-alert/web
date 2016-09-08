@@ -36,7 +36,7 @@ describe("TriggersController", () => {
 		$cookies.remove(TriggersController.TagsOkFilterCookie);
 		$httpBackend.whenGET("config.json").respond(config);
 		$httpBackend.whenGET("/user/settings").respond(settings);
-		$httpBackend.whenGET("/trigger/page?p=0&size=20").respond((method, url, data, headers, params) => {
+		$httpBackend.whenGET("/trigger/page?p=0&size=20&q=").respond((method, url, data, headers, params) => {
 			if($cookies.get('moira_filter_ok') === 'true'){
 				return [200, {list: [triggers.list[1]]}];
 			}
@@ -113,20 +113,6 @@ describe("TriggersController", () => {
 			expect(scope.show_trigger_metrics.length).toBe(1);
 			expect(scope.show_trigger_metrics[0].metric).toBe("DevOps.systemd.moira-cache.running");
 			expect(scope.show_trigger_metrics[0].value.num).toBe(1);
-		});
-	});
-
-	describe("add filter tag", () => {
-		var event: IAltKeyEvent;
-		beforeEach(() => {
-			event = <IAltKeyEvent>$rootScope.$broadcast('mock');
-			event.altKey = false;
-			controller.tag_click(scope.tags[0], event);
-			scope.$digest();
-			$httpBackend.flush();
-		});
-		it("added to cookies", () => {
-			expect($cookies.get('moira_filter_tags')).toBe("DevOps");
 		});
 	});
 
