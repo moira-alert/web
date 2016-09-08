@@ -1,6 +1,6 @@
 <div class="container">
 	<form name="trigger_form">
-		<div class="row" style="margin-top: 15px">
+		<div class="row" style="margin-top: 15px;">
 			<div class="col s2">
 				<span class="trigger-row-head">Name</span>
 			</div>
@@ -8,6 +8,17 @@
 				<input id="trigger_name" type="text" class="validate" ng-model="trigger.json.name" />
 			</div>
 		</div>
+
+                <div class="row" style="margin-top: 0px">
+                        <div class="col s2">
+                                <span class="trigger-row-head">Description</span>
+                        </div>
+                        <div class="input-field col s10">
+                                <input id="trigger_name" type="text" class="validate" ng-model="trigger.json.desc" />
+                        </div>
+                </div>
+
+
 		<div class="row" ng-repeat="target in trigger.targets">
 			<div class="col s2">
 				<span class="trigger-row-head">Target</span>
