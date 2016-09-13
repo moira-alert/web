@@ -8,6 +8,18 @@
 				<input id="trigger_name" type="text" class="validate" ng-model="trigger.json.name" />
 			</div>
 		</div>
+
+                <div class="row" style="margin-top: 0px">
+                        <div class="col s2" style="float:left;width:16.6666666667%">
+                                <span class="trigger-row-head">Description</span>
+                        </div>
+                        <div class="input-field col s12" style="float:left;width:83.3%">
+				<textarea id="trigger_desc" class="materialize-textarea" ng-model="trigger.json.desc"></textarea>
+                		<label for="trigger_desc"></label>
+		        </div>
+                </div>
+
+
 		<div class="row" ng-repeat="target in trigger.targets">
 			<div class="col s4">
 				<span class="trigger-row-head">Target</span>

@@ -42,6 +42,20 @@
 						<div class="col" ng-bind-html="target.value | indent"></div>
 					</div>
 				</div>
+
+
+
+				<div>
+                                        <div class="row">
+                                                <div class="col event-trigger-row-h">Description</div>
+                                                <div class="col"><textarea readonly cols="70" style="height: auto;border: 0px;">{{trigger.json.desc}}</textarea></div>
+                                        </div>
+                                </div>
+
+
+
+
+
 				<div class="event-trigger-row">
 					<div class="row" ng-if="!trigger.json.expression">
 						<div class="col event-trigger-row-h">Value</div>
