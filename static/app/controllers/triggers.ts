@@ -28,23 +28,24 @@ export class TriggersController {
 	static $inject = ['$scope', '$cookies', '$location', 'api'];
 
 	static CookieLiveSpan = 365 * 24 * 3600 * 1000;
-	static TagsFilterCookie = "moira_filter_tags";
+	static SearchStringCookie = "moira_search_string";
 	static TagsOkFilterCookie = "moira_filter_ok";
 
 	constructor(private $scope: ITriggersScope, $cookies: ng.cookies.ICookiesService,
 		private $location: ng.ILocationService, private api: Api) {
-		var saved_tags = ($cookies.get(TriggersController.TagsFilterCookie) || "").split(',').filter(function (tag: string) {
-			return tag != "";
-		});
 
-		$scope.search_string = "";
-		$scope.tags_filter = new TagFilter(new TagList(saved_tags));
+		$scope.search_string = $cookies.get(TriggersController.SearchStringCookie || "");
 		$scope.ok_filter = $cookies.get(TriggersController.TagsOkFilterCookie) == "true";
 
 		$scope.metric_values = {};
 
-		$scope.$watch('search_string.length', (newValue: number, oldValue: number) => {
+		$scope.$watch('search_string', (newValue: number, oldValue: number) => {
 			if (newValue != oldValue) {
+				$cookies.put(
+					TriggersController.SearchStringCookie,
+					$scope.search_string,
+					{ expires: new Date((new Date()).getTime() + TriggersController.CookieLiveSpan) }
+				);
 				this.$location.search({page: 0});
 				this.$scope.page = 0;
 				this.load_triggers();
@@ -83,7 +84,7 @@ export class TriggersController {
 	load_triggers() {
 		var num = parseInt(this.$location.search()['page'] || 0);
 		this.$scope.page = num;
-		this.api.trigger.page(num, this.$scope.size, this.$scope.search_string).then((data) => {
+		this.api.trigger.page(num, this.$scope.size).then((data) => {
 			this.$scope.triggers = [];
 			this.$scope.total = data.total;
 			InitPagesList(this.$scope);
