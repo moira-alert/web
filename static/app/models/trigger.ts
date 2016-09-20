@@ -23,7 +23,7 @@ export interface ILastCheckJson {
 	timestamp: number;
 	event_timestamp?: number;
 	metrics: ILastCheckMetrics;
-	score:number;
+	score: number;
 }
 
 export interface ITriggerJson {
@@ -138,7 +138,11 @@ export class Trigger {
 		json.throttling = json.throttling || 0;
 		json.ttl = json.ttl || '';
 		this.sched = new Schedule(json.sched || <IScheduleJson>{});
-		this.targets = (json.targets || []).map((t) => { return new Target(t); });
+		if (json.targets instanceof Array) {
+			this.targets = (json.targets).map((t) => { return new Target(t); });
+		} else {
+			this.targets = [];
+		}
 		this.tags = new TagList([]);
 		angular.forEach(json.tags, (tag_id) => {
 			var tag = tags.get(tag_id);
@@ -173,7 +177,7 @@ export class Trigger {
 			expression: this.json.expression
 		};
 	}
-	
+
 	link_params() {
 		var params = {
 			name: this.json.name,
