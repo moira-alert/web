@@ -140,7 +140,7 @@ export class TriggerController {
 			}
 			return this.api.trigger.delete(trigger.json.id);
 		}).then(() => {
-			this.$window.history.back();
+			this.$location.path("#/triggers/");
 		});
 	};
 
