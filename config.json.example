@@ -4,7 +4,7 @@
 		{"type": "mail", "validation": "^.+@.+\\..+$", "icon": "email"},
 		{"type": "pushover", "validation": "", "img": "pushover.ico"},
 		{"type": "slack", "validation": "^[@#].+$", "img": "slack.ico"},
-		{"type": "telegram", "validation": "^@.+$", "img": "telegram.ico", "title": "@channel only", "help": "required to grant @KonturMoiraBot admin privileges"},
+		{"type": "telegram", "validation": "", "img": "telegram.ico", "title": "#channel, @username, group", "help": "required to grant @KonturMoiraBot admin privileges for channels, or /start command in groups and personal chats"},
 		{"type": "twilio sms", "img": "twilio_sms.ico"},
 		{"type": "twilio voice", "img": "twilio_voice.ico"}
 	],
