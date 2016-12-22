@@ -52,7 +52,7 @@ export class NotificationsController {
 			return api.notification.list()
 				.then((data) => {
 					$scope.total = data.total;
-					$scope.list = new UniqList([]);
+					$scope.list = new UniqList<Notification>([]);
 					angular.forEach(data.list, (json) => {
 						$scope.list.push(new Notification(json));
 					});
