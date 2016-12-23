@@ -3,6 +3,7 @@
 		<tbody>
 			<tr>
 				<th>Timestamp</th>
+				<th>Trigger</th>
 				<th colspan="2">Contact</th>
 				<th>Throttled</th>
 				<th>Fails</th>
@@ -12,6 +13,7 @@
 				<td>
 					<moira-timestamp timestamp="notification.timestamp"></moira-timestamp>
 				</td>
+				<td ng-bind="notification.trigger"></td>
 				<td ng-bind="notification.contact.type"></td>
 				<td ng-bind="notification.contact.value"></td>
 				<td ng-bind="notification.throttled"></td>

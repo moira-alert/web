@@ -15,18 +15,27 @@ export interface INotification {
 }
 
 export class Notification {
+	idstr:     string;
 	throttled: boolean;
 	timestamp: Timestamp;
 	send_fail: number;
+	trigger:   string
 	contact: INotificationContact;
-	
+
 	constructor(public json: string){
 		var notification = <INotification>JSON.parse(json);
+		this.idstr = notification.timestamp + notification.contact.id + notification.event.trigger_id + notification.event.sub_id
+		this.trigger = notification.trigger.name;
 		this.timestamp = new Timestamp(notification.timestamp);
 		this.send_fail = notification.send_fail;
 		this.throttled = notification.throttled;
 		this.contact = notification.contact;
 	}
+
+	id():string{
+		return this.idstr;
+	}
+
 }
 
 export interface INotificationsScope extends ng.IScope {
@@ -50,7 +59,7 @@ export class NotificationsController {
 				});
 		});
 	}
-	
+
 	remove(notification: Notification){
 		this.api.notification.remove(notification.json).then((data) => {
 			if(data.result > 0){
