@@ -4,7 +4,7 @@ export class Value{
 	
 	constructor(public num:number = undefined){
 		this.units = Value.ToUnits(num);
-		this.str = this.units || 'NODATA';
+		this.str = this.units || '—';
 	}
 		
 	static ToUnits(v: number): string {
