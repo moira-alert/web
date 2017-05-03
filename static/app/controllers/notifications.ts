@@ -3,12 +3,19 @@ import {UniqList} from '../models/core';
 import {Timestamp} from '../models/timestamp';
 
 export interface INotificationContact{
-	value: string;
-	type: string;
+	id:string;
+	type:string;
+	value:string;
+}
+
+export interface INotificationEvent{
+	trigger_id:string;
+	sub_id:string;
 }
 
 export interface INotification {
 	contact: INotificationContact;
+	event: INotificationEvent;
 	throttled: boolean;
 	send_fail: number;
 	timestamp: number;
@@ -24,8 +31,8 @@ export class Notification {
 
 	constructor(public json: string){
 		var notification = <INotification>JSON.parse(json);
-		this.idstr = notification.timestamp + notification.contact.id + notification.event.trigger_id + notification.event.sub_id
-		this.trigger = notification.trigger.name;
+		this.idstr = notification.timestamp + notification.contact.id + notification.event.sub_id
+		this.trigger = notification.event.trigger_id;
 		this.timestamp = new Timestamp(notification.timestamp);
 		this.send_fail = notification.send_fail;
 		this.throttled = notification.throttled;
@@ -61,7 +68,7 @@ export class NotificationsController {
 	}
 
 	remove(notification: Notification){
-		this.api.notification.remove(notification.json).then((data) => {
+		this.api.notification.remove(notification.id()).then((data) => {
 			if(data.result > 0){
 				this.$scope.list.remove(notification);
 			}

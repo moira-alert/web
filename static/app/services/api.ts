@@ -182,8 +182,8 @@ export class Api {
 		list: ():ng.IPromise<INotificationsList> => {
 			return this._query("notification?start=0&end=-1", "GET");
 		},
-		remove: (json: string) => {
-			return this._query("notification?json=" + json, "DELETE");
+		remove: (id: string) => {
+			return this._query("notification?id=" + id, "DELETE");
 		}
 	};
 
