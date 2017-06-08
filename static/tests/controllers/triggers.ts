@@ -32,13 +32,17 @@ describe("TriggersController", () => {
 		$compile = _$compile_;
 		api = _api_;
 
-		$cookies.remove(TriggersController.TagsFilterCookie);
+		$cookies.remove(TriggersController.SearchStringCookie);
 		$cookies.remove(TriggersController.TagsOkFilterCookie);
 		$httpBackend.whenGET("config.json").respond(config);
 		$httpBackend.whenGET("/user/settings").respond(settings);
 		$httpBackend.whenGET("/trigger/page?p=0&size=20").respond((method, url, data, headers, params) => {
+
 			if($cookies.get('moira_filter_ok') === 'true'){
 				return [200, {list: [triggers.list[1]]}];
+			}
+			if ($cookies.get('moira_search_string') == 'systemd #Moira') {
+				return [200, {list: [triggers.list[0]]}];
 			}
 			return [200, triggers];
 		});
@@ -72,10 +76,10 @@ describe("TriggersController", () => {
 			scope.$digest();
 			$httpBackend.flush();
 		});
-		it("two trigger rows rendered", () => {
+		it("one trigger row rendered", () => {
 			expect(element.find(".trigger-row").length).toBe(1);
 		});
-		
+
 	});
 
 	describe("open trigger", () => {
@@ -103,7 +107,7 @@ describe("TriggersController", () => {
 			});
 		});
 	});
-	
+
 	describe("show trigger metrics", () => {
 		beforeEach(() => {
 			controller.toggle_trigger_metrics('WARN', scope.triggers[0]);
@@ -115,7 +119,7 @@ describe("TriggersController", () => {
 			expect(scope.show_trigger_metrics[0].value.num).toBe(1);
 		});
 	});
-	
+
 	describe("add filter tag", () => {
 		var event: IAltKeyEvent;
 		beforeEach(() => {
@@ -126,7 +130,7 @@ describe("TriggersController", () => {
 			$httpBackend.flush();
 		});
 		it("added to cookies", () => {
-			expect($cookies.get('moira_filter_tags')).toBe("DevOps");
+			expect($cookies.get("moira_search_string")).toBe(" #DevOps");
 		});
 	});
 
@@ -153,6 +157,25 @@ describe("TriggersController", () => {
 			it("maintenance disabled", () => {
 				expect(scope.tags[0].data.maintenance).toEqual(0);
 			});
+		});
+	});
+
+	describe("search", () => {
+		var element: ng.IAugmentedJQuery;
+		beforeEach(() => {
+			scope.search_string = "systemd #Moira";
+			element = $compile(require('../../triggers.html'))(scope);
+			scope.$digest();
+			$httpBackend.flush();
+		});
+		it("by #tag and text", () => {
+			expect(scope.triggers).toBeDefined();
+			expect(scope.triggers.length).toBe(1);
+			expect(scope.triggers[0].json.name).toBe("Moira service status");
+			expect(scope.triggers[0].json.id).toBe("c681cf70-9336-4be5-a175-fb9f6044e284");
+		});
+		it("one trigger row rendered", () => {
+			expect(element.find(".trigger-row").length).toBe(1);
 		});
 	});
 })
