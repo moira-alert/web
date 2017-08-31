@@ -9,7 +9,7 @@
 		{"type": "twilio voice", "img": "twilio_voice.ico"}
 	],
 	"paging": {
-		"size": 20
+		"size": 60
 	},
 	"event_history":{
 		"paging": {

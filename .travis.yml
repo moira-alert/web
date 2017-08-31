@@ -1,6 +1,12 @@
+sudo: required
+services:
+  - docker
 language: node_js
 node_js:
   - '4'
+addons:
+  apt:
+    packages: rpm
 notifications:
   webhooks:
     urls:
@@ -8,28 +14,35 @@ notifications:
     on_success: change
     on_failure: always
     on_start: never
-before_install:
-  - sudo apt-get install -y rpm
-  - gem install fpm
 install:
   - make test
+before_script:
+  - gem install fpm
 script:
   - make build
   - make packages
+  - make docker_image
 before_deploy:
   - export RELEASE_PKG_TAR=$(ls build/moira-web*.tar.gz)
   - export RELEASE_PKG_RPM=$(ls build/moira-web*.rpm)
   - export RELEASE_PKG_DEB=$(ls build/moira-web*.deb)
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
 deploy:
-  provider: releases
-  api_key:
-    secure: Xoo4SzDifjrsg826p+QMrCeZyPbELgSbmrBkF6TyezP2fli+riPsn+zassWMmN3K6lvNXQHCanjKFJ/K98SSbvT8JacpT4CPh45FEAZwADnENwIwUmjmUouT2rfnso0XPc3S6MIvBFlfidjvGJBjeOp6/6tRmA0yghk9eQIglo4OUwn21F4JVEinGuC6P/28xFX7gpEcjoII8SwJHAGQZaa9UJK2gDbRcLuziQ8G0vDjWtiPuumxou/nq6KWtUca6cGkbuJASeWNKqbh56BryrNBpBWzzQVxHkg1Ri7tyZ3iWpn3VFaTd4Us6DlEA4rKRN+QqiZbqqApxEk8ldQ5JOGGEPZOIHXFeHytJlezc+R6IeQpsZ4LO7C2dBhRbapA7U6kF+Z414Ay+LJn0g3ARJw8iMochIQkYKGpnUVqxIZ0u40ryK5Fg2Xqd5MiAWio2YTTCpV5Hu5DAgDRyeV7vTTQ/ZnkzieSQ/aolfjhnpGNOgFTB4c50gCLXECCary2LtTZEZSMpIU0P4SCerOyMmtPTLfpKinf9DmVHl2lmvlDjaZAUf4p3RPto8RNdXM//aLgfGZq4bBU4OOOWUuSUfOi7WQSYN0fXs0AKT5OhSdEjUDXlp4Tl8hC2W8IpdpPDtdg3HgUMrkpnihGto71uJlAIQT+9e4ABT5Tg+rWNFU=
-  file:
-    - "${RELEASE_PKG_TAR}"
-    - "${RELEASE_PKG_RPM}"
-    - "${RELEASE_PKG_DEB}"
-  skip_cleanup: true
-  on:
-    tags: true
-    condition: $TRAVIS_NODE_VERSION = 4
-    branch: master
+  - provider: releases
+    api_key:
+      secure: Xoo4SzDifjrsg826p+QMrCeZyPbELgSbmrBkF6TyezP2fli+riPsn+zassWMmN3K6lvNXQHCanjKFJ/K98SSbvT8JacpT4CPh45FEAZwADnENwIwUmjmUouT2rfnso0XPc3S6MIvBFlfidjvGJBjeOp6/6tRmA0yghk9eQIglo4OUwn21F4JVEinGuC6P/28xFX7gpEcjoII8SwJHAGQZaa9UJK2gDbRcLuziQ8G0vDjWtiPuumxou/nq6KWtUca6cGkbuJASeWNKqbh56BryrNBpBWzzQVxHkg1Ri7tyZ3iWpn3VFaTd4Us6DlEA4rKRN+QqiZbqqApxEk8ldQ5JOGGEPZOIHXFeHytJlezc+R6IeQpsZ4LO7C2dBhRbapA7U6kF+Z414Ay+LJn0g3ARJw8iMochIQkYKGpnUVqxIZ0u40ryK5Fg2Xqd5MiAWio2YTTCpV5Hu5DAgDRyeV7vTTQ/ZnkzieSQ/aolfjhnpGNOgFTB4c50gCLXECCary2LtTZEZSMpIU0P4SCerOyMmtPTLfpKinf9DmVHl2lmvlDjaZAUf4p3RPto8RNdXM//aLgfGZq4bBU4OOOWUuSUfOi7WQSYN0fXs0AKT5OhSdEjUDXlp4Tl8hC2W8IpdpPDtdg3HgUMrkpnihGto71uJlAIQT+9e4ABT5Tg+rWNFU=
+    file:
+      - "${RELEASE_PKG_TAR}"
+      - "${RELEASE_PKG_RPM}"
+      - "${RELEASE_PKG_DEB}"
+    skip_cleanup: true
+    on:
+      tags: true
+      condition: $TRAVIS_NODE_VERSION = 4
+      branch: master
+  - provider: script
+    script: make docker_push
+    skip_cleanup: true
+    on:
+      branch: master
+      condition: $TRAVIS_NODE_VERSION = 4

@@ -6,3 +6,4 @@ coverage
 static/**/*.js
 config.json
 build
+.vscode/

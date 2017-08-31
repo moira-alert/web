@@ -1,7 +1,10 @@
-VERSION := $(shell git describe --always --tags --abbrev=0 | tail -c +2)
-RELEASE := $(shell git describe --always --tags | awk -F- '{ if ($$2) dot="."} END { printf "1%s%s%s%s\n",dot,$$2,dot,$$3}')
+GIT_TAG := $(shell git describe --always --tags --abbrev=0 | tail -c +2)
+GIT_COMMIT := $(shell git rev-list v${GIT_TAG}..HEAD --count)
+VERSION := ${GIT_TAG}.${GIT_COMMIT}
+IMAGE_NAME := kontur/moira-web
+RELEASE := 1
 VENDOR := "SKB Kontur"
-URL := "https://github.com/moira-alert"
+URL := "https://github.com/moira-alert/web"
 LICENSE := "GPLv3"
 
 default: test build tar
@@ -25,32 +28,41 @@ tar:
 	cp -rf favicon.ico build/root/var/www/moira/
 	cp -rf config.json.example build/root/var/www/moira/
 	cp -rf dist/* build/root/var/www/moira/
-	tar -czvPf build/moira-web-$(VERSION)-$(RELEASE).tar.gz -C build/root  .
+	tar -czvPf build/moira-web-${VERSION}-${RELEASE}.tar.gz -C build/root  .
 
 rpm:
 	fpm -t rpm \
 		-s "tar" \
 		--description "Moira Web" \
-		--vendor $(VENDOR) \
-		--url $(URL) \
-		--license $(LICENSE) \
+		--vendor ${VENDOR} \
+		--url ${URL} \
+		--license ${LICENSE} \
 		--name "moira-web" \
-		--version "$(VERSION)" \
-		--iteration "$(RELEASE)" \
+		--version "${VERSION}" \
+		--iteration "${RELEASE}" \
 		-p build \
-		build/moira-web-$(VERSION)-$(RELEASE).tar.gz
+		build/moira-web-${VERSION}-${RELEASE}.tar.gz
 
 deb:
 	fpm -t deb \
 		-s "tar" \
 		--description "Moira Web" \
-		--vendor $(VENDOR) \
-		--url $(URL) \
-		--license $(LICENSE) \
+		--vendor ${VENDOR} \
+		--url ${URL} \
+		--license ${LICENSE} \
 		--name "moira-web" \
-		--version "$(VERSION)" \
-		--iteration "$(RELEASE)" \
+		--version "${VERSION}" \
+		--iteration "${RELEASE}" \
 		-p build \
-		build/moira-web-$(VERSION)-$(RELEASE).tar.gz
+		build/moira-web-${VERSION}-${RELEASE}.tar.gz
 
 packages: clean tar rpm deb
+
+docker_image:
+	docker build -t ${IMAGE_NAME}:${VERSION} -t ${IMAGE_NAME}:latest .
+
+docker_push:
+	docker push ${IMAGE_NAME}:latest
+	if [ "${GIT_COMMIT}" == "0" ]; then \
+		docker push ${IMAGE_NAME}:${VERSION}; \
+	fi
