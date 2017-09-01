@@ -75,7 +75,7 @@ describe("TriggersController", () => {
 		it("two trigger rows rendered", () => {
 			expect(element.find(".trigger-row").length).toBe(1);
 		});
-		
+
 	});
 
 	describe("open trigger", () => {
@@ -103,7 +103,7 @@ describe("TriggersController", () => {
 			});
 		});
 	});
-	
+
 	describe("show trigger metrics", () => {
 		beforeEach(() => {
 			controller.toggle_trigger_metrics('WARN', scope.triggers[0]);
@@ -113,46 +113,6 @@ describe("TriggersController", () => {
 			expect(scope.show_trigger_metrics.length).toBe(1);
 			expect(scope.show_trigger_metrics[0].metric).toBe("DevOps.systemd.moira-cache.running");
 			expect(scope.show_trigger_metrics[0].value.num).toBe(1);
-		});
-	});
-	
-	describe("add filter tag", () => {
-		var event: IAltKeyEvent;
-		beforeEach(() => {
-			event = <IAltKeyEvent>$rootScope.$broadcast('mock');
-			event.altKey = false;
-			controller.tag_click(scope.tags[0], event);
-			scope.$digest();
-			$httpBackend.flush();
-		});
-		it("added to cookies", () => {
-			expect($cookies.get('moira_filter_tags')).toBe("DevOps");
-		});
-	});
-
-	describe("alt click on tag", () => {
-		var event: IAltKeyEvent;
-		beforeEach(() => {
-			$httpBackend.whenPUT("/tag/DevOps/data", (data: string) => { return JSON.parse(data).maintenance > 0}).respond({maintenance: 1});
-			$httpBackend.whenPUT("/tag/DevOps/data", (data: string) => { return JSON.parse(data).maintenance == 0}).respond({maintenance: 0});
-			event = <IAltKeyEvent>$rootScope.$broadcast('mock');
-			event.altKey = true;
-			controller.tag_click(scope.tags[0], event);
-			scope.$digest();
-			$httpBackend.flush();
-		});
-		it("maintenance enabled", () => {
-			expect(scope.tags[0].data.maintenance).toBeGreaterThan(0);
-		});
-		describe("alt click on tag again", () => {
-			beforeEach(() => {
-				controller.tag_click(scope.tags[0], event);
-				scope.$digest();
-				$httpBackend.flush();
-			});
-			it("maintenance disabled", () => {
-				expect(scope.tags[0].data.maintenance).toEqual(0);
-			});
 		});
 	});
 })
