@@ -39,10 +39,15 @@ deploy:
     on:
       tags: true
       condition: $TRAVIS_NODE_VERSION = 4
-      branch: master
   - provider: script
     script: make docker_push
     skip_cleanup: true
     on:
       branch: master
+      condition: $TRAVIS_NODE_VERSION = 4
+  - provider: script
+    script: make docker_push_release
+    skip_cleanup: true
+    on:
+      tags: true
       condition: $TRAVIS_NODE_VERSION = 4
