@@ -5,12 +5,13 @@ import {ITagStat} from '../models/tag_stat';
 import {IContactJson} from '../models/contact';
 import {IPatternJson} from '../models/pattern';
 import {ISettingsJson} from '../models/settings';
+import {INotification} from '../models/notification';
 import {ISubscriptionJson, Subscription} from '../models/subscription';
 import {Config, IConfigJson} from '../models/config';
 
 export interface INotificationsList{
 	total: number;
-	list: Array<string>;
+	list: Array<INotification>;
 }
 
 export interface IContactsList {
@@ -35,7 +36,6 @@ export interface IPatternsList {
 
 export interface ITagsList {
 	list: Array<string>;
-	tags: ITagsData;
 }
 
 export interface ITagStatsList {
@@ -80,6 +80,10 @@ export class Api {
 	}
 
 	private _query(query, method, data?): ng.IPromise<any> {
+		var obj = {
+			"x-webauth-user": 'borovskyav'
+		};
+
 		this.status.response_result = null;
 		this.status.response_error = null;
 		var that = this;
@@ -87,7 +91,8 @@ export class Api {
 			return this.$http({
 				url: config.api_url + query,
 				method: method,
-				data: data
+				data: data,
+				headers: obj,
 			}).success((data) => {
 				this.status.response_result = data;
 			}).error((message) => {
@@ -112,7 +117,8 @@ export class Api {
 
 	trigger = {
 		save: (trigger: Trigger) => {
-			return this._query("trigger/" + (trigger.json.id || ''), "PUT", trigger.data()).then((data) => {
+			var id = trigger.json.id ? "/" + trigger.json.id : "";
+			return this._query("trigger" + (id), "PUT", trigger.data()).then((data) => {
 				trigger.json.id = data.id;
 			});
 
@@ -154,11 +160,7 @@ export class Api {
 	tag = {
 		list: (): ng.IPromise<TagList> => {
 			return this._query("tag", "GET").then((data:ITagsList) => {
-				var tags = new TagList(data.list);
-				angular.forEach(tags, (tag) => {
-					tag.data = data.tags[tag.value] || <ITagData>{};
-				});
-				return tags;
+				return new TagList(data.list);
 			});
 		},
 		delete: (tag:string) => {

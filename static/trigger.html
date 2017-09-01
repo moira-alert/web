@@ -49,9 +49,9 @@
 				&nbsp;
 			</div>
 			<div class="input-field col s20">
-				<input id="trigger_expr" type="text" class="validate" ng-model="trigger.json.expression" placeholder="ERROR if t1 > 10 else WARN if t1 > 1 else OK"
+				<input id="trigger_expr" type="text" class="validate" ng-model="trigger.json.expression" placeholder="t1 >= 10 ? ERROR : (t1 >= 1 ? WARN : OK)"
 				/>
-				<label for="trigger_expr" class="active">Python expression</label>
+				<label for="trigger_expr" class="active">C# Expression</label>
 			</div>
 		</div>
 		<div ng-if="!advanced_mode" class="row">
