@@ -65,4 +65,4 @@ docker_push:
 	docker push ${IMAGE_NAME}:latest
 	if [ "${GIT_COMMIT}" == "0" ]; then \
 		docker push ${IMAGE_NAME}:${VERSION}; \
-	fi
+	fi;
