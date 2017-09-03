@@ -80,10 +80,6 @@ export class Api {
 	}
 
 	private _query(query, method, data?): ng.IPromise<any> {
-		var obj = {
-			"x-webauth-user": 'borovskyav'
-		};
-
 		this.status.response_result = null;
 		this.status.response_error = null;
 		var that = this;
