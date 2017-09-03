@@ -39,7 +39,7 @@ export interface ITriggerJson {
 	patterns: Array<string>;
 	tags: Array<string>;
 	throttling: number;
-	ttl: string;
+	ttl: number;
 	timestamp: number;
 	sched: IScheduleJson;
 	target: string;
@@ -136,7 +136,7 @@ export class Trigger {
 		json.expression = json.expression || '';
 		json.ttl_state = json.ttl_state || 'NODATA';
 		json.throttling = json.throttling || 0;
-		json.ttl = json.ttl || '';
+		json.ttl;
 		this.sched = new Schedule(json.sched || <IScheduleJson>{});
 		if (json.targets instanceof Array) {
 			this.targets = (json.targets).map((t) => { return new Target(t); });

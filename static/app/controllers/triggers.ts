@@ -59,7 +59,7 @@ export class TriggersController {
 				this.load_triggers();
 			}
 		});
-		
+
 		$scope.$on('$routeUpdate', (scope, next: ng.route.ICurrentRoute) => {
 			if(this.$scope.page === parseInt(next.params['page']))
 				return;
@@ -127,20 +127,8 @@ export class TriggersController {
 	};
 
 	tag_click(tag: Tag, $event: IAltKeyEvent) {
-		if ($event.altKey) {
-			var data: ITagData = {
-				maintenance: 0
-			};
-			if ((tag.data.maintenance || 0) === 0) {
-				data.maintenance = moment.utc().add(1, "days").unix();
-			}
-			this.api.tag.data(tag.value, data).then(() => {
-				tag.data = data;
-			});
-		} else {
-			if (!this.$scope.tags_filter.selection.contains(tag) && this.$scope.tags.contains(tag)) {
-				this.$scope.tags_filter.selection.push(tag);
-			}
+		if (!this.$scope.tags_filter.selection.contains(tag) && this.$scope.tags.contains(tag)) {
+			this.$scope.tags_filter.selection.push(tag);
 		}
 	};
 

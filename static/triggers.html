@@ -37,8 +37,7 @@
 			<div ng-repeat-start="trigger in triggers"></div>
 			<div class="row fat-row underlined trigger-row" ng-class="{'grey lighten-3': show_trigger == trigger}">
 				<div class="col m5 hide-on-small-only">
-					<moira-tag ng-repeat="tag in trigger.tags" item="tag" ng-click="ctrl.tag_click(tag, $event)" class="clickable" disabled="{{tags_filter.selection.contains(tag)}}"
-					title="toggle maintenance alt+click">
+					<moira-tag ng-repeat="tag in trigger.tags" item="tag" ng-click="ctrl.tag_click(tag, $event)" class="clickable" disabled="{{tags_filter.selection.contains(tag)}}">
 					</moira-tag>
 				</div>
 
