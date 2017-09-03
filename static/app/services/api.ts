@@ -88,7 +88,6 @@ export class Api {
 				url: config.api_url + query,
 				method: method,
 				data: data,
-				headers: obj,
 			}).success((data) => {
 				this.status.response_result = data;
 			}).error((message) => {
