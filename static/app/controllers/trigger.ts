@@ -48,7 +48,7 @@ export class TriggerController {
 				var json = {
 					name: params.name,
 					targets: [],
-					ttl: 600,
+					ttl: "600",
 					ttl_state: 'NODATA',
 					timestamp: Math.floor(Date.now() / 1000),
 					tags: [],
