@@ -9,15 +9,15 @@
 			</div>
 		</div>
 
-                <div class="row" style="margin-top: 0px">
-                        <div class="col s2" style="float:left;width:16.6666666667%">
-                                <span class="trigger-row-head">Description</span>
-                        </div>
-                        <div class="input-field col s12" style="float:left;width:83.3%">
+		<div class="row" style="margin-top: 0px">
+			<div class="col s2" style="float:left;width:16.6666666667%">
+				<span class="trigger-row-head">Description</span>
+			</div>
+			<div class="input-field col s12" style="float:left;width:83.3%">
 				<textarea id="trigger_desc" class="materialize-textarea" ng-model="trigger.json.desc"></textarea>
-                		<label for="trigger_desc"></label>
-		        </div>
-                </div>
+				<label for="trigger_desc"></label>
+			</div>
+		</div>
 
 
 		<div class="row" ng-repeat="target in trigger.targets">
@@ -48,10 +48,13 @@
 			<div class="col s4">
 				&nbsp;
 			</div>
-			<div class="input-field col s20">
-				<input id="trigger_expr" type="text" class="validate" ng-model="trigger.json.expression" placeholder="t1 >= 10 ? ERROR : (t1 >= 1 ? WARN : OK)"
-				/>
-				<label for="trigger_expr" class="active">C# Expression</label>
+			<div class="col s20">
+				<div class="input-field">
+					<input id="trigger_expr" type="text" class="validate" ng-model="trigger.json.expression" placeholder="t1 >= 10 ? ERROR : (t1 >= 1 ? WARN : OK)"
+					/>
+					<label for="trigger_expr" class="active">C# Expression</label>
+				</div>
+				<div class="input-caption"><a href="//github.com/Knetic/govaluate/blob/master/MANUAL.md" target="_blank">Expressions Manual</a></div>
 			</div>
 		</div>
 		<div ng-if="!advanced_mode" class="row">
@@ -79,8 +82,8 @@
 						<span ng-if="watch_raising">if T1 &ge;</span>
 						<span ng-if="!watch_raising">if T1 &le;</span>
 						<input name="warn" type="text" ng-class="{'moira-input-valid': warn_invalid_message.length == 0, 'moira-input-invalid': warn_invalid_message.length}"
-						ng-model="trigger.json.warn_value" ng-required="true" ng-pattern="float_re" ng-class="{'field-invalid': !trigger_form['warn'].$valid}"
-						style="width:100px" />
+						 ng-model="trigger.json.warn_value" ng-required="true" ng-pattern="float_re" ng-class="{'field-invalid': !trigger_form['warn'].$valid}"
+						 style="width:100px" />
 						<span class="invalid-value-message" ng-bind="warn_invalid_message" ng-if="trigger_form['warn'].$viewValue.length"></span>
 					</div>
 				</div>
@@ -93,7 +96,7 @@
 						<span ng-if="watch_raising">if T1 &ge;</span>
 						<span ng-if="!watch_raising">if T1 &le;</span>
 						<input name="error" type="text" ng-class="{'moira-input-valid': error_invalid_message.length == 0, 'moira-input-invalid': error_invalid_message.length}"
-						ng-model="trigger.json.error_value" ng-required="true" ng-pattern="float_re" style="width:100px" />
+						 ng-model="trigger.json.error_value" ng-required="true" ng-pattern="float_re" style="width:100px" />
 						<span class="invalid-value-message" ng-bind="error_invalid_message" ng-if="trigger_form['error'].$viewValue.length"></span>
 					</div>
 				</div>
@@ -111,7 +114,7 @@
 							<span ng-bind="trigger.ttl_state.name"></span>
 						<div ng-if="trigger_ttl_selection">
 							<div ng-repeat="state in ['OK', 'WARN', 'ERROR', 'NODATA', 'DEL']" ng-if="state != trigger.ttl_state.name" class="state-selector"
-							ng-click="trigger.set_ttl_state(state)" ng-bind="state">
+							 ng-click="trigger.set_ttl_state(state)" ng-bind="state">
 							</div>
 						</div>
 						</span>
@@ -138,7 +141,7 @@
 			</div>
 			<div class="col s20">
 				<moira-selector ng-if="tags_filter" ng-class="{'moira-input-invalid': trigger.tags.length == 0}" model="tags_filter" enter="ctrl.create_tag()"
-				items="tags" style="width:100%">
+				 items="tags" style="width:100%">
 					<moira-tag ng-repeat="tag in trigger.tags" item="tag" remove="trigger.tags.remove(tag)"></moira-tag>
 				</moira-selector>
 			</div>
