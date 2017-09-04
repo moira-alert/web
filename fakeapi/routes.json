@@ -1,7 +1,0 @@
-{
-  "/user/settings": "/settings",
-  "/trigger/page\\?*": "/triggers",
-  "/trigger/:id": "/trigger",
-  "/trigger/:id/state": "/state",
-  "/event/:id\\?*": "/event"
-}
