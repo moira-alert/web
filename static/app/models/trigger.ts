@@ -130,13 +130,13 @@ export class Trigger {
 	warn_value: Value;
 	error_value: Value;
 	ttl_state: State;
+	ttl: number;
 	throttle_timestamp: string
 
 	constructor(public json: ITriggerJson, tags: TagList) {
 		json.expression = json.expression || '';
 		json.ttl_state = json.ttl_state || 'NODATA';
 		json.throttling = json.throttling || 0;
-		json.ttl;
 		this.sched = new Schedule(json.sched || <IScheduleJson>{});
 		if (json.targets instanceof Array) {
 			this.targets = (json.targets).map((t) => { return new Target(t); });
@@ -155,6 +155,7 @@ export class Trigger {
 		this.check = new LastCheck(json.last_check || <ILastCheckJson>{});
 		this.warn_value = new Value(parseFloat(json.warn_value));
 		this.error_value = new Value(parseFloat(json.error_value));
+		this.ttl = json.ttl;
 		if (json.throttling) {
 			this.throttle_timestamp = new Date(json.throttling * 1000).toLocaleString();
 		}
@@ -170,7 +171,7 @@ export class Trigger {
 			targets: this.targets.map((t) => { return t.value; }),
 			warn_value: parseFloat(this.json.warn_value),
 			error_value: parseFloat(this.json.error_value),
-			ttl: this.json.ttl,
+			ttl: this.ttl,
 			ttl_state: this.ttl_state.name,
 			tags: this.tags.to_string(),
 			sched: this.sched.data(),
