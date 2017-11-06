@@ -114,7 +114,7 @@ describe("SettingsController", () => {
 			controller.add_sub_contact(scope.existing_contacts['phone'][0]);
 			var json = scope.subscription.data();
 			json.id = "new";
-			$httpBackend.whenPUT("/subscription").respond(json);
+			$httpBackend.whenPUT("/subscription/new").respond(json);
 			controller.save_subscription();
 			$httpBackend.flush();
 		});
@@ -161,10 +161,10 @@ describe("SettingsController", () => {
 			});
 		});
 	});
-	
+
 	describe("test subscription", () => {
 		beforeEach(() => {
-			$httpBackend.whenPUT("/subscription").respond(scope.settings.subscriptions[0].json);
+			$httpBackend.whenPUT("/subscription/a3581005-c289-4dea-bd8e-77b8fc23a3e3").respond(scope.settings.subscriptions[0].json);
 			spyOn(api.subscription, 'test');
 			scope.subscription = scope.settings.subscriptions[0];
 			controller.test_subscription(scope.settings.subscriptions[0]);
