@@ -212,6 +212,9 @@ export class Api {
 		save: (sub: Subscription): ng.IPromise<ISubscriptionJson> => {
 			return this._query("subscription", "PUT", sub.data());
 		},
+		update: (sub: Subscription): ng.IPromise<ISubscriptionJson> => {
+			return this._query(`subscription/${sub.id()}`, "PUT", sub.data());
+		},
 		get: () => {
 			return this._query("subscription", "GET");
 		}

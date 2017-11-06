@@ -84,12 +84,27 @@ export class SettingsController{
 	save_subscription(): ng.IPromise<string> {
 		if (this.$scope.subscription.tags.length == 0 || this.$scope.subscription.contacts.length == 0)
 			return this.$q.when(undefined);
-		return this.api.subscription.save(this.$scope.subscription).then((json: ISubscriptionJson) => {
-			if (this.$scope.subscription.json.id == undefined) {
+		if (this.$scope.subscription.json.id === undefined) {
+			return this.create()
+		} else {
+			return this.update()
+		}
+	}
+
+	create(): ng.IPromise<string> {
+		return this.api.subscription.save(this.$scope.subscription)
+			.then((json: ISubscriptionJson) => {
 				this.$scope.settings.add_subscription(json);
-			}
-			this.$scope.subscription = null;
-			return json.id;
+				this.$scope.subscription = null;
+				return json.id;
+		});
+	}
+
+	update(): ng.IPromise<string> {
+		return this.api.subscription.update(this.$scope.subscription)
+			.then((json: ISubscriptionJson) => {
+				this.$scope.subscription = null;
+				return json.id;
 		});
 	}
 
